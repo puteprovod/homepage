@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    //comment
+    //comment2222
     public function index(FilterRequest $request)
     {
         $data = $request->validated();
