@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\Currency\IndexController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 Route::get('/', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
+
+Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController')->name('logout');
 
 Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Post','prefix'=>'admin/post'],function () {
     Route::get('/', 'IndexController')->name('admin.post.index');
@@ -41,9 +42,10 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
     Route::get('/{account}/edit', 'EditController')->name('admin.accounts.edit');
     Route::post('/', 'StoreController')->name('admin.accounts.store');
 });
-
-Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
-Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
+Route::group(['middleware'=>'admin'],function() {
+    Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
+    Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
+});
 
 Route::get('/currencies', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
 Route::get('/main', 'App\Http\Controllers\MainController@index')->name('main.index');

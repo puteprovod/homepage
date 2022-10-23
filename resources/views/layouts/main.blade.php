@@ -20,7 +20,7 @@
    <div class="row">
        <ul class="nav nav-pills">
            <li class="nav-item">
-               <a class="nav-link" aria-current="page" href="{{ route('accounts.index')  }}">Главная</a>
+               <a class="nav-link" aria-current="page" href="{{ route('accounts.index')  }}">Наши счета</a>
            </li>
            <li class="nav-item">
                <a class="nav-link" href="{{ route('currencies.index')  }}">Курс валют</a>
@@ -32,6 +32,9 @@
            <li class="nav-item">
                <a class="nav-link" href="{{ route('admin.accounts.index')  }}">Админпанель</a>
            </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="{{ route('logout')  }}">Выйти</a>
+               </li>
            @endcan
            @guest()
                <li class="nav-item">
