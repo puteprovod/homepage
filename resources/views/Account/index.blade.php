@@ -8,6 +8,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Вид счета</th>
+                    <th scope="col"></th>
                     <th scope="col">Название счета</th>
                     <th scope="col" style="text-align: center">Баланс</th>
                     <th scope="col" style="text-align: center">Валюта</th>
@@ -26,11 +27,16 @@
                      @case(27){{ 'table-warning' }}@break
                       @endswitch">
                         <td>{{ $account->category_title}}</td>
+                        <td>
+                            @if ($account->image)
+                                    <img alt="image" class="img-fluid" style="height: 30px;" src="{{ asset("storage/".$account->image) }}">
+                            @endif
+                        </td>
                         <td>{{ $account->title }}</td>
                         <td class="text-end">
-                            <input type="text" name="value[{{$account->id}}]" class="form-control form-control-sm"
+                            <input class="form-control form-control-sm" name="value[{{$account->id}}]" placeHolder="value"
                                    style="text-align: right; font-weight: bold;"
-                                   value="{{ $account->value }}">
+                                   type="text" value="{{ $account->value }}">
                         </td>
                         <td><b>{{ $account->currency_title }}</b></td>
                         <td>{{ $account->comment }}</td>

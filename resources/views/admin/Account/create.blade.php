@@ -12,7 +12,7 @@
                         <h1 class="m-0">Добавление счета</h1>
                     </div>
                     <div class="pt-3">
-                        <form action="{{ route ('admin.accounts.store') }}" method="post">
+                        <form action="{{ route ('admin.accounts.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3 form-group">
                                 <label for="title" class="form-label">Вид счета</label>
@@ -46,11 +46,20 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="title" class="form-label">Комментарий</label>
+                                <label for="comment" class="form-label">Комментарий</label>
                                 <input type="text" name="comment" class="form-control" id="comment"
                                        value="{{ old('comment') }}" placeHolder="comment">
                                 <div id="commentHelp" class="pl-3"><i>Дополнительная информация по счету</i></div>
                                 @error('comment')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="custom-file-label">Изображение</label>
+                                <input type="file" name="image" class="form-control" id="image"
+                                       value="{{ old('image') }}" placeHolder="image">
+                                <div id="imageHelp" class="pl-3"><i>Любые форматы</i></div>
+                                @error('image')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>

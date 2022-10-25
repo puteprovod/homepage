@@ -12,7 +12,7 @@
                         <h1 class="m-0">Редактирование счета</h1>
                     </div>
                     <div class="pt-3">
-                        <form action="{{ route ('admin.accounts.update',$account->id) }}" method="post">
+                        <form action="{{ route ('admin.accounts.update',$account->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <div class="mb-3 form-group">
@@ -52,6 +52,24 @@
                                        value="{{ $account->comment }}" placeHolder="comment">
                                 <div id="commentHelp" class="pl-3"><i>Дополнительная информация по счету</i></div>
                                 @error('comment')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <div>
+                                <label for="image" class="form-label">Изображение</label>
+                                </div>
+                                @if ($account->image)
+                                <div class="p-2 pt-1">
+                                    <img alt="image" class="img-fluid" style="height: 100px;" src="{{ asset("storage/".$account->image) }}">
+                                </div>
+                                @endif
+                                <div class="pt-2">
+                                <input type="file" name="image" class="form-control" id="image"
+                                       value="{{ old('image') }}" placeHolder="image">
+                                </div>
+                                <div class="pt-2 p-2" id=imageHelp" class="pl-3"><i>Любые форматы</i></div>
+                                @error('image')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>

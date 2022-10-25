@@ -19,11 +19,11 @@
                 <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">category</th>
+                    <th scope="col">cat</th>
+                    <th scope="col">image</th>
                     <th scope="col">title</th>
                     <th scope="col">value</th>
                     <th scope="col">currency</th>
-                    <th scope="col">image</th>
                     <th scope="col">comment</th>
                 </tr>
                 </thead>
@@ -31,11 +31,17 @@
                 @foreach($accounts as $account)
                     <tr>
                         <th scope="row">{{ $account->id }}</th>
+                        <td>
+                            @if ($account->image)
+                                <img alt="image" class="img-fluid" style="height: 25px;" src="{{ asset("storage/".$account->image) }}">
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>{{ $account->category->title}}</td>
                         <td><a href="{{ route ('admin.accounts.show',$account->id) }}">{{ $account->title }}</a></td>
                         <td>{{ $account->value }}</td>
                         <td>{{ $account->currency->title }}</td>
-                        <td>{{ $account->image }}</td>
                         <td>{{ $account->comment }}</td>
                     </tr>
                 @endforeach

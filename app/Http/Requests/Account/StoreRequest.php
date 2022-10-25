@@ -28,6 +28,7 @@ class StoreRequest extends FormRequest
             'category_id'=>'required|integer',
             'currency_id'=>'required|integer',
             'comment'=>'',
+            'image'=>'',
         ];
     }
 }

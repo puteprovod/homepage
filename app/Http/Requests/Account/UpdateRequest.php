@@ -28,6 +28,7 @@ class UpdateRequest extends FormRequest
             'category_id'=>'required|integer',
             'currency_id'=>'required|integer',
             'comment'=>'',
+            'image'=>'nullable|file',
         ];
     }
 }
