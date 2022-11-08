@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Account\AccountResource;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Currency;
@@ -23,7 +24,11 @@ class IndexController extends Controller
             ->orderBy('categories.title')
             ->get();
         //$accounts=Account::select('accounts.*','categories.title')->join('categories','categories.id','=','accounts.category_id');
+        foreach ($accounts as $account) {
+            $account->cost_formatted = number_format($account->cost, 0, '.', " ");
+        }
         $sum=$accounts->sum('cost');
+        $accounts = AccountResource::collection($accounts)->resolve();
         $status='';
         $can = (bool)Auth::user();
         return inertia('Account/Index', compact('accounts','sum','status', 'can'));

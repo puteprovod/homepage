@@ -64,7 +64,7 @@ Route::get('/currencies', 'App\Http\Controllers\Currency\IndexController')->name
 Route::get('/main', 'App\Http\Controllers\MainController@index')->name('main.index');
 Route::get('/sitemap', 'App\Http\Controllers\SitemapController@index')->name('sitemap.index');
 Route::get('/clubs', 'App\Http\Controllers\ClubController@index')->name('club.index');
-Route::get('/about', 'App\Http\Controllers\AboutController@index')->name('about.index');
+Route::get('/about', 'App\Http\Controllers\AboutController@index')->name('about');
 
 //POSTS CRUD
 Route::group(['namespace'=>'App\Http\Controllers\Post','prefix'=>'posts'],function() {
