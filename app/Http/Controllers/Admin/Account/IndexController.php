@@ -12,6 +12,6 @@ class IndexController extends Controller
     {
         $accounts=Account::All();
         $account=$accounts->find(2);
-        return view('admin.account.index', compact('accounts'));
+        return view('admin.Account.index', compact('accounts'));
     }
 }

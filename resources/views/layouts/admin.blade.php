@@ -45,7 +45,7 @@
                 <a href="{{ route('accounts.index')  }}" class="nav-link">Главная</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{ route('about.index')  }}" class="nav-link">О проекте</a>
+                <a href="{{ route('about')  }}" class="nav-link">О проекте</a>
             </li>
         </ul>
 
