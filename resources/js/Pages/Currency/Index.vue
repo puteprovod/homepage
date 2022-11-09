@@ -33,7 +33,7 @@ input::-webkit-inner-spin-button {
                             <tbody v-if="currencies">
                             <template v-for="currency in currencies">
                             <tr v-if="currency.title!=='RUB'" :class="currency.priority>=5 ? 'bg-blue-100 border-blue-200 border-b' : 'border-b'">
-                                <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
+                                <td class="text-sm text-gray-900 font-light px-4 py-3">
                                     {{ currency.long_title }}
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">

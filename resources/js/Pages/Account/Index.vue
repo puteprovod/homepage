@@ -44,14 +44,14 @@ input::-webkit-inner-spin-button {
                                 <td class="text-sm hidden lg:table-cell text-gray-900 w-20 font-light px-4 py-3 whitespace-nowrap">
                                      <img alt="image" class="img-fluid whitespace-nowrap" style="height: 31px;" :src="'/storage/'+account.image">
                                 </td>
-                                <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
+                                <td class="text-sm text-gray-900 font-light px-4 py-3">
                                     {{ account.title }}
                                 </td>
                                 <td class="px-4 py-3 whitespace-nowrap hidden lg:table-cell text-sm font-medium text-gray-900">
                                     {{ account.category_title}}
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
-                                    <input class="rounded-full h-8 w-40 min-w-full text-sm border-gray-400 text-right" name="value[{{account.id}}]" placeHolder="value"
+                                    <input class="rounded-full h-8 w-24 lg:w-40 min-w-full text-sm border-gray-400 text-right" name="value[{{account.id}}]" placeHolder="value"
                                      type="number" :value="account.value">
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
