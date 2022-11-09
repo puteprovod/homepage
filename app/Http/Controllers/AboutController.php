@@ -9,7 +9,6 @@ class AboutController extends Controller
 {
     public function index()
     {
-        $can = (bool)Auth::user();
-        return inertia('About',compact('can'));
+        return inertia('About');
     }
 }

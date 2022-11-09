@@ -17,8 +17,7 @@ class IndexController extends Controller
         $errorMessage=Currency::refreshFromAPI();
         $currencies = Currency::All()->sortByDesc('priority');
         $currencies = CurrencyResource::collection($currencies)->resolve();
-        $can = (bool)Auth::user();
-        return inertia('Currency/Index', compact('currencies','errorMessage', 'can'));
+        return inertia('Currency/Index', compact('currencies','errorMessage'));
 
     }
 }

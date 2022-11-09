@@ -9,6 +9,9 @@ input::-webkit-inner-spin-button {
 }
 </style>
 <template>
+    <div v-if="!$page.props.auth.user" class="mt-4 text-center">
+    <p class="bg-yellow-100 border-yellow-200 text-sm">Внимание: значения полей генерируются случайно</p>
+    </div>
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -64,6 +67,10 @@ input::-webkit-inner-spin-button {
                                     {{ account.cost_formatted }} ₽
                                 </td>
                             </tr>
+                            <tr class="align-middle">
+                                <td colspan="100%" class="text-sm text-right font-bold text-gray-900 px-4 py-3 whitespace-nowrap">
+                                    Общий баланс счетов: <u>{{ this.sum }} ₽</u></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -75,12 +82,11 @@ input::-webkit-inner-spin-button {
 <script>
 import {Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
-
 export default {
     name: "index",
     layout: MainLayout,
     props: [
-        'accounts',
+        'accounts', 'sum', 'status'
     ],
     components: {
         Link

@@ -22,13 +22,13 @@
                     <li>
                         <Link @click="isOpen = !isOpen" :href="route('about')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">О сайте</Link>
                     </li>
-                    <li v-if="can">
+                    <li v-if="$page.props.auth.user">
                         <a :href="route('admin.accounts.index')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Админпанель</a>
                     </li>
-                    <li v-if="can">
+                    <li v-if="$page.props.auth.user">
                         <Link @click="isOpen = !isOpen" :href="route('logout')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Выход</Link>
                     </li>
-                    <li v-if="!can">
+                    <li v-if="!$page.props.auth.user">
                         <Link @click="isOpen = !isOpen" :href="route('login')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Вход</Link>
                     </li>
                 </ul>
@@ -52,13 +52,9 @@ export default {
             isOpen : null
         }
     },
-    props: [
-        'can'
-    ],
     components: {
         Link
-    },
-
+    }
 }
 </script>
 

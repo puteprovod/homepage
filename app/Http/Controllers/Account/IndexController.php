@@ -27,10 +27,12 @@ class IndexController extends Controller
         foreach ($accounts as $account) {
             $account->cost_formatted = number_format($account->cost, 0, '.', " ");
         }
-        $sum=$accounts->sum('cost');
+        $sum=0;
         $accounts = AccountResource::collection($accounts)->resolve();
-        $status='';
-        $can = (bool)Auth::user();
-        return inertia('Account/Index', compact('accounts','sum','status', 'can'));
+        foreach ($accounts as $account){
+            $sum+=$account['cost'];
+        }
+        $sum=number_format($sum, 0, '.', " ");
+        return inertia('Account/Index', compact('accounts','sum'));
     }
 }
