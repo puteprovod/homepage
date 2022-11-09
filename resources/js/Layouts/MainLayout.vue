@@ -14,22 +14,22 @@
             <div :class="isOpen ? 'block' : 'hidden'" class="w-full md:block md:w-auto" id="navbar-default">
                 <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                     <li>
-                        <Link :href="route('accounts.index')" class="block py-2 font-semibold pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Счета</Link>
+                        <Link @click="isOpen = !isOpen" :href="route('accounts.index')" class="block py-2 font-semibold pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Счета</Link>
                     </li>
                     <li>
-                        <Link :href="route('currencies.index')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Курсы валют</Link>
+                        <Link @click="isOpen = !isOpen" :href="route('currencies.index')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Курсы валют</Link>
                     </li>
                     <li>
-                        <Link :href="route('about')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">О сайте</Link>
+                        <Link @click="isOpen = !isOpen" :href="route('about')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">О сайте</Link>
                     </li>
                     <li v-if="can">
                         <a :href="route('admin.accounts.index')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Админпанель</a>
                     </li>
                     <li v-if="can">
-                        <Link :href="route('logout')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Выход</Link>
+                        <Link @click="isOpen = !isOpen" :href="route('logout')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Выход</Link>
                     </li>
                     <li v-if="!can">
-                        <Link :href="route('login')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Вход</Link>
+                        <Link @click="isOpen = !isOpen" :href="route('login')" class="block py-2 font-semibold pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Вход</Link>
                     </li>
                 </ul>
             </div>
@@ -57,7 +57,8 @@ export default {
     ],
     components: {
         Link
-    }
+    },
+
 }
 </script>
 
