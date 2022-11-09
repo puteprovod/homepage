@@ -1,5 +1,5 @@
 <template>
-    <header class="top-0 z-40 flex-none w-full mx-auto bg-white border-b border-gray-300 dark:border-gray-600 dark:bg-gray-800 mb-6">
+    <header class="top-0 z-40 flex-none w-full mx-auto bg-white border-b border-gray-300 mb-6">
     <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div class="container flex flex-wrap justify-between items-center mx-auto">
             <Link :href="route('accounts.index')" class="flex items-center">
