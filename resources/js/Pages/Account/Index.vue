@@ -53,9 +53,10 @@ input::-webkit-inner-spin-button {
                                 <td class="px-4 py-3 whitespace-nowrap hidden lg:table-cell text-sm font-medium text-gray-900">
                                     {{ account.category_title}}
                                 </td>
-                                <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
-                                    <input class="rounded-full h-8 w-24 lg:w-40 min-w-full text-sm border-gray-400 text-right" name="value[{{account.id}}]" placeHolder="value"
-                                     type="number" :value="account.value">
+                                <td class="text-sm text-gray-900 font-light whitespace-nowrap">
+                                     <div class="inline-block ml-3"><input @input="onKeyDown(account.id)" class="rounded-full h-8 w-24 lg:w-40 min-w-full text-sm border-gray-400 text-right" :id="'value['+account.id+']'" placeHolder="value"
+                                                                      type="number" :value="account.value"></div>
+                                    <div class="inline-block align-middle ml-1.5"><img @click="onClick(account.id)" :id="'imag['+account.id+']'" title="submit" class="invisible cursor-pointer" src="/img/success-image.png" style="width: 25px; height: 25px;" alt="V"></div>
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
                                     {{ account.currency_title }}
@@ -64,12 +65,12 @@ input::-webkit-inner-spin-button {
                                     {{ account.comment }}
                                 </td>
                                 <td class="text-sm hidden md:table-cell text-gray-900 font-light px-4 py-3 whitespace-nowrap">
-                                    {{ account.cost_formatted }} ₽
+                                    <span :id="'cost['+account.id+']'">{{ formatCost(account.cost) }}</span>
                                 </td>
                             </tr>
                             <tr class="align-middle">
                                 <td colspan="100%" class="text-sm text-right font-bold text-gray-900 px-4 py-3 whitespace-nowrap">
-                                    Общий баланс счетов: <u>{{ this.sum }} ₽</u></td>
+                                    Общий баланс счетов: <u>{{ formatCost(this.sum) }}</u></td>
                             </tr>
                             </tbody>
                         </table>
@@ -88,10 +89,49 @@ export default {
     props: [
         'accounts', 'sum', 'status'
     ],
+    data() {
+        return {
+            statusData: null
+        }
+    },
     components: {
         Link
     },
     methods: {
+        updateAccount(id) {
+            const editedValue = document.getElementById(`value[${id}]`).value;
+            //this.$inertia.patch(`/accounts/${id}`, { id: id, value: editedValue });
+            axios.patch(`/accounts/${id}`, {id: id, value:  editedValue}).then(res =>
+            {this.statusData = res.data; this.showStatusData(id)}).catch(error => console.log(error));
+        },
+        formatCost (number){
+            return (
+                Intl.NumberFormat('ru-RU', {
+                    style: 'currency',
+                    currency: 'RUB',
+                    currencyDisplay: 'symbol',
+                    maximumFractionDigits: 0
+                }).format(number));
+        },
+        showStatusData(id){
+            if (this.statusData==="ok\n") {
+                document.getElementById(`imag[${id}]`).src = "/img/success-image.png";
+                document.getElementById(`imag[${id}]`).title=this.statusData;
+
+            }
+            else {
+                document.getElementById(`imag[${id}]`).src = "/img/error-image.png";
+                document.getElementById(`imag[${id}]`).title=this.statusData;
+            }
+        },
+        onKeyDown (id) {
+            document.getElementById(`imag[${id}]`).src = "/img/enter.png";
+            document.getElementById(`imag[${id}]`).style.visibility = 'visible';
+        },
+        onClick (id) {
+            this.updateAccount(id);
+            document.getElementById(`imag[${id}]`).style.visibility = 'visible';
+        },
         getColorClass (acc_id){
             switch(acc_id) {
                 case 22:

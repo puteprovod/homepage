@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper.cdc0426e.js";import{o,c as t}from"./app.08d43846.js";const c={},r={src:"img/emblem.png",style:{width:"87px",height:"83px"}};function n(s,i){return o(),t("img",r)}const p=e(c,[["render",n]]);export{p as A};

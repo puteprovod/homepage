@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\UpdateOneController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,16 +25,20 @@ Route::get('/', function () {
     ]);
 });
 
+Route::patch('/accounts/{post}',UpdateOneController::class)->name('account.update');
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+
+
+
 require __DIR__.'/auth.php';
 Route::get('/', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
-
 Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController')->name('logout');
-
 Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Post','prefix'=>'admin/post'],function () {
     Route::get('/', 'IndexController')->name('admin.post.index');
 });

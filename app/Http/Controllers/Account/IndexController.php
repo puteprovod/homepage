@@ -24,15 +24,11 @@ class IndexController extends Controller
             ->orderBy('categories.title')
             ->get();
         //$accounts=Account::select('accounts.*','categories.title')->join('categories','categories.id','=','accounts.category_id');
-        foreach ($accounts as $account) {
-            $account->cost_formatted = number_format($account->cost, 0, '.', " ");
-        }
         $sum=0;
         $accounts = AccountResource::collection($accounts)->resolve();
         foreach ($accounts as $account){
             $sum+=$account['cost'];
         }
-        $sum=number_format($sum, 0, '.', " ");
         return inertia('Account/Index', compact('accounts','sum'));
     }
 }
