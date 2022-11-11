@@ -38,6 +38,6 @@ class UpdateOneController extends Controller
         {
             $status='not_admin';
         }
-        return view('account.return',compact('status'));
+        return view('Account.return',compact('status'));
     }
 }
