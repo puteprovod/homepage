@@ -56,7 +56,7 @@ input::-webkit-inner-spin-button {
                                 <td class="text-sm text-gray-900 font-light whitespace-nowrap">
                                      <div class="inline-block ml-3"><input @input="onKeyDown(account.id)" class="rounded-full h-8 w-24 lg:w-40 min-w-full text-sm border-gray-400 text-right" :id="'value['+account.id+']'" placeHolder="value"
                                                                       type="number" :value="account.value"></div>
-                                    <div class="inline-block align-middle ml-1.5"><img @click="onClick(account.id)" :id="'imag['+account.id+']'" title="submit" class="invisible cursor-pointer" src="/img/success-image.png" style="width: 25px; height: 25px;" alt="V"></div>
+                                    <div class="inline-block align-middle ml-1.5 mr-1.5"><img @click="onClick(account.id)" :id="'imag['+account.id+']'" title="submit" class="invisible cursor-pointer" src="/img/enter.png" style="width: 25px; height: 25px;" alt="V"></div>
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
                                     {{ account.currency_title }}
