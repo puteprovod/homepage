@@ -42,5 +42,6 @@ class UpdateController extends Controller
             $status='ok';
         }
         return view('account.index', compact('accounts','status', 'sum'));
+
     }
 }

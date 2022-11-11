@@ -25,6 +25,19 @@ class Account extends Model
             }
         }
     }
+    public static function calculateCost($id)
+    {
+        $account = Account::find($id);
+            $currency = Currency::find($account->currency_id);
+            if ($currency->source == 'cbr' or $currency->source == 'rub') {
+
+                return ceil($account->value * $currency->exchange_rate);
+            } else {
+                $usd = Currency::find(11)->exchange_rate;
+                return ceil($account->value * $currency->exchange_rate * $usd);
+            }
+
+    }
 
     use HasFactory;
     use Filterable;

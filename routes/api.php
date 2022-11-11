@@ -7,7 +7,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
 
 
-
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('/get',App\Http\Controllers\GetController::class);
+});
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
@@ -35,3 +37,5 @@ Route::group(['namespace'=>'App\Http\Controllers\Post','middleware'=>'jwt.auth']
     Route::get('/posts/{post}/edit', 'EditController');
     Route::post('/posts/', 'StoreController');
 });
+
+

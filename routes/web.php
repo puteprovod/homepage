@@ -85,4 +85,4 @@ Route::group(['namespace'=>'App\Http\Controllers\Post','prefix'=>'posts'],functi
 
 //Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

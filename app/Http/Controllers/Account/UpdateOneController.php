@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Inertia\Inertia;
 
 class UpdateOneController extends Controller
 {
@@ -17,7 +18,10 @@ class UpdateOneController extends Controller
         $data = $request->validated();
         $status='';
         if (!auth()->user()){
-            return 'not_logged';
+            return  [
+                'status' => 'not_logged',
+                'newCost' =>  0
+            ];
         }
         if (auth()->user()->role=='admin') {
             try {
@@ -38,6 +42,12 @@ class UpdateOneController extends Controller
         {
             $status='not_admin';
         }
-        return view('Account.return',compact('status'));
+
+        $response =[
+            'status' => $status,
+            'newCost' =>  Account::calculateCost($data['id'])
+        ];
+        return $response;
+
     }
 }
