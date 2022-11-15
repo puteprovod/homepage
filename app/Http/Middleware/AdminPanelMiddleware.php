@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPanelMiddleware
 {
@@ -17,10 +18,10 @@ class AdminPanelMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->user()){
+        if (Auth::guest()){
             return redirect('/login');
         }
-        if (auth()->user()->role!='admin') {
+        if (Auth::user()['role']!='admin') {
 
             return redirect()->route('accounts.index');
 

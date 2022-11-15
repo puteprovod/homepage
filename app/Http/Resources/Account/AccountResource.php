@@ -5,6 +5,7 @@ namespace App\Http\Resources\Account;
 use App\Models\Account;
 use App\Models\Currency;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class AccountResource extends JsonResource
 {
@@ -16,7 +17,7 @@ class AccountResource extends JsonResource
      */
     public function toArray($request)
     {
-        $role=auth()->user() ? auth()->user()->role : '';
+        $role=Auth::user() ? Auth::user()['role'] : '';
         if ($role=='admin') {
             return [
                 'id' => $this->id,

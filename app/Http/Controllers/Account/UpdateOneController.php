@@ -17,13 +17,13 @@ class UpdateOneController extends Controller
     {
         $data = $request->validated();
         $status='';
-        if (!auth()->user()){
+        if (Auth::guest()){
             return  [
                 'status' => 'not_logged',
                 'newCost' =>  0
             ];
         }
-        if (auth()->user()->role=='admin') {
+        if (Auth::user()['role']=='admin') {
             try {
                 Db::beginTransaction();
                 $account = Account::find($data['id']);
