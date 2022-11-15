@@ -9,6 +9,9 @@ input::-webkit-inner-spin-button {
 }
 </style>
 <template>
+    <Head>
+        <title>Курсы валют</title>
+    </Head>
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -56,7 +59,7 @@ input::-webkit-inner-spin-button {
 </template>
 
 <script>
-import {Link} from "@inertiajs/inertia-vue3";
+import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 
 export default {
@@ -66,9 +69,7 @@ export default {
         'currencies',
     ],
     components: {
-        Link
-    },
-    mounted() {
+        Head, Link
     }
 }
 </script>

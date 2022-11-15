@@ -24,7 +24,6 @@ class UpdateIndexRequest extends FormRequest
     public function rules()
     {
         return [
-
              'value' => '',
              'id' => '',
         ];

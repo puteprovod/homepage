@@ -37,7 +37,7 @@ Route::get('/dashboard', function () {
 
 
 require __DIR__.'/auth.php';
-Route::get('/', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
+Route::get('/', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
 Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController')->name('logout');
 Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Post','prefix'=>'admin/post'],function () {
     Route::get('/', 'IndexController')->name('admin.post.index');
@@ -64,7 +64,7 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
 //    Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
 //    Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
 //});
-
+Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
 Route::get('/currencies', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
 Route::get('/main', 'App\Http\Controllers\MainController@index')->name('main.index');
 Route::get('/sitemap', 'App\Http\Controllers\SitemapController@index')->name('sitemap.index');

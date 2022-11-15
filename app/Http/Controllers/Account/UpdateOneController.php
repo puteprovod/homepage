@@ -27,7 +27,7 @@ class UpdateOneController extends Controller
             try {
                 Db::beginTransaction();
                 $account = Account::find($data['id']);
-                $account->update(['value' => $data['value']]);
+                $account->update($data);
                 Db::commit();
             } catch (\Exception $exception) {
                 DB::rollBack();

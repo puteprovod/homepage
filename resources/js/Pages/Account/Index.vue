@@ -9,6 +9,10 @@ input::-webkit-inner-spin-button {
 }
 </style>
 <template>
+    <Head>
+        <title>Счета</title>
+    </Head>
+    <input type="hidden" data-id-page="accounts">
     <div v-if="!$page.props.auth.user" class="mt-4 text-center">
         <p class="bg-yellow-100 border-yellow-200 text-sm">Внимание: значения полей генерируются случайно</p>
     </div>
@@ -59,7 +63,7 @@ input::-webkit-inner-spin-button {
                             <td class="text-sm text-gray-900 font-light whitespace-nowrap">
                                 <div class="inline-block ml-2"><input @input="onKeyDown(account.id)"
                                                                       class="rounded-full h-8 w-24 lg:w-40 min-w-full text-sm border-gray-400 text-right"
-                                                                      :id="'value['+account.id+']'" placeHolder="value"
+                                                                      :id="'value['+account.id+']'" :ref="'value['+account.id+']'" placeHolder="value"
                                                                       type="number" :value="account.value"></div>
                                 <div class="inline-block align-middle ml-1.5"><img @click="onClick(account.id)"
                                                                                    :id="'imag['+account.id+']'"
@@ -76,7 +80,7 @@ input::-webkit-inner-spin-button {
                                 {{ account.comment }}
                             </td>
                             <td class="text-sm hidden md:table-cell text-gray-900 font-light px-4 py-3 whitespace-nowrap">
-                                <input class="costOriginal" type="hidden" :id="'costOriginal['+account.id+']'"
+                                <input ref="costOriginal" type="hidden" :id="'costOriginal['+account.id+']'"
                                        :value="account.cost"><span
                                 :id="'cost['+account.id+']'">{{ formatCost(account.cost) }}</span>
                             </td>
@@ -84,7 +88,7 @@ input::-webkit-inner-spin-button {
                         <tr class="align-middle">
                             <td colspan="100%"
                                 class="text-sm text-right font-bold text-gray-900 px-4 py-3 whitespace-nowrap">
-                                Общий баланс счетов: <u><span id="finalCost"></span></u></td>
+                                Общий баланс счетов: <u><span ref="finalCost"></span></u></td>
                         </tr>
                         </tbody>
                     </table>
@@ -95,7 +99,7 @@ input::-webkit-inner-spin-button {
 </template>
 
 <script>
-import {Link} from "@inertiajs/inertia-vue3";
+import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 
 export default {
@@ -112,7 +116,7 @@ export default {
         }
     },
     components: {
-        Link
+        Link, Head
     },
     computed: {},
     mounted() {
@@ -133,11 +137,11 @@ export default {
         },
         newFinalCost() {
             let costSum = 0;
-            let els = document.getElementsByClassName('costOriginal');
+            let els = this.$refs.costOriginal;
             for (let i = els.length - 1; i >= 0; i--) {
                 costSum += parseInt(els[i].value);
             }
-            document.getElementById('finalCost').textContent = this.formatCost(costSum);
+            this.$refs.finalCost.textContent = this.formatCost(costSum);
         },
         formatCost(number) {
             return (
@@ -152,7 +156,7 @@ export default {
             if (this.statusData === "ok") {
                 document.getElementById(`imag[${id}]`).src = "/img/success-image.png";
                 document.getElementById(`imag[${id}]`).title = this.statusData;
-                document.getElementById(`costOriginal[${id}]`).value = this.newCost;
+                this.$refs.costOriginal[id].value = this.newCost;
                 document.getElementById(`cost[${id}]`).textContent = this.formatCost(this.newCost);
                 this.newFinalCost();
             } else {
