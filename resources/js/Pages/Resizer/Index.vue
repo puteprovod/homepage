@@ -27,7 +27,7 @@
                     (jpg, png, gif... )
                 </div>
                 <div class="text-gray-400 mb-5">
-                    Максимум: 200 шт., общий размер - не более 40 Мб
+                    Максимум: 20 шт., общий размер - не более 40 Мб
                 </div>
                 <div v-if="viewErrors.images" class="text-red-700">Не загружены файлы</div>
 
@@ -118,8 +118,8 @@ export default {
                 clickable: true,
                 autoProcessQueue: false,
                 acceptedFiles: 'image/*',
-                maxFiles: 100,
-                maxFilesize: 50,
+                maxFiles: 20,
+                maxFilesize: 40,
                 thumbnailMethod: 'contain',
                 thumbnailWidth: 250,
                 thumbnailHeight: 250,
