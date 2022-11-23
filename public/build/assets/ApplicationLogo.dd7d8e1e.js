@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper.cdc0426e.js";import{o,c as t}from"./app.2fea1868.js";const c={},n={alt:"Inshin.org Emblem",src:"/img/emblem.png",style:{width:"87px",height:"83px"}};function r(s,i){return o(),t("img",n)}const p=e(c,[["render",r]]);export{p as A};

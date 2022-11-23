@@ -64,6 +64,13 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
 //    Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
 //    Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
 //});
+
+
+Route::get('/resizer', 'App\Http\Controllers\Resizer\IndexController')->name('resizer.index');
+Route::get('/resizer/{token}', App\Http\Controllers\Resizer\ResultController::class);
+Route::get('/resizer/zip/{token}','App\Http\Controllers\Resizer\ZipController')->name('resizer.zip');
+Route::get('/resizer/zip','App\Http\Controllers\Resizer\ZipController');
+
 Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
 Route::get('/currencies', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
 Route::get('/main', 'App\Http\Controllers\MainController@index')->name('main.index');

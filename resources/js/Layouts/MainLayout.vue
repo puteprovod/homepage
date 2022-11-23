@@ -1,3 +1,13 @@
+<style>
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+</style>
 <template>
     <header class="top-0 z-40 flex-none w-full mx-auto bg-white border-b border-gray-300">
         <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
@@ -33,6 +43,12 @@
                             </Link>
                         </li>
                         <li>
+                            <Link @click="selectMenu" id="resizerMenu" :href="route('resizer.index')"
+                                  class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                                Resizer
+                            </Link>
+                        </li>
+                        <li>
                             <Link @click="selectMenu" id="aboutMenu" :href="route('about')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
                                 О сайте
@@ -60,7 +76,7 @@
         </nav>
     </header>
     <div class="flex">
-        <div class="mx-auto">
+        <div class="mx-auto p-2">
             <slot/>
         </div>
     </div>

@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
 
+    Route::post('/resizer', App\Http\Controllers\Resizer\StoreController::class);
+    Route::get('/resizer', App\Http\Controllers\Resizer\ResultController::class);
+Route::get('/resizer/progress/{token}', App\Http\Controllers\Resizer\ProgressController::class);
 
-Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('/get',App\Http\Controllers\GetController::class);
-});
+//Route::group(['middleware' => 'jwt.auth'], function () {
+//    Route::get('/get',App\Http\Controllers\GetController::class);
+//});
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
