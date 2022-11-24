@@ -20,9 +20,7 @@ class StoreController extends Controller
     public function __invoke(StoreRequest $request)
     {
         $startTime = $this->getTime();
-
         $data = $request->validated();
-
         $images = $data['images'];
         unset($data['images']);
         $token = substr(md5(Carbon::now() . '_' . $data['targetWidth'] . $data['targetHeight'] . $data['keepAspectRatio']), 0, 8);

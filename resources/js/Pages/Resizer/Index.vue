@@ -19,7 +19,7 @@
     <div class="h-48 mt-3" ref="inputFormBox">
         <div class="inline-block p-6">
             <div ref="dropzone"
-                 class="border-dashed cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-96 align-middle text-center">
+                 class="border-dashed cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-80 align-middle text-center">
                 <div class="mb-4">
                     Перетащите файлы сюда или <b>кликните</b> чтобы загрузить
                 </div>
@@ -36,28 +36,28 @@
         <div class="inline-block p-6 align-top">
             <form @submit.prevent="store">
                 <div class="mb-5">
-                    <div class="inline-block w-48">
+                    <div class="inline-block text-sm w-44">
                         Заданная ширина (px):
                     </div>
                     <div class="inline-block">
-                        <input v-model="targetWidth" class="rounded-full w-36 border-gray-400" type="number">
+                        <input v-model="targetWidth" class="rounded-full w-32 border-gray-400" type="number">
                     </div>
                     <div class="inline-block ml-2">
-                        <a @click="keepWidth = !keepWidth" class="btn cursor-pointer"
+                        <a @click="keepWidth = !keepWidth" class="btn cursor-pointer text-lg"
                            :class="keepWidth ? '' : 'text-gray-100 opacity-20'"
                            title="Зафиксировать предельную ширину при изменении размера">🔒</a>
                     </div>
                     <div v-if="viewErrors.targetWidth" class="text-red-700">Не заполнено поле</div>
                 </div>
                 <div class="mb-5">
-                    <div class="inline-block w-48">
+                    <div class="inline-block text-sm w-44">
                         Заданная высота (px):
                     </div>
                     <div class="inline-block">
-                        <input v-model="targetHeight" class="rounded-full w-36 border-gray-400" type="number">
+                        <input v-model="targetHeight" class="rounded-full w-32 border-gray-400" type="number">
                     </div>
                     <div class="inline-block ml-2">
-                        <a @click="keepHeight = !keepHeight" class="btn cursor-pointer"
+                        <a @click="keepHeight = !keepHeight" class="btn cursor-pointer text-lg"
                            :class="keepHeight ? '' : 'text-gray-100 opacity-20'"
                            title="Зафиксировать предельную ширину при изменении размера">🔒</a>
                     </div>
@@ -67,7 +67,7 @@
                     <div class="text-center mb-4">
                         <input v-model="keepAspectRatio" type="checkbox" value=""
                                class="w-4 h-4 text-blue-600 bg-gray-200 rounded border-gray-400 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label @click="keepAspectRatio=!keepAspectRatio" for="default-checkbox" class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Сохранить
+                        <label @click="keepAspectRatio=!keepAspectRatio" for="default-checkbox" class="cursor-pointer ml-2 text-sm font-medium text-sm text-gray-900 dark:text-gray-300">Сохранить
                             соотношение сторон</label>
                     </div>
                 </div>
