@@ -17,16 +17,16 @@
         </div>
     </div>
     <div class="h-48 mt-3" ref="inputFormBox">
-        <div class="inline-block p-6">
+        <div class="inline-block p-4">
             <div ref="dropzone"
-                 class="border-dashed cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-80 align-middle text-center">
+                 class="border-dashed bg-blue-100 cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-80 align-middle text-center">
                 <div class="mb-4">
                     Перетащите файлы сюда или <b>кликните</b> чтобы загрузить
                 </div>
-                <div class="text-gray-400 mb-5">
+                <div class="text-gray-500 mb-5">
                     (jpg, png, gif... )
                 </div>
-                <div class="text-gray-400 mb-5">
+                <div class="text-gray-500 mb-5">
                     Максимум: 20 шт., общий размер - не более 40 Мб
                 </div>
                 <div v-if="viewErrors.images" class="text-red-700">Не загружены файлы</div>
@@ -40,7 +40,7 @@
                         Заданная ширина (px):
                     </div>
                     <div class="inline-block">
-                        <input v-model="targetWidth" class="rounded-full w-32 border-gray-400" type="number">
+                        <input v-model="targetWidth" class="rounded-full w-28 border-gray-400" type="number">
                     </div>
                     <div class="inline-block ml-2">
                         <a @click="keepWidth = !keepWidth" class="btn cursor-pointer text-lg"
@@ -54,7 +54,7 @@
                         Заданная высота (px):
                     </div>
                     <div class="inline-block">
-                        <input v-model="targetHeight" class="rounded-full w-32 border-gray-400" type="number">
+                        <input v-model="targetHeight" class="rounded-full w-28 border-gray-400" type="number">
                     </div>
                     <div class="inline-block ml-2">
                         <a @click="keepHeight = !keepHeight" class="btn cursor-pointer text-lg"
