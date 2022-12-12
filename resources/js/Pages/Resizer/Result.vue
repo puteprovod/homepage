@@ -61,8 +61,8 @@
                         <tr>
                             <td class="font-light px-4 py-3 whitespace-nowrap" colspan="100%">
                                 <div class="flex mt-1">
-                                    <div class="inline-block font-bold">
-
+                                    <div class="inline-block text-gray-300">
+                                        {{ this.timeTaken }} sec. (Py: {{ this.timeTakenPy }} sec.)
                                     </div>
                                 <div class="inline-block ml-auto text-right">
                                     <a :href="route('resizer.zip', { token: token })" class="text-blue-800 font-bold hover:underline ">Скачать все файлы одним архивом
@@ -73,9 +73,6 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="mt-10 text-gray-300">
-                    {{ this.timeTaken }} sec.
                 </div>
                 <div v-if="!sizeSum">
                     Нет доступных для просмотра изображений
@@ -99,6 +96,7 @@ export default {
     data () {
         return {
             timeTaken: null,
+            timeTakenPy: null
         }
     },
     props: [
@@ -108,6 +106,7 @@ export default {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.timeTaken = urlParams.get('timeTaken')
+        this.timeTakenPy = urlParams.get('timeTakenPy')
     }
 }
 </script>

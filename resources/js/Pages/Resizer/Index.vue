@@ -67,7 +67,7 @@
                     <div class="text-center mb-4">
                         <input v-model="keepAspectRatio" type="checkbox" value=""
                                class="w-4 h-4 text-blue-600 bg-gray-200 rounded border-gray-400 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label @click="keepAspectRatio=!keepAspectRatio" for="default-checkbox" class="cursor-pointer ml-2 text-sm font-medium text-sm text-gray-900 dark:text-gray-300">Сохранить
+                        <label @click="keepAspectRatio=!keepAspectRatio" for="default-checkbox" class="cursor-pointer ml-2 text-sm font-medium text-sm text-gray-900">Сохранить
                             соотношение сторон</label>
                     </div>
                 </div>
@@ -118,14 +118,14 @@ export default {
                 clickable: true,
                 autoProcessQueue: false,
                 acceptedFiles: 'image/*',
-                maxFiles: 20,
-                maxFilesize: 40,
-                thumbnailMethod: 'contain',
-                thumbnailWidth: 250,
-                thumbnailHeight: 250,
+                maxFiles: 200,
+                maxFilesize: 200,
+                createImageThumbnails: false,
+                // thumbnailMethod: 'contain',
+                // thumbnailWidth: 250,
+                // thumbnailHeight: 250,
                 previewTemplate: '<div class="dz-preview dz-file-preview">\n' +
                     '<div class="dz-details">\n' +
-                    '<img alt="thumb" data-dz-thumbnail class="mx-auto" />\n' +
                     '<div class="dz-filename text-sm"><span data-dz-name></span></div>\n' +
                     '<div class="dz-size text-sm" data-dz-size></div>\n' +
                     '</div>\n' +
@@ -156,7 +156,8 @@ export default {
                 this.$inertia.visit('/resizer/'+res.data.token, {
                     method: 'get',
                     data: {
-                        timeTaken: res.data.timeTaken
+                        timeTaken: res.data.timeTaken,
+                        timeTakenPy: res.data.timeTakenPy
                     },
                 })
             }) .catch(error => {

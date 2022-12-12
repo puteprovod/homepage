@@ -56,7 +56,9 @@ input::-webkit-inner-spin-button {
                         </li>
                         <li v-if="$page.props.auth.user">
                             <a :href="route('admin.accounts.index')"
-                               class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Админпанель</a>
+                               class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                                Админка
+                            </a>
                         </li>
                         <li v-if="$page.props.auth.user">
                             <Link :href="route('logout')"

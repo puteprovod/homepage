@@ -1,0 +1,1 @@
+{"targetHeight":"111","targetWidth":"111","keepAspectRatio":"true","keepHeight":"false","keepWidth":"false","images":[{},{},{}]}

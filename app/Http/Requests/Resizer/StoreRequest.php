@@ -3,9 +3,13 @@
 namespace App\Http\Requests\Resizer;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JsonSerializable;
 
-class StoreRequest extends FormRequest
+class StoreRequest extends FormRequest implements JsonSerializable
 {
+    public function jsonSerialize() {
+        return (object) get_object_vars($this);
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
