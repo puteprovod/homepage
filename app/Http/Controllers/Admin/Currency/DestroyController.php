@@ -9,6 +9,6 @@ class DestroyController extends Controller
     public function __invoke(Currency $currency)
     {
         $currency->delete();
-        return redirect()->route('admin.Currencies.index');
+        return redirect()->route('admin.currencies.index');
     }
 }
