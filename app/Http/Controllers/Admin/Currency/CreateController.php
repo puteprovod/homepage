@@ -9,6 +9,6 @@ class CreateController extends Controller
     public function __invoke()
     {
         $currencies=Currency::All();
-        return view('admin.currency.create',compact('currencies'));
+        return view('admin.Currency.create',compact('currencies'));
     }
 }
