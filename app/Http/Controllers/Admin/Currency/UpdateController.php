@@ -13,6 +13,6 @@ class UpdateController extends Controller
         $currency->update($data);
         $currency->fresh();
         //return new PostResource($post);
-          return redirect()->route('admin.currencies.show', $currency->id);
+          return redirect()->route('admin.Currencies.show', $currency->id);
     }
 }
