@@ -13,6 +13,6 @@ class CreateController extends Controller
         $accounts=Account::All();
         $categories=Category::All();
         $currencies=Currency::All()->sortByDesc('priority');
-        return view('admin.account.create',compact('accounts', 'categories','currencies'));
+        return view('admin.Account.create',compact('accounts', 'categories','currencies'));
     }
 }
