@@ -23,6 +23,6 @@ class StoreController extends Controller
             $currency = $exception->getMessage();
         }
 
-       return redirect()->route('admin.currencies.index');
+       return redirect()->route('admin.Currencies.index');
     }
 }
