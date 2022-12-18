@@ -9,6 +9,6 @@ class ShowController extends Controller
     public function __invoke(Currency $currency)
     {
         $currencies=Currency::All();
-       return view('admin.currency.show', compact('currency','currencies'));
+       return view('admin.Currency.show', compact('currency','currencies'));
     }
 }
