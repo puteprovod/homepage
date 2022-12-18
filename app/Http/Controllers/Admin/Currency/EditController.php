@@ -14,7 +14,7 @@ class EditController extends Controller
         }
         else
         {
-            return redirect()->route('admin.Currencies.index');
+            return redirect()->route('admin.currencies.index');
         }
     }
 }
