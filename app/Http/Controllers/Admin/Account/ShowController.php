@@ -10,6 +10,6 @@ class ShowController extends Controller
     public function __invoke(Account $account)
     {
         $accounts=Account::All();
-       return view('admin.account.show', compact('account','accounts'));
+       return view('admin.Account.show', compact('account','accounts'));
     }
 }
