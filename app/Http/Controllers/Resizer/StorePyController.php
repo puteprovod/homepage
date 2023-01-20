@@ -42,7 +42,7 @@ class StorePyController extends Controller
             $fileName = $image->getClientOriginalName();
             $imageExtension = $image->getClientOriginalExtension();
             $imageTempPathName=$image->getPathName();
-            //file1=Storage::disk('public')->putFileAs($folderPath, $image, 'orig_' . $fileName);
+            //$file1=Storage::disk('public')->putFileAs($folderPath, $image, 'orig_' . $fileName);
 
             $previewName = 'prev_' . $fileName;
 
@@ -57,13 +57,13 @@ class StorePyController extends Controller
 
             $pyRequest['images'][$i]['id'] = $i;
             //$pyRequest['images'][$i]['path'] = str_replace('/', '\\', 'storage\\' . $path1);
-            $pyFile = 'ResizedImages\\' . $token . '\\' . $fileName;
-            //$pyFile2 = 'ResizedImages\\' . $token . '\\orig_' . $fileName;
+            $pyFile = 'ResizedImages/' . $token . '/' . $fileName;
+            $pyFile2 = 'ResizedImages/' . $token . '/orig_' . $fileName;
             $pyRequest['images'][$i]['path'] = $imageTempPathName;
-            //$pyRequest['images'][$i]['path'] = str_replace('/', '\\', 'storage\\' . $pyFile2);
-            $pyThumbFile = 'ResizedImages\\Previews\\' . $token . '\\prev_' . $fileName;
-            $pyRequest['images'][$i]['filename'] = str_replace('/', '\\', 'storage\\' . $pyFile);
-            $pyRequest['images'][$i]['thumbfilename'] = str_replace('/', '\\', 'storage\\' . $pyThumbFile);
+            //$pyRequest['images'][$i]['path'] = 'storage/' . $pyFile2;
+            $pyThumbFile = 'ResizedImages/Previews/' . $token . '/prev_' . $fileName;
+            $pyRequest['images'][$i]['filename'] = 'storage/' . $pyFile;
+            $pyRequest['images'][$i]['thumbfilename'] = 'storage/' . $pyThumbFile;
             $pyRequest['images'][$i]['targetWidth'] = $factWidth;
             $pyRequest['images'][$i]['targetHeight'] = $factHeight;
             $pyRequest['images'][$i]['thumbWidth'] = $factThumbWidth;
@@ -91,8 +91,9 @@ class StorePyController extends Controller
         $startTime = $this->getTime();
         $json=str_replace('"','"""',json_encode($pyRequest));
         $json=json_encode($pyRequest);
+        //file_put_contents("storage/ResizedImages/$token.json", $json);
         file_put_contents("storage/ResizedImages/$token.json", $json);
-        exec("c:\\xampp\\htdocs\\myblog\\kart3.py storage/ResizedImages/$token.json", $output);
+        exec("python3 ../kart3.py storage/ResizedImages/$token.json", $output);
 
         $resizedImages=ResizedImage::all()->where('token',$token);
         foreach ($resizedImages as $item) {

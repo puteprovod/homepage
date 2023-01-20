@@ -16,8 +16,7 @@ class TestController extends Controller
     }
     public function __invoke()
     {
-        $json=file_get_contents('request.json');
-        exec("c:\\xampp\\htdocs\\myblog\\kart3.py request.json 2>&1", $output);
+        exec("python3 ../kart3.py storage/ResizedImages/Request.json 2>&1", $output);
         dd ($output);
     }
 }

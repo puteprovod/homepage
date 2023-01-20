@@ -44,11 +44,10 @@ class AccountResource extends JsonResource
                     $usd = Currency::find(11)->exchange_rate;
                     $cost = ceil($value * $currency->exchange_rate * $usd);
                 }
-
-
+            ($this->category_id==26) ? $title = 'Наличные' : $title = $this->title;
             return [
                 'id' => $this->id,
-                'title' => mb_substr($this->title,0,17,'UTF-8'),
+                'title' => mb_substr($title,0,17,'UTF-8'),
                 'value' => $value,
                 'cost' => $cost,
                 'category_title' => $this->category_title,

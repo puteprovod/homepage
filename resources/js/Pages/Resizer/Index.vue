@@ -20,15 +20,17 @@
         <div class="inline-block p-4">
             <div ref="dropzone"
                  class="border-dashed bg-blue-100 cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-80 align-middle text-center">
+                <div class="dz-message">
                 <div class="mb-4">
                     Перетащите файлы сюда или <b>кликните</b> чтобы загрузить
                 </div>
-                <div class="text-gray-500 mb-5">
+                <div class="text-gray-500 mb-5 dz-message">
                     (jpg, png, gif... )
                 </div>
-                <div class="text-gray-500 mb-5">
-                    Максимум: 20 шт., общий размер - не более 40 Мб
+                <div class="text-gray-500 mb-5 dz-message">
+                    Максимум: 300 шт., общий размер - не более 300 Мб
                 </div>
+                    </div>
                 <div v-if="viewErrors.images" class="text-red-700">Не загружены файлы</div>
 
             </div>
@@ -118,8 +120,8 @@ export default {
                 clickable: true,
                 autoProcessQueue: false,
                 acceptedFiles: 'image/*',
-                maxFiles: 200,
-                maxFilesize: 200,
+                maxFiles: 300,
+                maxFilesize: 300,
                 createImageThumbnails: false,
                 // thumbnailMethod: 'contain',
                 // thumbnailWidth: 250,

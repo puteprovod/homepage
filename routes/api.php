@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
 
-    Route::post('/resizer', App\Http\Controllers\Resizer\StorePyController::class);
+    Route::post('/resizer', App\Http\Controllers\Resizer\StoreController::class);
   //  Route::post('/resizer', App\Http\Controllers\Resizer\StoreController::class);
     Route::get('/resizer', App\Http\Controllers\Resizer\ResultController::class);
 Route::get('/resizer/progress/{token}', App\Http\Controllers\Resizer\ProgressController::class);
