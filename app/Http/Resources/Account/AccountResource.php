@@ -49,7 +49,7 @@ class AccountResource extends JsonResource
 
             return [
                 'id' => $this->id,
-                'title' => mb_substr($this->title,0,17,'UTF-8'),
+                'title' => mb_substr($title,0,17,'UTF-8'),
                 'value' => $value,
                 'cost' => $cost,
                 'category_title' => $this->category_title,
