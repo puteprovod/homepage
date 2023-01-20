@@ -207,13 +207,13 @@
       "resources/js/app.js"
     ]
   },
-  "MainLayout.css": {
-    "file": "assets/MainLayout.048bac82.css",
-    "src": "MainLayout.css"
-  },
   "resources/js/Pages/Currency/Index.css": {
     "file": "assets/Index.048bac82.css",
     "src": "resources/js/Pages/Currency/Index.css"
+  },
+  "MainLayout.css": {
+    "file": "assets/MainLayout.048bac82.css",
+    "src": "MainLayout.css"
   },
   "resources/js/app.css": {
     "file": "assets/app.e423fdb5.css",
