@@ -45,6 +45,7 @@ class AccountResource extends JsonResource
                     $cost = ceil($value * $currency->exchange_rate * $usd);
                 }
 
+            ($this->category_id==26) ? $title = 'Наличные' : $title = $this->title;
 
             return [
                 'id' => $this->id,
