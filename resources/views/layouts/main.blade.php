@@ -11,7 +11,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/js/app.js'])
+{{-- @vite(['resources/js/app.js'])--}}
 
     <title>Document</title>
 </head>

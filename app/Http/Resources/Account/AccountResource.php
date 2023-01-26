@@ -2,17 +2,18 @@
 
 namespace App\Http\Resources\Account;
 
-use App\Models\Account;
 use App\Models\Currency;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
 class AccountResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -37,7 +38,6 @@ class AccountResource extends JsonResource
                 $currency = Currency::find($this->currency_id);
             ($currency->title=='BTC' || $currency->title=='ETH') ? $value = rand (0, 10) : $value = rand (0, 50000);
             if ($this->category_id==24) $value=-$value;
-            $cost = 0;
                 if ($currency->source == 'cbr' or $currency->source == 'rub') {
                     $cost = ceil($value * $currency->exchange_rate);
                 } else {
