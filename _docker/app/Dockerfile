@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
       apt-utils \
@@ -24,6 +24,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
+RUN apt-get -y install python3-pip
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade Pillow
 
 WORKDIR /var/www
 
