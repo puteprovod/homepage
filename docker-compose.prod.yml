@@ -6,6 +6,7 @@ services:
     volumes:
       - ./:/var/www
       - ./_docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf/:/etc/letsencrypt/:ro
     ports:
       - 80:80
       - 443:443
