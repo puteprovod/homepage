@@ -5,9 +5,13 @@ services:
     image: nginx:latest
     volumes:
       - ./:/var/www
-      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./_docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
     ports:
       - 80:80
+      - 443:443
+    restart: always
     depends_on:
       - app
     container_name: project_nginx
@@ -48,3 +52,9 @@ services:
       - 8080:80
     depends_on:
       - db
+      -
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/nginx/ssl/:rw
