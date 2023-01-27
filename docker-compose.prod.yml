@@ -56,5 +56,9 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/nginx/ssl/:rw
+      - ./:/var/www
+      - ./certbot/conf/:/etc/letsencrypt/
+    depends_on:
+      - nginx
+    container_name: certbot
+    command: certonly --webroot --webroot-path=/var/www --email serg-419@yandex.ru --agree-tos --no-eff-email -d inshin.org
