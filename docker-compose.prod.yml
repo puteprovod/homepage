@@ -52,7 +52,7 @@ services:
       - 8080:80
     depends_on:
       - db
-      -
+
   certbot:
     image: certbot/certbot:latest
     volumes:
