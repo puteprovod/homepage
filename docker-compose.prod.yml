@@ -58,4 +58,3 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/nginx/ssl/:rw
-    container_name: project_certbot
