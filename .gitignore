@@ -1,8 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/storage/ResizedImages
 /storage/*.key
 /storage/app/public
+/storage/app/logs
 /vendor
 /tmp
 .env
