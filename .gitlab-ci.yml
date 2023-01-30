@@ -24,7 +24,7 @@ dev_deploy:
   tags:
     - cicd
   only:
-    - develop
+    - master
   script:
     - export CONTAINER_PREFIX=myblog
     - docker stop $(docker ps -a | grep ${CONTAINER_PREFIX}_ | awk '{print $1}') || true
