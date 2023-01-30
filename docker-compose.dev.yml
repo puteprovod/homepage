@@ -31,6 +31,7 @@ services:
       - APP_DEBUG=$APP_DEBUG
     volumes:
       - ./:/var/www
+      - /var/storage/${CONTAINER_PREFIX}/:/var/www/storage/app
     container_name: ${CONTAINER_PREFIX}_app
     depends_on:
         - db
