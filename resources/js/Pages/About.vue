@@ -3,6 +3,15 @@
         <title>О сайте</title>
     </Head>
     <div class="mt-5">
+        frontend: Inertia.js + TailwindCSS
+        </div>
+    <div class="mt-3">
+        backend: Laravel + PHP + MySQL
+    </div>
+    <div class="mt-3">
+        VPS set: Ubuntu + Nginx + SSL + Docker
+    </div>
+    <div class="mt-20">
         Сайт создан при огромной поддержке Леры.
     </div>
     <div>
