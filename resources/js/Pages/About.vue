@@ -3,7 +3,7 @@
         <title>О сайте</title>
     </Head>
     <div class="mt-5">
-        frontend: Inertia.js + TailwindCSS
+        frontend: InertiaJS + TailwindCSS
         </div>
     <div class="mt-3">
         backend: Laravel + PHP + MySQL

@@ -11,6 +11,9 @@ class Account extends Model
     protected $table = 'accounts';
     protected $guarded = [];
 
+    use HasFactory;
+    use Filterable;
+
     public static function calculateCosts()
     {
         $accounts = Account::all()->sortBy('id');
@@ -39,8 +42,6 @@ class Account extends Model
 
     }
 
-    use HasFactory;
-    use Filterable;
 
     public function category()
     {
