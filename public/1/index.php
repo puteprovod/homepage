@@ -1,4 +1,5 @@
 <?php
+echo 'its working';
 ?>
 <!DOCTYPE html>
 <html lang="en">
