@@ -6,7 +6,7 @@
         frontend: InertiaJS + TailwindCSS
         </div>
     <div class="mt-3">
-        backend: Laravel + PHP + MySQL
+        backend: Laravel + PHP (& some Python) + MySQL
     </div>
     <div class="mt-3">
         VPS set: Ubuntu + Nginx + SSL + Docker
