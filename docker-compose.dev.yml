@@ -75,4 +75,4 @@ services:
     depends_on:
       - nginx
     container_name: certbot
-    command: certonly --webroot --webroot-path=/var/work/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d subdomain.inshin.org inshin.org
+    command: certonly --webroot --webroot-path=/var/work/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d subdomain.inshin.org -d inshin.org
