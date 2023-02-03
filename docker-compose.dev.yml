@@ -70,11 +70,9 @@ services:
     image: certbot/certbot
     volumes:
       - ./:/var/www
-      - /var/www/myblog/:/var/work/
+      - /var/www/myblog:/var/work
       - /var/certbot/conf/:/etc/letsencrypt/
     depends_on:
       - nginx
     container_name: certbot
-    command: >
-      bash -c "certbot certonly --webroot --webroot-path=/var/www/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d inshin.org
-      && certbot certonly --webroot --webroot-path=/var/work/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d subdomain.inshin.org"
+    command: certonly --webroot --webroot-path=/var/work/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d subdomain.inshin.org
