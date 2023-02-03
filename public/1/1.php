@@ -9,7 +9,7 @@
 <body>
 
 <div>
-    <div style="display: inline-block; width: 30%">Цыплено1к</div>
+    <div style="display: inline-block; width: 30%">Цыпленок</div>
     <div style="display: inline-block">Отлично</div>
 </div>
 <div>
