@@ -70,7 +70,7 @@ services:
     image: certbot/certbot
     volumes:
       - ./:/var/www
-      - /var/www/myblog:/var/work
+      - /var/www/myblog/:/var/work/
       - /var/certbot/conf/:/etc/letsencrypt/
     depends_on:
       - nginx
