@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\UpdateRequest;
 use App\Models\Account;
-use App\Models\Currency;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateController extends Controller

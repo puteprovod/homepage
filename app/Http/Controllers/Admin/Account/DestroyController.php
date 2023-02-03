@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
-use App\Models\Currency;
 
 class DestroyController extends Controller
 {

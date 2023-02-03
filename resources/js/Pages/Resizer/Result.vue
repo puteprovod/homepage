@@ -36,10 +36,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <template v-for="(element,index,ix) in data">
+                        <template v-for="(element,index) in data">
                             <tr class="border-b">
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 text-center">
-                                    {{ ++ix }}
+                                    {{ ++index }}
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-4 py-3 text-center whitespace-nowrap">
                                     <img :src="element.preview_url" class="mx-auto" alt="image">

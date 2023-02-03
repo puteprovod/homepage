@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class ResizedImage extends Model
 {
     const SAVED_DAYS = 3; // COUNT OF DAYS WHILE IMAGES SAVED
+
     public static function clearOldEntries () {
         $currentTime = Carbon::now();
         $expiryTime = $currentTime->subDays(self::SAVED_DAYS)->toDateTimeString();

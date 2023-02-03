@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\UpdateIndexRequest;
 use App\Models\Account;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Inertia\Inertia;
 
 class UpdateOneController extends Controller
 {
