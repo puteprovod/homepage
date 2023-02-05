@@ -32,14 +32,5 @@ Route::controller(TodoController::class)->group(function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['namespace'=>'App\Http\Controllers\Post','middleware'=>'jwt.auth'], function () {
-    Route::get('/posts', 'IndexController');
-    Route::get('/posts/create', 'CreateController');
-    Route::patch('/posts/{post}', 'UpdateController');
-    Route::delete('/posts/{post}', 'DestroyController');
-    Route::get('/posts/{post}', 'ShowController');
-    Route::get('/posts/{post}/edit', 'EditController');
-    Route::post('/posts/', 'StoreController');
-});
 
 

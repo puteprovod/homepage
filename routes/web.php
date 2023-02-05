@@ -65,32 +65,16 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
 //    Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
 //});
 
-
+Route::get('/hexapawn', 'App\Http\Controllers\Hexapawn\IndexController')->name('hexapawn.index');
 Route::get('/resizer', 'App\Http\Controllers\Resizer\IndexController')->name('resizer.index');
 Route::get('/resizer/{token}', App\Http\Controllers\Resizer\ResultController::class);
 Route::get('/resizer/zip/{token}','App\Http\Controllers\Resizer\ZipController')->name('resizer.zip');
 Route::get('/resizer/zip','App\Http\Controllers\Resizer\ZipController');
 Route::get('/test','App\Http\Controllers\Resizer\TestController');
-
 Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
 Route::get('/currencies', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
-Route::get('/main', 'App\Http\Controllers\MainController@index')->name('main.index');
-Route::get('/sitemap', 'App\Http\Controllers\SitemapController@index')->name('sitemap.index');
-Route::get('/clubs', 'App\Http\Controllers\ClubController@index')->name('club.index');
 Route::get('/about', 'App\Http\Controllers\AboutController@index')->name('about');
 
-//POSTS CRUD
-Route::group(['namespace'=>'App\Http\Controllers\Post','prefix'=>'posts'],function() {
-    Route::get('/', 'IndexController')->name('posts.index');
-    Route::get('create', 'CreateController')->name('posts.create');
-    Route::patch('/{post}', 'UpdateController')->name('posts.update');
-    Route::delete('/{post}', 'DestroyController')->name('posts.destroy');
-    Route::get('/{post}', 'ShowController')->name('posts.show');
-    Route::get('/{post}/edit', 'EditController')->name('posts.edit');
-    Route::post('/', 'StoreController')->name('posts.store');
-});
-//Route::resource('posts', App\Http\Controllers\PostController::class);
 
 //Auth::routes();
-
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
