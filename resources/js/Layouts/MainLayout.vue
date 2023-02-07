@@ -31,9 +31,9 @@ input::-webkit-inner-spin-button {
                 <div :class="isOpen ? 'block' : 'hidden'" class="w-full md:block md:w-auto" id="navbar-default">
                     <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                         <li>
-                            <Link @click="selectMenu" id="hexapawnMenu" :href="route('hexapawn.index')"
+                            <Link @click="selectMenu" id="octopawnMenu" :href="route('octopawn.index')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
-                                Игра
+                                Octopawn
                             </Link>
                         </li>
                         <li>

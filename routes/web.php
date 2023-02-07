@@ -65,7 +65,7 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
 //    Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
 //});
 
-Route::get('/hexapawn', 'App\Http\Controllers\Hexapawn\IndexController')->name('hexapawn.index');
+Route::get('/octopawn', 'App\Http\Controllers\Octopawn\IndexController')->name('octopawn.index');
 Route::get('/resizer', 'App\Http\Controllers\Resizer\IndexController')->name('resizer.index');
 Route::get('/resizer/{token}', App\Http\Controllers\Resizer\ResultController::class);
 Route::get('/resizer/zip/{token}','App\Http\Controllers\Resizer\ZipController')->name('resizer.zip');
