@@ -35,6 +35,6 @@ class IndexController extends Controller
                 4 => 'white',
             ],
         ];
-        return inertia('Octopawn/Index', compact('startingField', 'squareSize')); //VIEW
+        return inertia('Octopawn/Index', compact('startingField', 'squareSize')); //VIEW1
     }
 }
