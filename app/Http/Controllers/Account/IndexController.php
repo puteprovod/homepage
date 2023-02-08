@@ -23,6 +23,6 @@ class IndexController extends Controller
         foreach ($accounts as $account) {
             $sum += $account['cost'];
         }
-        return inertia('Account/Index', compact('accounts', 'sum'));
+        return inertia('Account/Index', compact('accounts', 'sum'));  // VIEW
     }
 }
