@@ -9,7 +9,7 @@
             </div>
             <div class="w-96 h-5 inline-block">
                 <div v-for="index in squareSize"
-                     :class="'w-1/'+squareSize+' h-full text-center inline-block'">{{ letterNum(index) }}
+                     :class="'w-1/' + squareSize + ' h-full text-center inline-block'">{{ letterNum(index) }}
                 </div>
             </div>
         </div>
@@ -22,10 +22,11 @@
                 </table>
             </div>
             <div class="w-96 h-96 inline-block">
+                <input type="hidden" class="bg-stone-500"><input type="hidden" class="bg-stone-200">
                 <table class="h-full w-full border-0 border-black">
                     <tr v-for="(rows,index1,index3) in startingField" :class="'h-1/'+squareSize+' w-full'">
                         <td v-for="(row,index2) in rows"
-                            :class="'bg-stone-'+(5-(Number(++index3) % 2)*3)+'00 bg-contain w-1/'+squareSize"
+                            :class="'bg-stone-' + (5 - ++index3 % 2 * 3) +'00 bg-contain w-1/'+squareSize"
                             :id="'square['+index1+index2+']'">
                             <img v-if="(row!=='none')" :id="index1+index2" @mousedown="selectFigure"
                                  :src="'/img/'+row+'.png'" class="cursor-pointer" :alt="row">
