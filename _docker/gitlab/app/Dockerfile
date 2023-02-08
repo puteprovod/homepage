@@ -55,7 +55,7 @@ RUN composer dump-autoload  --no-scripts --optimize && \
     chmod -R 775 /var/www/storage && \
     chmod -R 775 /var/www/bootstrap/cache
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN apt-get -y install python3-pip
 RUN python3 -m pip install --upgrade pip
