@@ -2,7 +2,7 @@
     <Head>
         <title>Игра - Octopawn</title>
     </Head>
-    <div class="mt-5 text-center">Here would be octopawn game</div>
+    <div class="mt-5 text-center">Here will be octopawn game</div>
     <div class="mt-5">
         <div class="w-full hidden md:block">
             <div class="w-4 h-5 inline-block">
@@ -22,7 +22,7 @@
                 </table>
             </div>
             <div class="w-96 h-96 inline-block">
-                <input type="hidden" class="bg-stone-500"><input type="hidden" class="bg-stone-200">
+                <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden" class="bg-stone-200 w-1/4">
                 <table class="h-full w-full border-0 border-black">
                     <tr v-for="(rows,index1,index3) in startingField" :class="'h-1/'+squareSize+' w-full'">
                         <td v-for="(row,index2) in rows"
