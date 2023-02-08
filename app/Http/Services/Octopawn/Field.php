@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Hexapawn;
+namespace App\Http\Services\Octopawn;
 
 class Field
 {

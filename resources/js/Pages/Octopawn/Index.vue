@@ -48,13 +48,13 @@ export default {
     name: "index",
     layout: MainLayout,
     props: [
-        'startingField', 'squareSize'
+        'startingField', 'squareSize', 'playerColor'
     ],
     data() {
         return {
             selectedFigureId: 0,
+            variantsArray: [],
             squaresArray: [],
-            playerColor: 'white',
         }
     },
     mounted() {
@@ -62,55 +62,75 @@ export default {
     },
     methods: {
         selectFigure(event) {
-            if (document.getElementById(event.target.id).alt === this.playerColor) {
+            const target = event.target.id;
+            if (this.selectedFigureId>0 && this.variantsArray.includes(Number(target))) {
+                this.moveFigure(this.selectedFigureId, target);
+            } else if (document.getElementById(target).alt === this.playerColor) {
                 if (this.selectedFigureId > 0)
                     this.unmarkCursor();
-                this.selectedFigureId = event.target.id;
-                let selectedFigure = document.getElementById(this.selectedFigureId);
+                this.selectedFigureId = target;
+                let selectedFigure = document.getElementById(target);
 
                 selectedFigure.classList.add('bg-cyan-400');
                 this.drawVariants(this.checkVariants(this.selectedFigureId, selectedFigure.alt));
             } else {
-                this.clearVariants(this.squaresArray);
+                this.clearVariants();
                 if (this.selectedFigureId > 0) {
                     this.unmarkCursor();
                     this.selectedFigureId = 0;
                 }
+
             }
         },
         unmarkCursor() {
             document.getElementById(this.selectedFigureId).classList.remove('bg-cyan-400');
         },
-        clearVariants() {
+        clearVariants(exclude) {
             this.squaresArray.forEach(function (pos) {
-                document.getElementById(`square[${pos}]`).classList.remove('bg-move-variant');
+                if (pos!==exclude) {
+                    if (document.getElementById(pos).alt === 'none')
+                        document.getElementById(`square[${pos}]`).classList.remove('cursor-pointer');
+                    document.getElementById(`square[${pos}]`).classList.remove('bg-move-variant');
+                }
             });
+        },
+        moveFigure(figure, targetSquare) {
+
+            document.getElementById(targetSquare).alt = document.getElementById(figure).alt;
+            document.getElementById(targetSquare).src = document.getElementById(figure).src;
+            document.getElementById(targetSquare).classList.add('cursor-pointer');
+            document.getElementById(figure).alt = 'none';
+            document.getElementById(figure).classList.remove('cursor-pointer');
+            document.getElementById(figure).src='/img/none.png';
+            document.getElementById(figure).classList.remove('bg-cyan-400');
+            this.clearVariants(targetSquare);
+            this.selectedFigureId=0;
         },
         drawVariants(variants) {
             this.squaresArray.forEach(function (pos) {
                 document.getElementById(`square[${pos}]`).classList.remove('bg-move-variant');
             });
             variants.forEach(function (pos) {
-                document.getElementById(`square[${pos}]`).classList.add('bg-move-variant');
+                document.getElementById(`square[${pos}]`).classList.add('bg-move-variant', 'cursor-pointer');
             });
 
         },
         checkVariants(square, color) {
+            this.variantsArray = [];
             if (color !== this.playerColor) return false;
-            let variantsArray = [];
             square = Number(square);
             // MOVE VARIANTS
             const target = (color === 'white') ? square - 10 : square + 10;
             if (this.squaresArray.includes(target))
-                if (this.checkFigure(target)==='none') variantsArray.push(target);
+                if (this.checkFigure(target) === 'none') this.variantsArray.push(target);
             //EAT VARIANTS
             const targetLeft = (color === 'white') ? square - 11 : square + 11;
             const targetRight = (color === 'white') ? square - 9 : square + 9;
             if (this.squaresArray.includes(targetLeft))
-                if (this.checkFigure(targetLeft) === this.oppColor(color)) variantsArray.push(targetLeft);
+                if (this.checkFigure(targetLeft) === this.oppColor(color)) this.variantsArray.push(targetLeft);
             if (this.squaresArray.includes(targetRight))
-                if (this.checkFigure(targetRight) === this.oppColor(color)) variantsArray.push(targetRight);
-            return variantsArray;
+                if (this.checkFigure(targetRight) === this.oppColor(color)) this.variantsArray.push(targetRight);
+            return this.variantsArray;
         },
         checkFigure(square) {
             return document.getElementById(square).alt;
@@ -134,7 +154,7 @@ export default {
         generateSquaresArray() {
             for (let y = 1; y <= this.squareSize; y++) {
                 for (let x = 1; x <= this.squareSize; x++) {
-                    this.squaresArray.push(y*10+x);
+                    this.squaresArray.push(y * 10 + x);
                 }
             }
         }
