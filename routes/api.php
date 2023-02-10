@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
 
+    Route::post('/octopawn', App\Http\Controllers\Octopawn\AnalyzeController::class);
     Route::post('/resizer', App\Http\Controllers\Resizer\StorePyController::class);
   //  Route::post('/resizer', App\Http\Controllers\Resizer\StoreController::class);
     Route::get('/resizer', App\Http\Controllers\Resizer\ResultController::class);

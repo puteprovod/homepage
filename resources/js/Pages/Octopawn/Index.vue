@@ -24,17 +24,20 @@
             <div class="w-96 h-96 inline-block">
                 <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden" class="bg-stone-200 w-1/4">
                 <table class="h-full w-full border-0 border-black">
-                    <tr v-for="(rows,index1,index3) in startingField" :class="'h-1/'+squareSize+' w-full'">
+                    <tr v-for="(rows,index1) in startingField" :class="'h-1/'+squareSize+' w-full'">
                         <td v-for="(row,index2) in rows"
-                            :class="'bg-stone-' + (5 - ++index3 % 2 * 3) +'00 bg-contain w-1/'+squareSize"
-                            :id="'square['+index1+index2+']'">
-                            <img v-if="(row!=='none')" :id="index1+index2" @mousedown="selectFigure"
+                            :class="'bg-stone-' + (5 - (index1+index2+1) % 2 * 3) +'00 bg-contain w-1/'+squareSize"
+                            :id="'square['+String(index1+1)+String(index2+1)+']'">
+                            <img v-if="(row!=='none')" :id="String(index1+1)+String(index2+1)" @mousedown="selectFigure"
                                  :src="'/img/'+row+'.png'" class="cursor-pointer" :alt="row">
-                            <img v-else @mousedown="selectFigure" :id="index1+index2" :src="'/img/'+row+'.png'" class=""
+                            <img v-else @mousedown="selectFigure" :id="String(index1+1)+String(index2+1)" :src="'/img/'+row+'.png'" class=""
                                  alt="none"></td>
                     </tr>
                 </table>
             </div>
+        </div>
+        <div class="text-center text-xs mt-10 whitespace-normal w-96" id="serverResponse">
+            Server response
         </div>
 
     </div>
@@ -55,6 +58,8 @@ export default {
             selectedFigureId: 0,
             variantsArray: [],
             squaresArray: [],
+            situationBoard: [],
+            playerMove: true,
         }
     },
     mounted() {
@@ -62,6 +67,7 @@ export default {
     },
     methods: {
         selectFigure(event) {
+            if (!this.playerMove) return;
             const target = event.target.id;
             if (this.selectedFigureId>0 && this.variantsArray.includes(Number(target))) {
                 this.moveFigure(this.selectedFigureId, target);
@@ -94,6 +100,16 @@ export default {
                 }
             });
         },
+        boardSituation() {
+            let array1 = [];
+            for (let y = 0; y < this.squareSize; y++) {
+                array1[y] = [];
+                for (let x = 0; x < this.squareSize; x++) {
+                    array1[y][x]=document.getElementById(String((y+1) * 10 + (x+1))).alt;
+                }
+            }
+            return array1;
+        },
         moveFigure(figure, targetSquare) {
 
             document.getElementById(targetSquare).alt = document.getElementById(figure).alt;
@@ -105,6 +121,29 @@ export default {
             document.getElementById(figure).classList.remove('bg-cyan-400');
             this.clearVariants(targetSquare);
             this.selectedFigureId=0;
+            this.playerMove=!this.playerMove;
+            axios.post('/api/octopawn', {boardSituation: this.boardSituation(), color: this.oppColor(this.playerColor)})
+                .then(res => {
+                    document.getElementById('serverResponse').innerHTML = JSON.stringify(res.data);
+                    console.log(res.data);
+                    const figure = (res.data[1][1]+1)*10+res.data[1][0]+1;
+                    console.log(figure);
+                    const targetSquare = (res.data[1][3]+1)*10+res.data[1][2]+1;
+                    this.moveAIFigure(figure, targetSquare);
+                })
+                .catch(error => document.getElementById('serverResponse').innerHTML= error);
+        },
+        moveAIFigure(figure, targetSquare) {
+            document.getElementById(targetSquare).alt = document.getElementById(figure).alt;
+            document.getElementById(targetSquare).src = document.getElementById(figure).src;
+            document.getElementById(targetSquare).classList.add('cursor-pointer');
+            document.getElementById(figure).alt = 'none';
+            document.getElementById(figure).classList.remove('cursor-pointer');
+            document.getElementById(figure).src='/img/none.png';
+            document.getElementById(figure).classList.remove('bg-cyan-400');
+            this.clearVariants(targetSquare);
+            this.selectedFigureId=0;
+            this.playerMove=!this.playerMove;
         },
         drawVariants(variants) {
             this.squaresArray.forEach(function (pos) {

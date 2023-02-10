@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
+Route::get('/game', 'App\Http\Controllers\Octopawn\TestController');
 
 
 require __DIR__.'/auth.php';
