@@ -22,7 +22,7 @@
                 </table>
             </div>
             <div class="w-96 h-96 inline-block">
-                <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden" class="bg-stone-200 w-1/4">
+                <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden" class="bg-stone-200 w-1/4"><input type="hidden" class="bg-stone-200 w-1/5">
                 <table class="h-full w-full border-0 border-black">
                     <tr v-for="(rows,index1) in startingField" :class="'h-1/'+squareSize+' w-full'">
                         <td v-for="(row,index2) in rows"
@@ -129,7 +129,7 @@ export default {
                     const figure = (res.data[1][1]+1)*10+res.data[1][0]+1;
                     console.log(figure);
                     const targetSquare = (res.data[1][3]+1)*10+res.data[1][2]+1;
-                    this.moveAIFigure(figure, targetSquare);
+                    //this.moveAIFigure(figure, targetSquare);
                 })
                 .catch(error => document.getElementById('serverResponse').innerHTML= error);
         },
@@ -170,6 +170,10 @@ export default {
             if (this.squaresArray.includes(targetRight))
                 if (this.checkFigure(targetRight) === this.oppColor(color)) this.variantsArray.push(targetRight);
             return this.variantsArray;
+        },
+        checkEndGame(color){
+
+
         },
         checkFigure(square) {
             return document.getElementById(square).alt;

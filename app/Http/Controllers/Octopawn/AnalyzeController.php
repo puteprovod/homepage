@@ -14,7 +14,8 @@ class AnalyzeController extends Controller
         $data = $request->validated();
         $game = New Game($data['boardSituation']);
         $isMaximizing = $data['color']=='white';
-        $resultArray = $game->minimax($game->field,6,$isMaximizing);
+        //if ($game->isGameOver($game->field))
+        $resultArray = $game->minimax($game->field,8,$isMaximizing);
         return response()->json($resultArray);
         //return response()->json(['color' =>$data['color'],'boardSituatuion' => $data['boardSituation']]);
     }
