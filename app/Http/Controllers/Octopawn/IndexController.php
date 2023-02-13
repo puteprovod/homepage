@@ -10,7 +10,7 @@ class IndexController extends Controller
     public function __invoke()
     {
         $startingField = Game::STARTING_FIELD;
-        $squareSize = Game::SQUARE_SIZE;
+        $squareSize = Game::FIELD_SIZE;
         $playerColor = Game::PLAYER_COLOR;
         return inertia('Octopawn/Index', compact('startingField', 'squareSize', 'playerColor'));
     }

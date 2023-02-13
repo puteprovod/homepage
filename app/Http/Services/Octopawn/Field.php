@@ -4,102 +4,60 @@ namespace App\Http\Services\Octopawn;
 
 class Field
 {
+    public int $fieldSize;
     public array $squares;
-    public int $xSize;
-    public int $ySize;
     public array $figures;
 
-    public function __construct(array $field)
+    public function __construct(array $field, int $fieldSize)
     {
-        $ySize = Count($field);
-        $xSize = Count($field[0]);
-        for ($y = 0; $y < $ySize; $y++) {
-            for ($x = 0; $x < $xSize; $x++) {
+        for ($y = 0; $y < $fieldSize; $y++) {
+            for ($x = 0; $x < $fieldSize; $x++) {
                 $this->squares[$x][$y] = new Square($x, $y, $this->getFigureFromString($field[$y][$x], $x, $y));
-                if ($field[$y][$x] == 'white' or $field[$y][$x] == 'black') {
+                if ($this->squares[$x][$y]->figure)
                     $this->figures[] =& $this->squares[$x][$y]->figure;
-                }
             }
         }
-        $this->xSize = $xSize;
-        $this->ySize = $ySize;
+        $this->fieldSize = $fieldSize;
     }
+
     public function toArray(): array
     {
         $array = [];
-        for ($y=0; $y<$this->ySize;$y++){
-            for ($x=0; $x<$this->xSize;$x++){
-                if ($this->squares[$x][$y]->figure)
-                {
-                    ($this->squares[$x][$y]->figure->color == 1) ? $array[$y][] = 'white' : $array[$y][] = 'black' ;
-                }
-                else
-                {
-                    $array[$y][] = 'none' ;
+        for ($y = 0; $y < $this->fieldSize; $y++) {
+            for ($x = 0; $x < $this->fieldSize; $x++) {
+                if ($figure = $this->squares[$x][$y]->figure) {
+                    $array[$y][] = $figure->name;
+                } else {
+                    $array[$y][] = '';
                 }
             }
         }
         return $array;
     }
-    public function makeMove(Square $square1, Square $square2): void
-    {
-        $killMove = isset($square2->figure);
-        $square2->figure = clone $square1->figure;
-        $square2->figure->posX = $square2->xPos;
-        $square2->figure->posY = $square2->yPos;
-        $square1->figure = null;
-        if (!$killMove)
-            $this->figures[] = &$square2->figure;
-    }
 
-    public function simulateMove($posX, $posY, $targetX, $targetY): Field
+    public function simulateMove(int $posX, int $posY, int $targetX, int $targetY): Field
     {
-        $exchangeArray = $this->toArray();
-        $clonedField = New Field ($exchangeArray);
-        if (!$clonedField->squares[$posX][$posY]->figure) {
-            echo $posX . '-' . $posY . ' ' . $targetX . '-' . $targetY;
-        }
+        $clonedField = new Field ($this->toArray(), $this->fieldSize);
         $square1 = $clonedField->squares[$posX][$posY];
         $square2 = $clonedField->squares[$targetX][$targetY];
         $killMove = isset($square2->figure);
-        $square2->figure = clone $square1->figure;
+        $square2->figure = $square1->figure;
         $square2->figure->posX = $square2->xPos;
         $square2->figure->posY = $square2->yPos;
         $square1->figure = null;
-        //dump ($square1->figure);
-        //dump ($square2->figure);
         if (!$killMove)
             $clonedField->figures[] = &$square2->figure;
-        $clonedField->refreshFigures();
+        $clonedField->figures = array_filter($clonedField->figures);
         return $clonedField;
-
-    }
-
-    public function refreshFigures(): void
-    {
-        $figures = $this->figures;
-        foreach ($figures as $key => $figure)
-            if ($figure == null) {
-                unset ($this->figures[$key]);
-            }
-    }
-
-    public function getSquare($x, $y): Square
-    {
-        return $this->squares[$x][$y];
     }
 
     public function visualize(): string
     {
         $string = '';
-        for ($y = 0; $y < $this->ySize; $y++) {
-            for ($x = 0; $x < $this->xSize; $x++) {
-                $square = $this->getSquare($x, $y);
-                if ($square->figure) {
-                    $string .= $square->figure->color ;
-                } else {
-                    $string .= '_';
-                }
+        for ($y = 0; $y < $this->fieldSize; $y++) {
+            for ($x = 0; $x < $this->fieldSize; $x++) {
+                $square = $this->squares[$x][$y];
+                $string .= ($square->figure) ? $square->figure->color : '_';
             }
             $string .= PHP_EOL;
         }
@@ -108,12 +66,12 @@ class Field
 
     private function getFigureFromString(string $squareString, int $posX, int $posY): Figure|null
     {
-        switch ($squareString) {
-            case 'white':
-                return new Pawn(1, $posX, $posY);
-            case 'black':
-                return new Pawn(0, $posX, $posY);
-        }
-        return null;
+        return match ($squareString) {
+            'white' => new Pawn(true, $posX, $posY, $squareString),
+            'black' => new Pawn(false, $posX, $posY, $squareString),
+            'white spider' => new Spider(true, $posX, $posY, $squareString),
+            'black spider' => new Spider(false, $posX, $posY, $squareString),
+            default => null,
+        };
     }
 }

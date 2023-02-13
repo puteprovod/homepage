@@ -4,139 +4,117 @@ namespace App\Http\Services\Octopawn;
 
 class Game
 {
-    public const SQUARE_SIZE = 5; // FIELD SIZE
+    public const FIELD_SIZE = 5; // FIELD SIZE
     public const PLAYER_COLOR = 'white'; // WHITE MOVES FIRST
     public const STARTING_FIELD =
-        [["black", "black", "black", "black", "black"],
+        [["black", "black", "black","black","black"],
             ["none", "none", "none", "none", "none"],
             ["none", "none", "none", "none", "none"],
             ["none", "none", "none", "none", "none"],
             ["white", "white", "white", "white", "white"]];
-//    public const STARTING_FIELD = [["black", "black", "black"],
-//        ["none", "none", "none"],
-//        ["white", "white", "white"]];
+//    public const STARTING_FIELD =
+//        [["black", "black", "black"],
+//            ["none", "none", "none"],
+//            ["white", "white", "white"]];
+
+    private int $boardsAnalyzed=0;
     public Field $field;
 
-    public function __construct(array $field = self::STARTING_FIELD)
+    public function __construct(array $field = self::STARTING_FIELD, $fieldSize = self::FIELD_SIZE)
     {
-        $this->field = new Field($field);
+        $this->field = new Field($field, $fieldSize);
     }
 
-    public function minimax(Field $field, $depth, bool $isMaximizing): array
+    public function minimax(Field $field, int $depth, bool $isMaximizing, $alpha = -INF, $beta = +INF): array
     {
         $bestValue = ($isMaximizing) ? -INF : INF;
         $bestMove = null;
-        $color = ($isMaximizing == true) ? 1 : 0;
-        $validMoves = $this->getValidMoves($field,$color);
-
+        $validMoves = $this->getValidMoves($field, $isMaximizing);
         if ($depth == 0 || count($validMoves) == 0) {
-            return [$this->evaluateField($field,$color), null];
+            return [$this->evaluateField($field, $isMaximizing), null];
         }
-        //echo ('depth'.$depth.'<br>');
-        //echo ( '<br>ismaxx:'.$isMaximizing.'<br>');
         foreach ($validMoves as $move) {
-            //echo ('simulating move: '.$move[0].'-'.$move[1].'->'.$move[2].'-'.$move[3].'<br>');
-            //echo ('depth'.$depth.'<br>');
-            $boardAfterMove = $field->simulateMove($move[0],$move[1],$move[2],$move[3]);
-            //echo(nl2br($boardAfterMove->visualize()));
-            $value = $this->minimax($boardAfterMove, $depth - 1, !$isMaximizing)[0];
+            $boardAfterMove = $field->simulateMove($move[0], $move[1], $move[2], $move[3]);
+            $this->boardsAnalyzed++;
+            $value = $this->minimax($boardAfterMove, $depth - 1, !$isMaximizing, $alpha, $beta)[0];
             if ($isMaximizing && $value > $bestValue) {
                 $bestValue = $value;
                 $bestMove = $move;
+                $alpha = max($alpha, $value);
             } else if (!$isMaximizing && $value < $bestValue) {
                 $bestValue = $value;
                 $bestMove = $move;
+                $beta = min($beta, $value);
+            }
+            if ($beta < $alpha) {
+                break;
             }
         }
-        return [$bestValue, $bestMove];
+        return [$bestValue, $bestMove, $this->boardsAnalyzed];
     }
 
-    public function evaluateField(Field $field, $moveColor): float
+    public function evaluateField(Field $field, bool $moveColor): float
     {
         // определение конца игры -9999 | +9999
         $figures = $field->figures;
-        $blackFigureCount = 0;
-        $whiteFigureCount = 0;
+        $fieldSize = $field->fieldSize;
         $eval = 0;
         foreach ($figures as $figure) {
-            $isCenterFigure = ($figure->posX == floor($field->xSize / 2) or $figure->posX == ceil($field->xSize / 2) - 1);
-            if ($figure->color == 1) {
-                $isCenterFigure ? $eval += 1.5 : $eval++;
-                $eval+=($field->ySize-$figure->posY-1)/4;
-                $whiteFigureCount++;
+            if (str_contains($figure->name, 'spider')) {
+                ($figure->color) ? $eval += 3 : $eval -= 3;
             } else {
-                $isCenterFigure ? $eval += -1.5 : $eval--;
-                $eval-=($figure->posY)/5;
-                $blackFigureCount++;
+                $isFlankFigure = (($figure->posX == 0) or ($figure->posX == ($fieldSize - 1)));
+                if ($figure->color) {
+                    $isFlankFigure ? $eval++ : $eval += 1.7;
+                    $eval += ($fieldSize - $figure->posY - 1) / ($fieldSize);
+                } else {
+                    $isFlankFigure ? $eval-- : $eval -= 1.7;
+                    $eval -= ($figure->posY) / ($fieldSize);
+                }
+                if ($figure->posY == 0 and $figure->color) return 9999;                     // белые дошли до конца
+                if ($figure->posY == ($field->fieldSize - 1) and !$figure->color) return -9999;    // черные дошли до конца
             }
-            if ($figure->posY == 0 and $figure->color == 1) return 9999;                     // белые дошли до конца
-            if ($figure->posY == ($field->ySize - 1) and $figure->color == 0) return -9999;    // черные дошли до конца
         }
-        if ($whiteFigureCount == 0) return -9999;                           // если белых не осталось
-        if ($blackFigureCount == 0) return 9999;                            // если черных не осталось
-
-        if ($moveColor == 1)
-            if ($this->getValidMoves($field, 1) == [])
-                return -9999;                                                // если пат у черных
-        if ($moveColor == 0)
-            if ($this->getValidMoves($field, 0) == [])
-                return 9999;                                                 // если пат у белых
-        return $eval;
+        if ($this->getValidMoves($field, $moveColor) == [])
+            return ($moveColor) ? -9999 : +9999;
+        return round($eval, 3);
     }
-    public function isGameOver(Field $field, $moveColor): bool
+
+    public function isGameOver(Field $field): bool
     {
         // определение конца игры -9999 | +9999
-        $figures = $field->figures;
-        $blackFigureCount = 0;
-        $whiteFigureCount = 0;
-        $eval = 0;
-        foreach ($figures as $figure) {
-            if ($figure->color == 1) {
-                $whiteFigureCount++;
-            } else {
-                $blackFigureCount++;
+        foreach ($field->figures as $figure) {
+            if (!str_contains($figure->name, 'spider')) {
+                if ($figure->posY == 0 and $figure->color) return true;                     // белые дошли до конца
+                if ($figure->posY == ($field->fieldSize - 1) and !$figure->color and !str_contains($figure->name, 'spider')) return true;    // черные дошли до конца
             }
-            if ($figure->posY == 0 and $figure->color == 1) return true;                     // белые дошли до конца
-            if ($figure->posY == ($field->ySize - 1) and $figure->color == 0) return true;    // черные дошли до конца
         }
-        if ($whiteFigureCount == 0) return true;                           // если белых не осталось
-        if ($blackFigureCount == 0) return true;                            // если черных не осталось
-
         return false;
     }
-    public function makeMove($squareX, $squareY, $targetX, $targetY): void
-    {
-        $square = $this->field->getSquare($squareX, $squareY);
-        $target = $this->field->getSquare($targetX, $targetY);
-        $this->field->makeMove($square, $target);
-        $this->field->refreshFigures();
-    }
 
-    public function getValidMoves(Field $field, int $color): array
+    public function getValidMoves(Field $field, bool $color): array
     {
-        if ($this->isGameOver($field,$color)) return [];
+        if ($this->isGameOver($field)) return [];
         $variants = [];
         $figures = $field->figures;
+        $fieldSize = $field->fieldSize;
         foreach ($figures as $figure) {
             if ($figure->color == $color) {
                 $figureX = $figure->posX;
                 $figureY = $figure->posY;
-                $moves = $figure->moveArray;
-                $fights = $figure->fightArray;
-                $k = $color ? 1 : -1; // коэффициент, корректирующий ходы для черных пешек
-                foreach ($moves as $move) { // проверка возможности ходов
+                $moves = $figure->getMovesArray();
+                foreach ($moves as $move) {
+                    $k = $color ? 1 : -1;
                     $newX = $figureX + $move[0] * $k;
                     $newY = $figureY + $move[1] * $k;
-                    if (!(($newY >= $field->ySize or $newY < 0) or ($newX >= $field->xSize or $newX < 0)))
-                        if (!$field->squares[$newX][$newY]->figure)
-                            $variants[] = [$figureX, $figureY, $newX, $newY];
-                }
-                foreach ($fights as $fight) { // проверка возможности взятия чужих фигур
-                    $newX = $figureX + $fight[0] * $k;
-                    $newY = $figureY + $fight[1] * $k;
-                    if (!(($newY >= $field->ySize or $newY < 0) or ($newX >= $field->xSize or $newX < 0))) {
-                        if ($field->squares[$newX][$newY]->figure and $field->squares[$newX][$newY]->figure->color != $color)
-                            $variants[] = [$figureX, $figureY, $newX, $newY];
+                    if (!(($newY >= $fieldSize or $newY < 0) or ($newX >= $fieldSize or $newX < 0))) {
+                        if ($move[2]) {
+                            if ($field->squares[$newX][$newY]->figure and ($field->squares[$newX][$newY]->figure->color != $color))
+                                $variants[] = [$figureX, $figureY, $newX, $newY];
+                        } else {
+                            if (!$field->squares[$newX][$newY]->figure)
+                                $variants[] = [$figureX, $figureY, $newX, $newY];
+                        }
                     }
                 }
             }

@@ -22,7 +22,7 @@
                 </table>
             </div>
             <div class="w-96 h-96 inline-block">
-                <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden" class="bg-stone-200 w-1/4"><input type="hidden" class="bg-stone-200 w-1/5">
+                <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden" class="bg-stone-200 w-1/4 w-1/6"><input type="hidden" class="bg-stone-200 w-1/5">
                 <table class="h-full w-full border-0 border-black">
                     <tr v-for="(rows,index1) in startingField" :class="'h-1/'+squareSize+' w-full'">
                         <td v-for="(row,index2) in rows"
@@ -129,7 +129,7 @@ export default {
                     const figure = (res.data[1][1]+1)*10+res.data[1][0]+1;
                     console.log(figure);
                     const targetSquare = (res.data[1][3]+1)*10+res.data[1][2]+1;
-                    //this.moveAIFigure(figure, targetSquare);
+                    this.moveAIFigure(figure, targetSquare);
                 })
                 .catch(error => document.getElementById('serverResponse').innerHTML= error);
         },
@@ -159,16 +159,16 @@ export default {
             if (color !== this.playerColor) return false;
             square = Number(square);
             // MOVE VARIANTS
-            const target = (color === 'white') ? square - 10 : square + 10;
+            const target = (color.includes('white')) ? square - 10 : square + 10;
             if (this.squaresArray.includes(target))
                 if (this.checkFigure(target) === 'none') this.variantsArray.push(target);
             //EAT VARIANTS
-            const targetLeft = (color === 'white') ? square - 11 : square + 11;
-            const targetRight = (color === 'white') ? square - 9 : square + 9;
+            const targetLeft = (color.includes('white')) ? square - 11 : square + 11;
+            const targetRight = (color.includes('white')) ? square - 9 : square + 9;
             if (this.squaresArray.includes(targetLeft))
-                if (this.checkFigure(targetLeft) === this.oppColor(color)) this.variantsArray.push(targetLeft);
+                if (this.checkFigure(targetLeft).includes(this.oppColor(color))) this.variantsArray.push(targetLeft);
             if (this.squaresArray.includes(targetRight))
-                if (this.checkFigure(targetRight) === this.oppColor(color)) this.variantsArray.push(targetRight);
+                if (this.checkFigure(targetRight).includes(this.oppColor(color))) this.variantsArray.push(targetRight);
             return this.variantsArray;
         },
         checkEndGame(color){
