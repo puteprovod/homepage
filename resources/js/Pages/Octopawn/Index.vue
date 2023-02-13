@@ -129,7 +129,7 @@ export default {
                     const figure = (res.data[1][1]+1)*10+res.data[1][0]+1;
                     console.log(figure);
                     const targetSquare = (res.data[1][3]+1)*10+res.data[1][2]+1;
-                    this.moveAIFigure(figure, targetSquare);
+                    //this.moveAIFigure(figure, targetSquare);
                 })
                 .catch(error => document.getElementById('serverResponse').innerHTML= error);
         },
