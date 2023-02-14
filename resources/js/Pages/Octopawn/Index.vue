@@ -328,11 +328,11 @@ export default {
             const boardSituation = this.boardSituation();
             let variants = 0;
                 for (let x = 0; x < this.squareSize; x++) {
-                    if (boardSituation[0][x].includes('white')) return 'white';
-                    if (boardSituation[this.squareSize-1][x].includes('black')) return 'black';
+                    if (boardSituation[0][x]==='white') return 'white';
+                    if (boardSituation[this.squareSize-1][x]==='black') return 'black';
                     for (let y=0; y<this.squareSize; y++){
                         if (boardSituation[y][x].includes(color)){
-                            if (this.checkVariants((y+1)*10+x+1,color).length>0) {
+                            if (this.checkVariants((y+1)*10+x+1,color).length>0 || boardSituation[y][x]==='black spider') {
                                 variants++;
                             }
                         }

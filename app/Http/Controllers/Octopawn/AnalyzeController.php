@@ -18,7 +18,7 @@ class AnalyzeController extends Controller
         $startTime = $this->getTime();
         switch ($data['fieldSize']){
             case 999:
-                $depth = ($data['difficulty']) ? 8 : 6;
+                $depth = ($data['difficulty']) ? 7 : 6;
                 break;
             case 5:
                 $depth = ($data['difficulty']) ? 9 : 6;
