@@ -38,7 +38,7 @@
     </div>
     </div>
     <div class="mt-2">
-        <div class="w-full hidden md:block">
+        <div class="w-full hidden md:block ai-move">
             <div class="w-4 h-5 inline-block">
             </div>
             <div class="w-96 h-5 inline-block">
@@ -100,6 +100,7 @@ export default {
     data() {
         return {
             selectedFigureId: 0,
+            aiFigureId: 0,
             gameScore: [0, 0],
             variantsArray: [],
             squaresArray: [],
@@ -185,7 +186,7 @@ export default {
                 if (pos!==exclude) {
                     if (document.getElementById(pos).alt === 'none')
                         document.getElementById(`square[${pos}]`).classList.remove('cursor-pointer');
-                    document.getElementById(`square[${pos}]`).classList.remove('bg-move-variant');
+                        document.getElementById(`square[${pos}]`).classList.remove('bg-move-variant');
                 }
             });
         },
@@ -233,7 +234,9 @@ export default {
             this.clearVariants(targetSquare);
             this.selectedFigureId=0;
             this.playerMove=!this.playerMove;
-
+            console.log(this.aiFigureId);
+            if (this.aiFigureId>0)
+            document.getElementById(`square[${this.aiFigureId}]`).classList.remove('bg-move-ai');
             if (!this.ifEndGame(this.oppColor(this.playerColor))) {
                 axios.post('/api/octopawn', {
                     boardSituation: this.boardSituation(),
@@ -251,6 +254,8 @@ export default {
             }
         },
         moveAIFigure(figure, targetSquare) {
+            this.aiFigureId=targetSquare;
+            console.log(this.aiFigureId);
             document.getElementById(targetSquare).alt = document.getElementById(figure).alt;
             document.getElementById(targetSquare).src = document.getElementById(figure).src;
             document.getElementById(targetSquare).classList.add('cursor-pointer');
@@ -259,6 +264,8 @@ export default {
             document.getElementById(figure).src='/img/none.png';
             document.getElementById(figure).classList.remove('bg-cyan-400');
             this.clearVariants(targetSquare);
+            document.getElementById(targetSquare).classList.add('move-variant');
+            document.getElementById(`square[${targetSquare}]`).classList.add('bg-move-ai');
             this.selectedFigureId=0;
             this.playerMove=!this.playerMove;
             this.ifEndGame(this.playerColor);
@@ -267,8 +274,12 @@ export default {
             this.squaresArray.forEach(function (pos) {
                 document.getElementById(`square[${pos}]`).classList.remove('bg-move-variant');
             });
+            if (this.aiFigureId){
+                document.getElementById(`square[${this.aiFigureId}]`).classList.add('bg-move-ai');
+            }
             variants.forEach(function (pos) {
                 document.getElementById(`square[${pos}]`).classList.add('bg-move-variant', 'cursor-pointer');
+                document.getElementById(`square[${pos}]`).classList.remove('bg-move-ai');
             });
 
         },
@@ -298,10 +309,12 @@ export default {
                         document.getElementById('playerWinsBlock').classList.remove('hidden');
                         this.gameScore[0]++;
                         document.getElementById('playerWinsBlock').innerHTML = `Вы победили! (счëт ${this.gameScore[0]}:${this.gameScore[1]})`;
+                        this.playerMove = false;
                         break;
                     case "black":
                         document.getElementById('aiWinsBlock').classList.remove('hidden');
                         this.gameScore[1]++;
+                        this.playerMove = false;
                         document.getElementById('aiWinsBlock').innerHTML = `Победа ИИ (счëт ${this.gameScore[0]}:${this.gameScore[1]})`;
                         break;
                 }

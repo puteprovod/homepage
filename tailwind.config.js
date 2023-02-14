@@ -18,6 +18,7 @@ module.exports = {
             backgroundImage: {
                 'enter-image': "url('/img/enter.svg')",
                 'move-variant': "url('/img/selected.png')",
+                'move-ai': "url('/img/selectedai.png')",
             }
         },
     },
