@@ -16,12 +16,26 @@ class AnalyzeController extends Controller
         $isMaximizing = $data['color']=='white';
         //if ($game->isGameOver($game->field))
         $startTime = $this->getTime();
-        $resultArray = $game->minimax($game->field,10,$isMaximizing);
+        switch ($data['fieldSize']){
+            case 999:
+                $depth = ($data['difficulty']) ? 8 : 6;
+                break;
+            case 5:
+                $depth = ($data['difficulty']) ? 9 : 6;
+                break;
+            case 4:
+                $depth = ($data['difficulty']) ? 12 : 5;
+                break;
+            case 3:
+                $depth = ($data['difficulty']) ? 12 : 1;
+                break;
+        }
+        $resultArray = $game->minimax($game->field,$depth,$isMaximizing);
         $endTime = $this->getTime();
         $timeTaken = round(($endTime - $startTime),2);
-        $resultArray[] = $timeTaken.' sec';
+        $resultArray[] = $timeTaken;
 
-        $resultArray[] = ($timeTaken>0) ? round($resultArray[2]/$timeTaken,0).' b/s' : '- b/s';
+        $resultArray[] = ($timeTaken>0) ? round($resultArray[2]/$timeTaken,0): '-';
 
         return response()->json($resultArray);
         //return response()->json(['color' =>$data['color'],'boardSituatuion' => $data['boardSituation']]);

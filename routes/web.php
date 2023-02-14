@@ -66,6 +66,7 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
 //});
 
 Route::get('/octopawn', 'App\Http\Controllers\Octopawn\IndexController')->name('octopawn.index');
+Route::post('/octopawn', 'App\Http\Controllers\Octopawn\IndexController');
 Route::get('/resizer', 'App\Http\Controllers\Resizer\IndexController')->name('resizer.index');
 Route::get('/resizer/{token}', App\Http\Controllers\Resizer\ResultController::class);
 Route::get('/resizer/zip/{token}','App\Http\Controllers\Resizer\ZipController')->name('resizer.zip');

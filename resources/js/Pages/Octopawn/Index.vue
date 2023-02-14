@@ -2,8 +2,42 @@
     <Head>
         <title>Игра - Octopawn</title>
     </Head>
-    <div class="mt-5 text-center">Here will be octopawn game</div>
-    <div class="mt-5">
+    <div class="md:ml-4">
+    <div class="mt-5 text-center text-lg font-bold">Оctopawn</div>
+    <div class="text-center text-xs mt-5 ml-2 whitespace-normal mb-3 font-semibold">
+        <button @click="changeSize(3)"
+                :class="{'bg-blue-200' : this.fieldSize === 3 }"
+            class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+            type="submit">3x3
+        </button>
+        <button @click="changeSize(4)"
+                :class="{'bg-blue-200' : this.fieldSize === 4 }"
+            class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+            type="submit">4x4
+        </button>
+        <button @click="changeSize(5)"
+                :class="{'bg-blue-200' : this.fieldSize === 5 }"
+            class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+            type="submit">5x5
+        </button>
+        <button @click="changeSize(999)"
+                :class="{'bg-blue-200' : this.fieldSize === 999 }"
+            class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+            type="submit">fantasy
+        </button>
+    </div>
+    <div class="text-center text-xs mt-2 ml-2 whitespace-normal mb-5 font-semibold">
+        <button @click="changeDifficulty(0)"
+            :class="{'bg-blue-200' : this.difficulty === 0 }" class="mx-auto block p-1 mr-3 w-44 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+            type="submit">ИИ: легкий
+        </button>
+        <button @click="changeDifficulty(1)"
+            :class="{'bg-blue-200' : this.difficulty === 1 }" class="mx-auto block p-1 mr-3 w-44 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+            type="submit">ИИ: сложный
+        </button>
+    </div>
+    </div>
+    <div class="mt-2">
         <div class="w-full hidden md:block">
             <div class="w-4 h-5 inline-block">
             </div>
@@ -36,10 +70,20 @@
                 </table>
             </div>
         </div>
-        <div class="text-center text-xs mt-10 whitespace-normal w-96" id="serverResponse">
-            Server response
+        <div class="text-center text-lg text-green-800 font-bold w-96 mt-5 ml-2 hidden" id="playerWinsBlock">
+            Вы победили! (счëт 1-0)
         </div>
-
+        <div class="text-center text-lg text-red-800 font-bold w-96 mt-5 ml-2 hidden" id="aiWinsBlock">
+            Победа ИИ! (счëт 1-0)
+        </div>
+        <div class="text-center text-lg text-red-800 font-bold w-96 mt-5 ml-2 hidden" id="newGameButton">
+            <button @click="newGame"
+                class="mx-auto block p-1 mr-3 w-40 md:ml-3 bg-white hover:bg-blue-300 focus:ring-4 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                type="submit">Играть заново
+            </button>
+        </div>
+        <div class="text-center text-xs mt-5 text-gray-400 whitespace-normal ml-2 w-96" id="serverResponse">
+        </div>
     </div>
 </template>
 
@@ -51,21 +95,66 @@ export default {
     name: "index",
     layout: MainLayout,
     props: [
-        'startingField', 'squareSize', 'playerColor'
+        'startingField', 'squareSize', 'playerColor', 'difficulty', 'fieldSize'
     ],
     data() {
         return {
             selectedFigureId: 0,
+            gameScore: [0, 0],
             variantsArray: [],
             squaresArray: [],
             situationBoard: [],
+            difficultyButton: 0,
             playerMove: true,
+            pawnMoves: [[1, -1,true], [-1, -1,true], [0,-1,false]],
+            spiderMoves: [[0, -1,false], [0, 1,false], [-1, 0,false], [1, 0,false],
+                [1, -1,false], [-1, -1,false], [-1, 1,false], [1, 1,false],
+                [0, -1,true], [0, 1,true], [-1, 0,true], [1, 0,true],
+                [1, -1,true], [-1, -1,true], [-1, 1,true], [1, 1,true]],
         }
     },
     mounted() {
         this.generateSquaresArray();
     },
     methods: {
+        changeDifficulty(difficulty) {
+            if (this.difficulty !== difficulty) {
+                this.$inertia.visit('/octopawn', {
+                    method: 'post',
+                    data: {
+                        fieldSize: this.fieldSize,
+                        difficulty: difficulty
+                    },
+                });
+            }
+        },
+        changeSize(size) {
+            if (this.fieldSize !== size) {
+                this.$inertia.visit('/octopawn', {
+                    method: 'post',
+                    data: {
+                        fieldSize: size,
+                        difficulty: this.difficulty,
+                    },
+                });
+            }
+        },
+        newGame(){
+            let pos = 0;
+            for (let y = 0; y < this.squareSize; y++) {
+                for (let x = 0; x < this.squareSize; x++) {
+                    pos = (y+1)*10+x+1;
+                    document.getElementById(pos).alt = this.startingField[y][x];
+                    document.getElementById(pos).src = `/img/${this.startingField[y][x]}.png`;
+                }
+            }
+            this.playerMove = true;
+            document.getElementById('aiWinsBlock').classList.add('hidden');
+            document.getElementById('playerWinsBlock').classList.add('hidden');
+            document.getElementById('serverResponse').classList.remove('hidden');
+            document.getElementById('serverResponse').innerHTML='';
+            document.getElementById('newGameButton').classList.add('hidden');
+        },
         selectFigure(event) {
             if (!this.playerMove) return;
             const target = event.target.id;
@@ -110,8 +199,30 @@ export default {
             }
             return array1;
         },
+        drawInfoBlock(data){
+            let score = data [0];
+            const timeTaken = data [3];
+            const speed = data [4];
+            let advantageText = '';
+            switch (true){
+                case score>=9000:
+                advantageText = 'Белые победят';
+                    break;
+                case score>=1:
+                    advantageText = 'Преимущество белых';
+                    break;
+                case score>=-0.999:
+                    advantageText = 'Равенство';
+                    break;
+                case score>=-9000:
+                    advantageText = 'Преимущество черных';
+                    break;
+                default:
+                    advantageText = 'Черные победят';
+            }
+            document.getElementById('serverResponse').innerHTML=`${advantageText} (${score}) - счет ${this.gameScore[0]}-${this.gameScore[1]} - ${timeTaken} сек. - ${speed} д/с.`;
+        },
         moveFigure(figure, targetSquare) {
-
             document.getElementById(targetSquare).alt = document.getElementById(figure).alt;
             document.getElementById(targetSquare).src = document.getElementById(figure).src;
             document.getElementById(targetSquare).classList.add('cursor-pointer');
@@ -122,16 +233,22 @@ export default {
             this.clearVariants(targetSquare);
             this.selectedFigureId=0;
             this.playerMove=!this.playerMove;
-            axios.post('/api/octopawn', {boardSituation: this.boardSituation(), color: this.oppColor(this.playerColor)})
-                .then(res => {
-                    document.getElementById('serverResponse').innerHTML = JSON.stringify(res.data);
-                    console.log(res.data);
-                    const figure = (res.data[1][1]+1)*10+res.data[1][0]+1;
-                    console.log(figure);
-                    const targetSquare = (res.data[1][3]+1)*10+res.data[1][2]+1;
-                    //this.moveAIFigure(figure, targetSquare);
+
+            if (!this.ifEndGame(this.oppColor(this.playerColor))) {
+                axios.post('/api/octopawn', {
+                    boardSituation: this.boardSituation(),
+                    color: this.oppColor(this.playerColor),
+                    difficulty: this.difficulty,
+                    fieldSize: this.fieldSize,
                 })
-                .catch(error => document.getElementById('serverResponse').innerHTML= error);
+                    .then(res => {
+                        this.drawInfoBlock(res.data);
+                        const figure = (res.data[1][1] + 1) * 10 + res.data[1][0] + 1;
+                        const targetSquare = (res.data[1][3] + 1) * 10 + res.data[1][2] + 1;
+                        this.moveAIFigure(figure, targetSquare);
+                    })
+                    .catch(error => document.getElementById('serverResponse').innerHTML = error);
+            }
         },
         moveAIFigure(figure, targetSquare) {
             document.getElementById(targetSquare).alt = document.getElementById(figure).alt;
@@ -144,6 +261,7 @@ export default {
             this.clearVariants(targetSquare);
             this.selectedFigureId=0;
             this.playerMove=!this.playerMove;
+            this.ifEndGame(this.playerColor);
         },
         drawVariants(variants) {
             this.squaresArray.forEach(function (pos) {
@@ -156,30 +274,67 @@ export default {
         },
         checkVariants(square, color) {
             this.variantsArray = [];
-            if (color !== this.playerColor) return false;
+            //if (color !== this.playerColor) return false;
             square = Number(square);
             // MOVE VARIANTS
-            const target = (color.includes('white')) ? square - 10 : square + 10;
+                const target = (color.includes('white')) ? square - 10 : square + 10;
             if (this.squaresArray.includes(target))
-                if (this.checkFigure(target) === 'none') this.variantsArray.push(target);
-            //EAT VARIANTS
-            const targetLeft = (color.includes('white')) ? square - 11 : square + 11;
-            const targetRight = (color.includes('white')) ? square - 9 : square + 9;
-            if (this.squaresArray.includes(targetLeft))
-                if (this.checkFigure(targetLeft).includes(this.oppColor(color))) this.variantsArray.push(targetLeft);
-            if (this.squaresArray.includes(targetRight))
-                if (this.checkFigure(targetRight).includes(this.oppColor(color))) this.variantsArray.push(targetRight);
+                    if (this.checkFigure(target) === 'none') this.variantsArray.push(target);
+                //EAT VARIANTS
+                const targetLeft = (color.includes('white')) ? square - 11 : square + 11;
+                const targetRight = (color.includes('white')) ? square - 9 : square + 9;
+                //console.log(square, color, this.oppColor(color), target,targetLeft,targetRight);
+                if (this.squaresArray.includes(targetLeft))
+                    if (this.checkFigure(targetLeft).includes(this.oppColor(color))) this.variantsArray.push(targetLeft);
+                if (this.squaresArray.includes(targetRight))
+                    if (this.checkFigure(targetRight).includes(this.oppColor(color))) this.variantsArray.push(targetRight);
             return this.variantsArray;
         },
+        ifEndGame(color){
+            const isEndGame = this.checkEndGame(color);
+            if (isEndGame) {
+                switch (isEndGame) {
+                    case "white":
+                        document.getElementById('playerWinsBlock').classList.remove('hidden');
+                        this.gameScore[0]++;
+                        document.getElementById('playerWinsBlock').innerHTML = `Вы победили! (счëт ${this.gameScore[0]}:${this.gameScore[1]})`;
+                        break;
+                    case "black":
+                        document.getElementById('aiWinsBlock').classList.remove('hidden');
+                        this.gameScore[1]++;
+                        document.getElementById('aiWinsBlock').innerHTML = `Победа ИИ (счëт ${this.gameScore[0]}:${this.gameScore[1]})`;
+                        break;
+                }
+                document.getElementById('newGameButton').classList.remove('hidden');
+                document.getElementById('serverResponse').classList.add('hidden');
+                return true;
+            }
+            return false;
+        },
         checkEndGame(color){
-
-
+            const boardSituation = this.boardSituation();
+            let variants = 0;
+                for (let x = 0; x < this.squareSize; x++) {
+                    if (boardSituation[0][x].includes('white')) return 'white';
+                    if (boardSituation[this.squareSize-1][x].includes('black')) return 'black';
+                    for (let y=0; y<this.squareSize; y++){
+                        if (boardSituation[y][x].includes(color)){
+                            if (this.checkVariants((y+1)*10+x+1,color).length>0) {
+                                variants++;
+                            }
+                        }
+                    }
+                }
+            if (variants===0){
+                return this.oppColor(color);
+            }
+            return null;
         },
         checkFigure(square) {
             return document.getElementById(square).alt;
         },
         oppColor(color) {
-            return (color === 'white') ? 'black' : color;
+            return (color === 'white') ? 'black' : 'white';
         },
         letterNum(numb) {
             const letArray = {

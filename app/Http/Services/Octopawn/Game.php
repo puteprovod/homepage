@@ -4,24 +4,19 @@ namespace App\Http\Services\Octopawn;
 
 class Game
 {
-    public const FIELD_SIZE = 5; // FIELD SIZE
-    public const PLAYER_COLOR = 'white'; // WHITE MOVES FIRST
     public const STARTING_FIELD =
         [["black", "black", "black","black","black"],
             ["none", "none", "none", "none", "none"],
             ["none", "none", "none", "none", "none"],
             ["none", "none", "none", "none", "none"],
             ["white", "white", "white", "white", "white"]];
-//    public const STARTING_FIELD =
-//        [["black", "black", "black"],
-//            ["none", "none", "none"],
-//            ["white", "white", "white"]];
 
     private int $boardsAnalyzed=0;
     public Field $field;
 
-    public function __construct(array $field = self::STARTING_FIELD, $fieldSize = self::FIELD_SIZE)
+    public function __construct(array $field = self::STARTING_FIELD)
     {
+        $fieldSize=count($field[0]);
         $this->field = new Field($field, $fieldSize);
     }
 

@@ -4,11 +4,8 @@ namespace App\Http\Requests\Octopawn;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnalyzeRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
-    public function jsonSerialize() {
-        return (object) get_object_vars($this);
-    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,10 +24,8 @@ class AnalyzeRequest extends FormRequest
     public function rules()
     {
         return [
-            'boardSituation' => 'required|array',
-            'color' => 'required|string',
-            'difficulty' => 'required|integer',
-            'fieldSize' => 'required|integer'
+            'fieldSize' => 'integer',
+            'difficulty' => 'integer'
         ];
     }
 }
