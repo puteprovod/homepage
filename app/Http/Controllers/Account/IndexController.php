@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Account\AccountResource;
 use App\Models\Account;
+use App\Models\AccountHistory;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
@@ -23,6 +25,15 @@ class IndexController extends Controller
         foreach ($accounts as $account) {
             $sum += $account['cost'];
         }
-        return inertia('Account/Index', compact('accounts', 'sum'));  // VIEW
+        $saveDate = Carbon::now()->format('d.m.Y');
+        if (AccountHistory::all()->last()) {
+            $historyDate = AccountHistory::all()->last()->shot_date;
+            $history = AccountHistory::all()->where('shot_date', $historyDate);
+            $historyDate = Carbon::parse($historyDate)->format('d.m.Y');
+        }else{
+            $history='';
+            $historyDate='';
+        }
+        return inertia('Account/Index', compact('accounts', 'sum','saveDate','history', 'historyDate'));  // VIEW
     }
 }

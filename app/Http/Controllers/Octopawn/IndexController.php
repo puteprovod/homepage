@@ -15,7 +15,7 @@ class IndexController extends Controller
         $difficulty = $data['difficulty'] ?? 0;
         $startingField = self::FIELDS[$fieldSize];
         $squareSize = 0;
-        switch ($fieldSize){
+        switch ($fieldSize) {
             case 3:
                 $squareSize = 3;
                 break;
@@ -31,6 +31,7 @@ class IndexController extends Controller
         return inertia('Octopawn/Index', compact('startingField', 'squareSize', 'playerColor', 'difficulty', 'fieldSize'));
 
     }
+
     private const PLAYER_COLOR = 'white'; // WHITE MOVES FIRST
     private const FIELDS = [
         3 =>

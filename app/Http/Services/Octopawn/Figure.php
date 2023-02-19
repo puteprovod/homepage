@@ -16,4 +16,5 @@ abstract class Figure
         $this->name = $name;
 
     }
+
 }
