@@ -45,17 +45,18 @@ class AccountResource extends JsonResource
                     $cost = ceil($value * $currency->exchange_rate * $usd);
                 }
             ($this->category_id==26) ? $title = 'Наличные1' : $title = $this->title;
-            return [
-                'id' => $this->id,
-                'title' => mb_substr($title,0,17,'UTF-8'),
-                'value' => $value,
-                'cost' => $cost,
-                'category_title' => $this->category_title,
-                'currency_title' => $this->currency_title,
-                'category_id' => $this->category_id,
-                'image' => $this->image,
-                'comment' => '',
-            ];
+                    return [
+                        'id' => $this->id,
+                        'title' => mb_substr($title, 0, 17, 'UTF-8'),
+                        'value' => $value,
+                        'cost' => $cost,
+                        'category_title' => $this->category_title,
+                        'currency_title' => $this->currency_title,
+                        'category_id' => $this->category_id,
+                        'image' => $this->image,
+                        'comment' => '',
+                    ];
+
         }
     }
 }

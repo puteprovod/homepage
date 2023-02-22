@@ -7,6 +7,7 @@ use App\Http\Resources\Account\AccountResource;
 use App\Models\Account;
 use App\Models\AccountHistory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
@@ -20,20 +21,28 @@ class IndexController extends Controller
             ->select('accounts.*', 'categories.title as category_title', 'currencies.title as currency_title')
             ->orderBy('categories.title')
             ->get();
-        $sum = 0;
         $accounts = AccountResource::collection($accounts)->resolve();
-        foreach ($accounts as $account) {
-            $sum += $account['cost'];
-        }
         $saveDate = Carbon::now()->format('d.m.Y');
-        if (AccountHistory::all()->last()) {
-            $historyDate = AccountHistory::all()->last()->shot_date;
-            $history = AccountHistory::all()->where('shot_date', $historyDate);
-            $historyDate = Carbon::parse($historyDate)->format('d.m.Y');
-        }else{
-            $history='';
-            $historyDate='';
+        $history=[];
+        $historyDates=[];
+        $historyDatesCollection = DB::table('account_histories')
+            ->select('shot_date')->orderByDesc('shot_date')->distinct()->get();
+        $role=Auth::user() ? Auth::user()['role'] : '';
+        if ($role!='admin'){
+            $i=0;
+            foreach ($accounts as $account) {
+                if ($i++%2==0)
+                    unset ($accounts[$i]);
+
+            }
         }
-        return inertia('Account/Index', compact('accounts', 'sum','saveDate','history', 'historyDate'));  // VIEW
+        if ($historyDatesCollection and $role=='admin') {
+            foreach ($historyDatesCollection as $date) {
+                $historyDate = $date->shot_date;
+                $history[] = AccountHistory::all()->where('shot_date', $historyDate);
+                $historyDates[] = Carbon::parse($historyDate)->format('d.m.Y');
+            }
+        }
+        return inertia('Account/Index', compact('accounts', 'saveDate','history', 'historyDates'));  // VIEW
     }
 }
