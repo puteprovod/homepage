@@ -11,6 +11,15 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('admin.accounts.history.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-coins"></i>
+                <p>
+                    История счетов
+                    <span class="badge badge-info right"></span>
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('admin.currencies.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-money-bill-wave"></i>
                 <p>
@@ -19,5 +28,6 @@
                 </p>
             </a>
         </li>
+
     </ul>
 </nav>

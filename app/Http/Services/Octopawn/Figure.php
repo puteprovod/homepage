@@ -16,5 +16,5 @@ abstract class Figure
         $this->name = $name;
 
     }
-
+    abstract public function getMovesArray(): array;
 }

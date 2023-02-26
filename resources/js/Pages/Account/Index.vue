@@ -101,7 +101,7 @@
                                                placeholder="Выбрать дату" :value="saveDate">
                                     </div>
                                     <div class="inline-block">
-                                        <button
+                                        <button id="saveBtn"
                                             class="block p-2 pl-10 pr-10 mt-5 bg-blue-800 hover:bg-blue-700 text-lg border text-white"
                                             type="submit">Сохранить в историю
                                         </button>
@@ -110,7 +110,7 @@
                             </td>
                             <td colspan="100%"
                                 class="text-sm text-right mt-5 text-gray-900 px-4 pt-5 text-lg whitespace-nowrap">
-                                <span class="font-bold">Общий баланс счетов: </span><span ref="finalCost" class="font-bold underline"></span> <span ref="finalCostChange" class="font-weight-normal text-base pl-2"></span></td>
+                                <span class="font-bold mr-1">Общий баланс: </span><span ref="finalCost" class="font-bold underline"></span> <span ref="finalCostChange" class="font-weight-normal text-base pl-2"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -148,7 +148,6 @@ export default {
     },
     computed: {},
     mounted() {
-        console.log(history);
         this.newFinalCost();
         this.historyPageCount = this.historyDates.length;
         const datepickerEl = document.getElementById('el1');
@@ -186,7 +185,9 @@ export default {
                     this.showStatusData(id)
                 })
                 .catch(error => console.log(error));
-
+            document.getElementById("saveBtn").classList.remove('bg-gray-500');
+            document.getElementById("saveBtn").classList.add('bg-blue-800','hover:bg-blue-700');
+            document.getElementById("saveBtn").disabled = false;
         },
         newFinalCost() {
             let costSum = 0;
@@ -196,6 +197,7 @@ export default {
                 costSum += parseInt(els[i].value);
             }
             // console.log('the end');
+            console.log(costSum);
             this.finalCost = costSum;
             this.$refs.finalCost.textContent = this.formatCost(costSum);
         },
@@ -285,7 +287,6 @@ export default {
             for (const [key, item] of Object.entries(arr)) {
                 sum += item.cost;
             }
-            console.log(arr);
             return sum;
         },
         saveToHistory() {
@@ -295,8 +296,10 @@ export default {
                 this.history.unshift(res.data.history);
                 this.historyPage = 0;
                 this.drawHistory(this.history[0]);
-                console.log(this.history);
             }).catch(error => console.log(error));
+            document.getElementById("saveBtn").disabled = true;
+            document.getElementById("saveBtn").classList.remove('bg-blue-800','hover:bg-blue-700');
+            document.getElementById("saveBtn").classList.add('bg-gray-500');
         },
         changeHistoryPage(isRight){
             (isRight) ? this.historyPage++ : this.historyPage--;

@@ -53,6 +53,8 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Cur
 });
 Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Account','prefix'=>'admin/accounts'],function () {
     Route::get('/', 'IndexController')->name('admin.accounts.index');
+    Route::delete('/history/{dateTime}', 'History\DestroyController')->name('admin.accounts.history.destroy');
+    Route::get('/history', 'History\IndexController')->name('admin.accounts.history.index');
     Route::get('create', 'CreateController')->name('admin.accounts.create');
     Route::patch('/{account}', 'UpdateController')->name('admin.accounts.update');
     Route::delete('/{account}', 'DestroyController')->name('admin.accounts.destroy');

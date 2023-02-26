@@ -68,7 +68,7 @@
                                 <input type="file" name="image" class="form-control" id="image"
                                        value="{{ old('image') }}" placeHolder="image">
                                 </div>
-                                <div class="pt-2 p-2" id=imageHelp" class="pl-3"><i>Любые форматы</i></div>
+                                <div class="pt-2 p-2 pl-3" id=imageHelp"><i>Любые форматы</i></div>
                                 @error('image')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
