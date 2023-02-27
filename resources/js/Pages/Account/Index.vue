@@ -1,10 +1,10 @@
 <template>
     <Head>
-        <title>Счета</title>
+        <title>{{ localize('Accounts') }}</title>
     </Head>
     <input type="hidden" data-id-page="accounts">
     <div v-if="!$page.props.auth.user" class="mt-4 text-center">
-        <p class="bg-yellow-100 border-yellow-200 text-sm">Внимание: значения полей генерируются случайно</p>
+        <p class="bg-yellow-100 border-yellow-200 text-sm">{{ localize('WarningRandom') }}</p>
     </div>
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -18,23 +18,26 @@
                                 ##
                             </th>
                             <th scope="col" class="text-sm font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Название счета
+                                {{ localize('AccountName') }}
                             </th>
                             <th scope="col"
                                 class="text-sm hidden lg:table-cell font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Вид счета
+                                {{ localize('AccountType') }}
                             </th>
                             <th scope="col" colspan="2"
                                 class="text-sm text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Баланс
+                                {{ localize('Balance') }}
                             </th>
                             <th scope="col"
                                 class="text-sm hidden md:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Стоимость в ₽
+                                {{ localize('CostRubles') }}
                             </th>
                             <th v-if="$page.props.auth.user" scope="col"
                                 class="text-sm hidden xl:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                <a @click="changeHistoryPage(false)" href="#" id="leftLink">&lt;</a> <span id="historyTh"></span> <a @click="changeHistoryPage(true)" href="#" id="rightLink">&gt;</a>
+                                <a @click="changeHistoryPage(false)" href="#" id="leftLink"
+                                   :class="{'hidden': this.historyPage===0}">&lt;</a> <span id="historyTh"></span> <a
+                                @click="changeHistoryPage(true)" href="#" id="rightLink"
+                                :class="{'hidden': this.historyPage===(this.historyPageCount-1)}">&gt;</a>
                             </th>
                         </tr>
                         </thead>
@@ -46,10 +49,10 @@
                                      :src="'/storage/'+account.image">
                             </td>
                             <td class="text-sm text-gray-900 font-light px-4 py-3">
-                                {{ account.title }}
+                                {{ localizeAccountName(account.title) }}
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap hidden lg:table-cell text-sm font-medium text-gray-900">
-                                {{ account.category_title }}
+                                {{ localizeAccountCategory(account.category_title) }}
                             </td>
                             <td class="text-sm text-gray-900 font-light whitespace-nowrap">
                                 <div class="inline-block ml-2"><input @input="onKeyDown(account.id)"
@@ -98,19 +101,22 @@
                                         </div>
                                         <input id="el1" type="text"
                                                class="bg-gray-50 border w-44 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-lg"
-                                               placeholder="Выбрать дату" :value="saveDate">
+                                               placeholder="{{ localize('SelectDate') }}" :value="saveDate">
                                     </div>
                                     <div class="inline-block">
-                                        <button id="saveBtn"
-                                            class="block p-2 pl-10 pr-10 mt-5 bg-blue-800 hover:bg-blue-700 text-lg border text-white"
-                                            type="submit">Сохранить в историю
+                                        <button id="saveBtn" :class="saveButtonClasses" :disabled="!saveButtonStatus"
+                                                class="block p-2 pl-10 pr-10 mt-5 text-lg border text-white"
+                                                type="submit">{{ localize('SaveToHistory') }}
                                         </button>
                                     </div>
                                 </form>
                             </td>
                             <td colspan="100%"
                                 class="text-sm text-right mt-5 text-gray-900 px-4 pt-5 text-lg whitespace-nowrap">
-                                <span class="font-bold mr-1">Общий баланс: </span><span ref="finalCost" class="font-bold underline"></span> <span ref="finalCostChange" class="font-weight-normal text-base pl-2"></span></td>
+                                <span class="font-bold mr-1">{{ localize('OverallBalance') }}: </span><span
+                                ref="finalCost"
+                                class="font-bold underline"></span>
+                                <span ref="finalCostChange" class="font-weight-normal text-base pl-2"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -124,7 +130,7 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import Datepicker from 'flowbite-datepicker/Datepicker';
-
+import localizeFilter from "@/Filters/localize";
 
 export default {
     name: "index",
@@ -140,13 +146,22 @@ export default {
             historyCurrent: null,
             historyPage: 0,
             historyPageCount: 0,
-            finalCost: 0
+            finalCost: 0,
+            saveButtonStatus: true,
         }
     },
     components: {
         Link, Head
     },
-    computed: {},
+    computed: {
+        saveButtonClasses: function () {
+            return {
+                'bg-blue-800': this.saveButtonStatus,
+                'hover:bg-blue-700': this.saveButtonStatus,
+                'bg-gray-500': !this.saveButtonStatus
+            }
+        }
+    },
     mounted() {
         this.newFinalCost();
         this.historyPageCount = this.historyDates.length;
@@ -175,6 +190,41 @@ export default {
         }
     },
     methods: {
+        localize(key) {
+            return localizeFilter(key, window.lang || 'ru-RU')
+        },
+        localizeAccountName(name) {
+            if (window.lang === 'en-US') {
+                if (name.indexOf('Наличные1') !== -1)
+                    return ('Some cash');
+                if (name.indexOf('Вклад в') !== -1)
+                    return ('Some bank account');
+                if (name.indexOf('Счет в') !== -1)
+                    return ('Some bank account');
+                if (name.indexOf('Ипотечный счет') !== -1)
+                    return ('Mortgage account');
+                if (name.indexOf('Дебетовая карта') !== -1)
+                    return ('Some debit card');
+            } else {
+                return name;
+            }
+        },
+        localizeAccountCategory(name) {
+            if (window.lang === 'en-US') {
+                if (name.indexOf('Банковская карта') !== -1)
+                    return ('Bank card');
+                if (name.indexOf('Вклад') !== -1)
+                    return ('Bank deposit');
+                if (name.indexOf('Банковский счет') !== -1)
+                    return ('Bank account');
+                if (name.indexOf('Криптовалютный счет') !== -1)
+                    return ('Cryptocurrency account');
+                if (name.indexOf('Наличные средства') !== -1)
+                    return ('Сash');
+            } else {
+                return name;
+            }
+        },
         updateAccount(id) {
             const editedValue = document.getElementById(`value[${id}]`).value;
             // this.$inertia.patch(`/accounts/${id}`, { id: id, value: editedValue });
@@ -185,9 +235,7 @@ export default {
                     this.showStatusData(id)
                 })
                 .catch(error => console.log(error));
-            document.getElementById("saveBtn").classList.remove('bg-gray-500');
-            document.getElementById("saveBtn").classList.add('bg-blue-800','hover:bg-blue-700');
-            document.getElementById("saveBtn").disabled = false;
+            this.saveButtonStatus = true;
         },
         newFinalCost() {
             let costSum = 0;
@@ -208,7 +256,7 @@ export default {
                 currencyDisplay: 'symbol',
                 maximumFractionDigits: 0
             }).format(number);
-            return (addPlus && number>0) ? '+'+formattedString : formattedString;
+            return (addPlus && number > 0) ? '+' + formattedString : formattedString;
         },
         showStatusData(id) {
             if (this.statusData === "ok") {
@@ -252,22 +300,9 @@ export default {
             }
         },
         drawHistory(arrayOfHistories) {
-            let $historyHTML = this.historyDates[this.historyPage];
-            if (this.historyPage===0){
-                document.getElementById('leftLink').className = 'hidden';
-                document.getElementById('rightLink').className = '';
-            }
-            else if (this.historyPage===(this.historyPageCount-1)){
-                document.getElementById('rightLink').className = 'hidden';
-                document.getElementById('leftLink').className = '';
-            }
-            else {
-                document.getElementById('rightLink').className = '';
-                document.getElementById('leftLink').className = '';
-            }
-            document.getElementById('historyTh').innerHTML = $historyHTML;
+            document.getElementById('historyTh').innerHTML = this.historyDates[this.historyPage];
 
-            for (const [key, item] of Object.entries(arrayOfHistories)) {
+            for (const [, item] of Object.entries(arrayOfHistories)) {
                 let editedValue = document.getElementById(`value[${item.account_id}]`).value - item.value;
                 if (editedValue === 0) {
                     editedValue = '---'
@@ -280,11 +315,11 @@ export default {
                 }
                 document.getElementById(`history[${item.account_id}]`).innerHTML = editedValue;
             }
-            this.$refs.finalCostChange.textContent = '( '+this.formatCost(this.finalCost-this.historySum(this.history[this.historyPage]),true)+' )';
+            this.$refs.finalCostChange.textContent = '( ' + this.formatCost(this.finalCost - this.historySum(this.history[this.historyPage]), true) + ' )';
         },
-        historySum (arr) {
+        historySum(arr) {
             let sum = 0;
-            for (const [key, item] of Object.entries(arr)) {
+            for (const [, item] of Object.entries(arr)) {
                 sum += item.cost;
             }
             return sum;
@@ -297,11 +332,9 @@ export default {
                 this.historyPage = 0;
                 this.drawHistory(this.history[0]);
             }).catch(error => console.log(error));
-            document.getElementById("saveBtn").disabled = true;
-            document.getElementById("saveBtn").classList.remove('bg-blue-800','hover:bg-blue-700');
-            document.getElementById("saveBtn").classList.add('bg-gray-500');
+            this.saveButtonStatus = false;
         },
-        changeHistoryPage(isRight){
+        changeHistoryPage(isRight) {
             (isRight) ? this.historyPage++ : this.historyPage--;
             this.drawHistory(this.history[this.historyPage]);
         }

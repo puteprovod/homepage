@@ -36,7 +36,7 @@ class AccountResource extends JsonResource
         {
 
                 $currency = Currency::find($this->currency_id);
-            ($currency->title=='BTC' || $currency->title=='ETH') ? $value = rand (0, 10) : $value = rand (0, 50000);
+            ($currency->title=='BTC' || $currency->title=='ETH') ? $value = rand (0, 5)/10 : $value = rand (0, 10000);
             if ($this->category_id==24) $value=-$value;
                 if ($currency->source == 'cbr' or $currency->source == 'rub') {
                     $cost = ceil($value * $currency->exchange_rate);

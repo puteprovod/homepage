@@ -9,6 +9,7 @@ use App\Models\AccountHistory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class IndexController extends Controller
 {

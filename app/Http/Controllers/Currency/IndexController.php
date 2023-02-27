@@ -8,16 +8,16 @@ use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Inertia\Inertia;
 
 class IndexController extends Controller
 {
-    public function __invoke()
+    public function __invoke(String $newLang = '')
     {
-
         $errorMessage=Currency::refreshFromAPI();
         $currencies = Currency::All()->sortByDesc('priority');
         $currencies = CurrencyResource::collection($currencies)->resolve();
-        return inertia('Currency/Index', compact('currencies','errorMessage'));
+        return inertia('Currency/Index', compact('currencies','errorMessage', 'newLang'));
 
     }
 }
