@@ -1,9 +1,9 @@
 <template>
     <Head>
-        <title>Resizer</title>
+        <title>{{ localize('ResizeResultTitle') }}</title>
     </Head>
     <div class="text-center font-bold mt-8">
-        Результат обработки изображений
+        {{ localize('ResizeResultTitle') }}
     </div>
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -16,22 +16,22 @@
                                 #
                             </th>
                             <th scope="col" class="text-sm font-medium font-bold text-gray-900 px-6 py-4 text-center">
-                                Изображение
+                                {{ localize('Image') }}
                             </th>
                             <th scope="col" class="text-sm font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Название файла
+                                {{ localize('FileName') }}
                             </th>
                             <th scope="col"
                                 class="text-sm hidden md:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Размер изображения
+                                {{ localize('ImageSize') }}
                             </th>
                             <th scope="col"
                                 class="text-sm hidden md:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Размер файла
+                                {{ localize('FileSize') }}
                             </th>
                             <th scope="col"
                                 class="text-sm hidden md:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                Скачать
+                                {{ localize('Download') }}
                             </th>
                         </tr>
                         </thead>
@@ -65,7 +65,7 @@
                                         {{ this.timeTaken }} sec. (Py: {{ this.timeTakenPy }} sec.)
                                     </div>
                                 <div class="inline-block ml-auto text-right">
-                                    <a :href="route('resizer.zip', { token: token })" class="text-blue-800 font-bold hover:underline ">Скачать все файлы одним архивом
+                                    <a :href="route('resizer.zip', { token: token })" class="text-blue-800 font-bold hover:underline ">{{ localize('DownloadAllFiles') }}
                                     (~{{ sizeSum }} MB)</a>
                                 </div>
                                 </div>
@@ -86,6 +86,7 @@
 
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
+import localizeFilter from "@/Filters/localize";
 
 export default {
     name: "index",
@@ -107,6 +108,11 @@ export default {
         const urlParams = new URLSearchParams(queryString);
         this.timeTaken = urlParams.get('timeTaken')
         this.timeTakenPy = urlParams.get('timeTakenPy')
+    },
+    methods: {
+        localize(key) {
+            return localizeFilter(key, window.lang || 'ru-RU')
+        },
     }
 }
 </script>

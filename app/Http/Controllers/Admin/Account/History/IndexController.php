@@ -25,6 +25,6 @@ class IndexController extends Controller
                 'cost' =>  number_format( AccountHistory::all()->where('shot_date',$historyDate)->sum('cost'), 0, ',', ' ' )
             ];
         }
-        return view('admin.account.history.index', compact('accountHistories'));
+        return view('admin.Account.history.index', compact('accountHistories'));
     }
 }

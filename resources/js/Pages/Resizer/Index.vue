@@ -3,17 +3,17 @@
         <title>Resizer</title>
     </Head>
     <div class="text-center font-bold mt-8">
-        Быстрое изменение размера изображений (resizer)
+        {{ localize('QuickImageResizing') }} (resizer)
     </div>
     <div ref="errorBox" class="hidden mt-4 text-center">
-        <p class="bg-red-100 border-red-200 text-sm">Ошибка: не загружено изображение или не указаны целевые размеры!</p>
+        <p class="bg-red-100 border-red-200 text-sm">{{ localize('ErrorNoImage') }}</p>
     </div>
     <div class="hidden" ref="progressBox">
         <div class="text-center">
             <img src="/img/spinner.gif" class="mx-auto" alt="processing images...">
         </div>
         <div class="mx-auto text-center">
-            Обработка изображений...
+            {{ localize('ProcessingImages') }}
         </div>
     </div>
     <div class="h-48 mt-3" ref="inputFormBox">
@@ -22,24 +22,23 @@
                  class="border-dashed bg-blue-100 cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-80 align-middle text-center">
                 <div class="dz-message">
                 <div class="mb-4">
-                    Перетащите файлы сюда или <b>кликните</b> чтобы загрузить
+                    {{ localize('DragFilesHereOr') }} <b>{{ localize('Click') }}</b> {{ localize('ToUpload') }}
                 </div>
                 <div class="text-gray-500 mb-5 dz-message">
                     (jpg, png, gif... )
                 </div>
                 <div class="text-gray-500 mb-5 dz-message">
-                    Максимум: 300 шт., общий размер - не более 300 Мб
+                    {{ localize('Maximum') }}: 300 {{ localize('ImagesCount') }}, {{ localize('TotalImageSize') }} - {{ localize('NoMore') }} 300 Mb
                 </div>
                     </div>
-                <div v-if="viewErrors.images" class="text-red-700">Не загружены файлы</div>
-
+                <div v-if="viewErrors.images" class="text-red-700">{{ localize('FilesNotUploaded') }}</div>
             </div>
         </div>
         <div class="inline-block p-6 align-top">
             <form @submit.prevent="store">
                 <div class="mb-5">
                     <div class="inline-block text-sm w-44">
-                        Заданная ширина (px):
+                        {{ localize('TargetWidth') }} (px):
                     </div>
                     <div class="inline-block">
                         <input v-model="targetWidth" class="rounded-full w-28 border-gray-400" type="number">
@@ -47,13 +46,13 @@
                     <div class="inline-block ml-2">
                         <a @click="keepWidth = !keepWidth" class="btn cursor-pointer text-lg"
                            :class="keepWidth ? '' : 'text-gray-100 opacity-20'"
-                           title="Зафиксировать предельную ширину при изменении размера">🔒</a>
+                           title="{{ localize('FixWidth') }}">🔒</a>
                     </div>
-                    <div v-if="viewErrors.targetWidth" class="text-red-700">Не заполнено поле</div>
+                    <div v-if="viewErrors.targetWidth" class="text-red-700">{{ localize('FieldNotFilled') }} </div>
                 </div>
                 <div class="mb-5">
                     <div class="inline-block text-sm w-44">
-                        Заданная высота (px):
+                        {{ localize('TargetHeight') }} (px):
                     </div>
                     <div class="inline-block">
                         <input v-model="targetHeight" class="rounded-full w-28 border-gray-400" type="number">
@@ -61,22 +60,21 @@
                     <div class="inline-block ml-2">
                         <a @click="keepHeight = !keepHeight" class="btn cursor-pointer text-lg"
                            :class="keepHeight ? '' : 'text-gray-100 opacity-20'"
-                           title="Зафиксировать предельную ширину при изменении размера">🔒</a>
+                           title="{{ localize('FixHeight') }}">🔒</a>
                     </div>
-                    <div v-if="viewErrors.targetHeight" class="text-red-700">Не заполнено поле</div>
+                    <div v-if="viewErrors.targetHeight" class="text-red-700">{{ localize('FieldNotFilled') }}</div>
                 </div>
                 <div class="mb-5">
                     <div class="text-center mb-4">
                         <input v-model="keepAspectRatio" type="checkbox" value=""
                                class="w-4 h-4 text-blue-600 bg-gray-200 rounded border-gray-400 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label @click="keepAspectRatio=!keepAspectRatio" for="default-checkbox" class="cursor-pointer ml-2 text-sm font-medium text-sm text-gray-900">Сохранить
-                            соотношение сторон</label>
+                        <label @click="keepAspectRatio=!keepAspectRatio" for="default-checkbox" class="cursor-pointer ml-2 text-sm font-medium text-sm text-gray-900">{{ localize('KeepAspectRatio') }}</label>
                     </div>
                 </div>
                 <div class="mb-5">
                     <button
                         class="mx-auto block p-1 w-64 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 border rounded-full text-center text-white"
-                        type="submit">Обработать изображения
+                        type="submit">{{ localize('ProcessImages') }}
                     </button>
                 </div>
             </form>
@@ -91,6 +89,8 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Dropzone from 'dropzone'
 import MainLayout from "@/Layouts/MainLayout.vue";
+import localizeFilter from "@/Filters/localize";
+
 
 export default {
     name: "index",
@@ -139,6 +139,9 @@ export default {
         Link, Head
     },
     methods: {
+        localize(key) {
+            return localizeFilter(key, window.lang || 'ru-RU')
+        },
         store() {
             this.$refs.progressBox.classList.remove('hidden');
             this.$refs.inputFormBox.classList.add('hidden');

@@ -195,7 +195,7 @@ export default {
         },
         localizeAccountName(name) {
             if (window.lang === 'en-US') {
-                if (name.indexOf('Наличные1') !== -1)
+                if (name.indexOf('Наличные') !== -1)
                     return ('Some cash');
                 if (name.indexOf('Вклад в') !== -1)
                     return ('Some bank account');

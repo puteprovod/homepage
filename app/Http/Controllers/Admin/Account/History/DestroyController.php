@@ -11,6 +11,6 @@ class DestroyController extends Controller
     {
         $history = AccountHistory::where('shot_date',$dateTime);
         $history->delete();
-        return redirect()->route('admin.accounts.history.index');
+        return redirect()->route('admin.Accounts.history.index');
     }
 }
