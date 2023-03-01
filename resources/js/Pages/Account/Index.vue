@@ -69,7 +69,7 @@
                                                                                    style="width: 25px; height: 25px;"
                                                                                    alt="V"></div>
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
+                            <td :id="'index['+account.id+']'" class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
                                 {{ account.currency_title }}
                             </td>
                             <td class="text-sm hidden md:table-cell text-gray-900 font-light px-4 py-3 whitespace-nowrap">
@@ -303,16 +303,30 @@ export default {
             document.getElementById('historyTh').innerHTML = this.historyDates[this.historyPage];
 
             for (const [, item] of Object.entries(arrayOfHistories)) {
+                const currency = document.getElementById(`index[${item.account_id}]`).innerHTML;
                 let editedValue = document.getElementById(`value[${item.account_id}]`).value - item.value;
                 if (editedValue === 0) {
                     editedValue = '---'
                     document.getElementById(`history[${item.account_id}]`).className = '';
                 } else if (editedValue > 0) {
+                    editedValue = Intl.NumberFormat('ru-RU', {
+                        style: 'currency',
+                        currency: currency,
+                        currencyDisplay: 'symbol',
+                        maximumFractionDigits: (currency==='BTC' || currency==='ETH') ? 6 : 0,
+                    }).format(editedValue);
                     editedValue = '+' + editedValue.toString();
                     document.getElementById(`history[${item.account_id}]`).className = 'text-green-700 font-bold';
                 } else if (editedValue < 0) {
+                    editedValue = Intl.NumberFormat('ru-RU', {
+                        style: 'currency',
+                        currency: currency,
+                        currencyDisplay: 'symbol',
+                        maximumFractionDigits: (currency==='BTC' || currency==='ETH') ? 6 : 0,
+                    }).format(editedValue);
                     document.getElementById(`history[${item.account_id}]`).className = 'text-red-700 font-bold';
                 }
+
                 document.getElementById(`history[${item.account_id}]`).innerHTML = editedValue;
             }
             this.$refs.finalCostChange.textContent = '( ' + this.formatCost(this.finalCost - this.historySum(this.history[this.historyPage]), true) + ' )';
