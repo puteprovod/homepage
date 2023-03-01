@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>О сайте</title>
+        <title>{{ localize('About') }}</title>
     </Head>
     <div class="mt-5">
         frontend: InertiaJS + TailwindCSS
@@ -12,22 +12,28 @@
         VPS set: Ubuntu + Nginx + SSL + Docker
     </div>
     <div class="mt-20">
-        Сайт создан при огромной поддержке Леры.
+        {{ localize('SiteWasMade') }}
     </div>
     <div>
-        Без тебя я бы не был тем кто я есть :)
+        {{ localize('WhoAmI') }}
     </div>
 </template>
 
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
+import localizeFilter from "@/Filters/localize";
 
 export default {
     name: "index",
     layout: MainLayout,
     components: {
         Link, Head
+    },
+    methods: {
+        localize(key) {
+            return localizeFilter(key, window.lang || 'ru-RU')
+        },
     }
 }
 </script>

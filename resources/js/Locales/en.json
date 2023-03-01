@@ -57,6 +57,9 @@
     "ImageSize" : "Image size",
     "FileSize" : "File size",
     "Download" : "Download",
-    "DowloadAllFiles" : "Download all files",
-    "NoImages" : "No images available"
+    "DownloadAllFiles" : "Download all files",
+    "NoImages" : "No images available",
+    "About" : "About",
+    "SiteWasMade" : "The site was created with the great support of Lera.",
+    "WhoAmI" : "I wouldn't be who I am without you :)"
 }

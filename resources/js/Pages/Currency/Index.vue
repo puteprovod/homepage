@@ -85,7 +85,7 @@ export default {
                     currency: currency,
                     currencyDisplay: 'name',
                     maximumFractionDigits: 0
-                }).format(1);
+                }).format(1).slice(2);
             }
             else {
                 return currencyRuTitle;
