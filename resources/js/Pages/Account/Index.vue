@@ -116,7 +116,7 @@
                                 <span class="font-bold mr-1">{{ localize('OverallBalance') }}: </span><span
                                 ref="finalCost"
                                 class="font-bold underline"></span>
-                                <span ref="finalCostChange" class="font-weight-normal text-base pl-2"></span></td>
+                                <span @click="finalCostChangeView" ref="finalCostChange" class="font-weight-normal text-base pl-2 cursor-pointer"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -148,6 +148,8 @@ export default {
             historyPageCount: 0,
             finalCost: 0,
             saveButtonStatus: true,
+            finalCostOldCourses: false,
+            finalCostTextArray: []
         }
     },
     components: {
@@ -332,8 +334,10 @@ export default {
                 document.getElementById(`history[${item.account_id}]`).innerHTML = editedValue;
             }
             const historySum = this.historySum(this.history[this.historyPage]);
-            this.$refs.finalCostChange.textContent = '( ' + this.formatCost(this.finalCost - historySum, true) + ' )';
-            this.$refs.finalCostChange.title = 'в старых курсах валют: ( ' + this.formatCost(oldCourseSum - historySum, true) + ' )';
+            this.finalCostTextArray[0] = '( ' + this.formatCost(this.finalCost - historySum, true) + ' )';
+            this.$refs.finalCostChange.textContent = this.finalCostTextArray[0];
+            this.finalCostTextArray[1] = '(⇔ ' + this.formatCost(oldCourseSum - historySum, true) + ' )';
+            this.$refs.finalCostChange.title = this.finalCostTextArray[1];
 
         },
         historySum(arr) {
@@ -356,6 +360,15 @@ export default {
         changeHistoryPage(isRight) {
             (isRight) ? this.historyPage++ : this.historyPage--;
             this.drawHistory(this.history[this.historyPage]);
+        },
+        finalCostChangeView(){
+            this.finalCostOldCourses = !this.finalCostOldCourses;
+            if (this.finalCostOldCourses) {
+                this.$refs.finalCostChange.textContent = this.finalCostTextArray[1];
+            }
+            else {
+                this.$refs.finalCostChange.textContent = this.finalCostTextArray[0];
+            }
         }
     }
 }
