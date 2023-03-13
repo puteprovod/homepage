@@ -20,7 +20,7 @@ input::-webkit-inner-spin-button {
                         ad astra
                     </div>
                 </Link>
-                <div class="flex items-center md:order-2">
+                <div class="flex items-center md:order-2 relative">
                     <button @click="isLangOpen = !isLangOpen" id="langTriggerButton"
                             :class="isLangOpen ? 'invisible' : 'block'" type="button"
                             data-dropdown-toggle="language-dropdown-menu"
