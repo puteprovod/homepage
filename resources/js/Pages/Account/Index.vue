@@ -300,11 +300,13 @@ export default {
             }
         },
         drawHistory(arrayOfHistories) {
+            let oldCourseSum = 0;
             document.getElementById('historyTh').innerHTML = this.historyDates[this.historyPage];
-
             for (const [, item] of Object.entries(arrayOfHistories)) {
                 const currency = document.getElementById(`index[${item.account_id}]`).innerHTML;
                 let editedValue = document.getElementById(`value[${item.account_id}]`).value - item.value;
+                if (item.value > 0)
+                oldCourseSum += document.getElementById(`value[${item.account_id}]`).value * (item.cost/item.value);
                 if (editedValue === 0) {
                     editedValue = '---'
                     document.getElementById(`history[${item.account_id}]`).className = '';
@@ -329,7 +331,10 @@ export default {
 
                 document.getElementById(`history[${item.account_id}]`).innerHTML = editedValue;
             }
-            this.$refs.finalCostChange.textContent = '( ' + this.formatCost(this.finalCost - this.historySum(this.history[this.historyPage]), true) + ' )';
+            const historySum = this.historySum(this.history[this.historyPage]);
+            this.$refs.finalCostChange.textContent = '( ' + this.formatCost(this.finalCost - historySum, true) + ' )';
+            this.$refs.finalCostChange.title = 'в старых курсах валют: ( ' + this.formatCost(oldCourseSum - historySum, true) + ' )';
+
         },
         historySum(arr) {
             let sum = 0;
