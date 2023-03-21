@@ -17,14 +17,15 @@ import {
     ArcElement
 } from 'chart.js'
 import {Pie} from 'vue-chartjs'
-
 ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.defaults.font.size = 16;
+
 
 export default {
     name: "index",
     layout: MainLayout,
     props: [
-      'labels', 'datasets', 'percentages'
+        'labels', 'datasets', 'percentages'
     ],
     components: {
         Link, Head, Pie
@@ -50,18 +51,26 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 18,
+                            }
+                        }
+                    },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
-                               let label = context.dataset.data[context.dataIndex];
+                            label: function (context) {
+                                let label = context.dataset.data[context.dataIndex];
                                 let formattedString = Intl.NumberFormat('ru-RU', {
                                     style: 'currency',
                                     currency: 'RUB',
                                     currencyDisplay: 'symbol',
                                     maximumFractionDigits: 0
                                 }).format(label);
-                               let percentString = context.dataset.percentages[context.dataIndex].toFixed(1)+'%';
-                                return ' '+formattedString+' = '+percentString;
+                                let percentString = context.dataset.percentages[context.dataIndex].toFixed(1) + '%';
+                                return ' ' + formattedString + ' = ' + percentString;
                             }
                         }
                     }
