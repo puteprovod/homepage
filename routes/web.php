@@ -78,7 +78,7 @@ Route::get('/test','App\Http\Controllers\Resizer\TestController');
 Route::get('/accounts', 'App\Http\Controllers\Account\IndexController')->name('accounts.index');
 Route::get('/currencies', 'App\Http\Controllers\Currency\IndexController')->name('currencies.index');
 Route::get('/about', 'App\Http\Controllers\AboutController@index')->name('about');
-
+Route::get('/chart', 'App\Http\Controllers\ChartController@index')->name('chart');
 
 //Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
