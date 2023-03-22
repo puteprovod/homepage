@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Account\AccountResource;
 use App\Models\Account;
 use App\Models\AccountHistory;
+use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,8 @@ class IndexController extends Controller
                 $historyDates[] = Carbon::parse($historyDate)->format('d.m.Y');
             }
         }
-        return inertia('Account/Index', compact('accounts', 'saveDate','history', 'historyDates'));  // VIEW
+        $chartValues = ($role=='admin') ? Account::getChartValues() : '';
+
+        return inertia('Account/Index', compact('accounts', 'saveDate','history', 'historyDates','chartValues'));  // VIEW
     }
 }

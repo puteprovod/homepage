@@ -1,15 +1,10 @@
 <template>
-    <Head>
-        <title>Chart</title>
-    </Head>
-    <div class="mt-5 w-[32rem] h-[32rem]">
+    <div class="mt-5 lg:w-[32rem] lg:h-[32rem]">
         <Pie :data="data" :options="options"/>
     </div>
 </template>
 
 <script>
-import {Head, Link} from "@inertiajs/inertia-vue3";
-import MainLayout from "@/Layouts/MainLayout.vue";
 import {
     Chart as ChartJS,
     Tooltip,
@@ -23,12 +18,11 @@ ChartJS.defaults.font.size = 16;
 
 export default {
     name: "index",
-    layout: MainLayout,
     props: [
         'labels', 'datasets', 'percentages'
     ],
     components: {
-        Link, Head, Pie
+        Pie
     },
     data() {
         return {

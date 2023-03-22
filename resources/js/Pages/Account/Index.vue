@@ -113,7 +113,7 @@
                             </td>
                             <td colspan="100%"
                                 class="text-sm text-right mt-5 text-gray-900 px-4 pt-5 text-lg whitespace-nowrap">
-                                <span class="font-bold mr-1">{{ localize('OverallBalance') }}: </span><span
+                                <span @click.prevent="showChart" class="font-bold mr-1 cursor-pointer">{{ localize('OverallBalance') }}:</span><span
                                 ref="finalCost"
                                 class="font-bold underline"></span>
                                 <span @click="finalCostChangeView" ref="finalCostChange" class="font-weight-normal text-base pl-2 cursor-pointer"></span></td>
@@ -124,19 +124,39 @@
             </div>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="h-5/6 w-full">
+            <span @click.prevent="closeChart" class="close">&times;</span>
+            <Pie :data="chartData" :options="chartOptions"/>
+            </div>
+        </div>
 
+    </div>
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import Datepicker from 'flowbite-datepicker/Datepicker';
 import localizeFilter from "@/Filters/localize";
+import {
+    Chart as ChartJS,
+    Tooltip,
+    Legend,
+    ArcElement
+} from 'chart.js'
+import {Pie} from 'vue-chartjs'
+ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.defaults.font.size = 16;
+
 
 export default {
     name: "index",
     layout: MainLayout,
     props: [
-        'accounts', 'status', 'saveDate', 'history', 'historyDates'
+        'accounts', 'status', 'saveDate', 'history', 'historyDates', 'chartValues'
     ],
     data() {
         return {
@@ -149,11 +169,56 @@ export default {
             finalCost: 0,
             saveButtonStatus: true,
             finalCostOldCourses: false,
-            finalCostTextArray: []
+            finalCostTextArray: [],
+            chartData: {
+                labels: this.chartValues.labels,
+                datasets: [
+                    {
+                        data: this.chartValues.datasets,
+                        percentages: this.chartValues.percentages,
+                        backgroundColor: [
+                            "#147BA3",
+                            "#F04D6C",
+                            '#35BBF0',
+                            "#F0E51D",
+                            "#A39C1C"
+                        ]
+                    }]
+            },
+            chartOptions: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 18,
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.data[context.dataIndex];
+                                let formattedString = Intl.NumberFormat('ru-RU', {
+                                    style: 'currency',
+                                    currency: 'RUB',
+                                    currencyDisplay: 'symbol',
+                                    maximumFractionDigits: 0
+                                }).format(label);
+                                let percentString = context.dataset.percentages[context.dataIndex].toFixed(1) + '%';
+                                return ' ' + formattedString + ' = ' + percentString;
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     },
     components: {
-        Link, Head
+        Link, Head, Pie
     },
     computed: {
         saveButtonClasses: function () {
@@ -192,6 +257,12 @@ export default {
         }
     },
     methods: {
+        showChart() {
+            document.getElementById("myModal").style.display = "block";
+        },
+        closeChart() {
+            document.getElementById("myModal").style.display = "none";
+        },
         localize(key) {
             return localizeFilter(key, window.lang || 'ru-RU')
         },
@@ -247,7 +318,6 @@ export default {
                 costSum += parseInt(els[i].value);
             }
             // console.log('the end');
-            console.log(costSum);
             this.finalCost = costSum;
             this.$refs.finalCost.textContent = this.formatCost(costSum);
         },
