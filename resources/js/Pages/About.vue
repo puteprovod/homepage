@@ -3,7 +3,7 @@
         <title>{{ localize('About') }}</title>
     </Head>
     <div class="mt-5">
-        frontend: InertiaJS + TailwindCSS
+        frontend: Vue.JS (Inertia) + TailwindCSS
         </div>
     <div class="mt-3">
         backend: Laravel + PHP (& some Python) + MySQL
