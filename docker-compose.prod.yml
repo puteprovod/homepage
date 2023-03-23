@@ -29,7 +29,7 @@ services:
     image: mysql:8.0
     restart: always
     volumes:
-      - ./tmp/db/:/var/lib/mysql/
+      - ./db/:/var/lib/mysql/
     environment:
       MYSQL_DATABASE: myblog
       MYSQL_ROOT_PASSWORD:
