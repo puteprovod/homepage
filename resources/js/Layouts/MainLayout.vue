@@ -177,6 +177,12 @@ export default {
     beforeCreate() {
         if (this.newLang === 'en-US' || this.newLang === 'ru-RU') {
             window.lang = this.newLang;
+            localStorage.setItem('lang', this.newLang)
+        }
+        else {
+            let lang = localStorage.getItem('lang')
+            if (lang)
+                window.lang = lang;
         }
     },
     mounted() {
@@ -184,6 +190,7 @@ export default {
         newMenuItem.classList.remove(...selectedNoMenuList);
         newMenuItem.classList.add(...selectedMenuList)
         this.drawLangButton();
+
     },
     methods: {
         localize(key) {
