@@ -13,7 +13,6 @@ class UpdateOneController extends Controller
     public function __invoke(UpdateIndexRequest $request)
     {
         $data = $request->validated();
-        $status='';
         if (Auth::guest()){
             return  [
                 'status' => 'not_logged',

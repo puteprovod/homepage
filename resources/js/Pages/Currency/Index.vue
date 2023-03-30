@@ -80,7 +80,7 @@ export default {
         },
         localizeCurrency(currency, currencyRuTitle) {
             if (window.lang==='en-US') {
-                return Intl.NumberFormat('en-US', {
+                return '1 '+Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: currency,
                     currencyDisplay: 'name',
@@ -88,7 +88,7 @@ export default {
                 }).format(1).slice(2);
             }
             else {
-                return currencyRuTitle;
+                return (currency === 'XDR') ? 'СДР' : currencyRuTitle;
             }
         }
     }

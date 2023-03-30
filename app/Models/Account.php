@@ -34,7 +34,6 @@ class Account extends Model
         $account = Account::find($id);
         $currency = Currency::find($account->currency_id);
         if ($currency->source == 'cbr' or $currency->source == 'rub') {
-
             return ceil($account->value * $currency->exchange_rate);
         } else {
             $usd = Currency::find(11)->exchange_rate;

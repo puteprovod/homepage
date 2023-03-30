@@ -49,7 +49,7 @@
                                      :src="'/storage/'+account.image">
                             </td>
                             <td class="text-sm text-gray-900 font-light px-4 py-3">
-                                {{ localizeAccountName(account.title) }}
+                                {{ localizeAccountName(account.title) ?? localizeAccountCategory(account.category_title)  }}
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap hidden lg:table-cell text-sm font-medium text-gray-900">
                                 {{ localizeAccountCategory(account.category_title) }}
