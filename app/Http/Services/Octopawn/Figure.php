@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Octopawn;
 
-abstract class Figure
+abstract class Figure implements Movable
 {
     public bool $color;
     public int $posX;
@@ -16,5 +16,4 @@ abstract class Figure
         $this->name = $name;
 
     }
-    abstract public function getMovesArray(): array;
 }

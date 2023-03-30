@@ -22,7 +22,8 @@ class Currency extends Model
             DB::beginTransaction();
         // LOAD CURRENCIES PRICES
         $import = new ImportCurrenciesClient();
-        $response = $import->client->request('GET', 'scripts/XML_daily.asp');
+        //$response = $import->client->request('GET', 'scripts/XML_daily.asp');
+        $response = $import->client->request('GET', 'daily.xml');
         $xmlObject = simplexml_load_string($response->getBody());
         $json = json_encode($xmlObject);
         $phpArray = json_decode($json, true);

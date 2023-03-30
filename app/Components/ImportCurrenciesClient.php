@@ -15,7 +15,8 @@ public $client;
     {
         $this->client = new Client([
             // Base URI is used with relative requests
-            'base_uri' => 'https://www.cbr.ru/',
+            //'base_uri' => 'https://www.cbr.ru/',
+            'base_uri' => 'https://www.cbr-xml-daily.ru/',
             // You can set any number of default request options.
             'timeout'  => 2.0,
             'verify' => false
