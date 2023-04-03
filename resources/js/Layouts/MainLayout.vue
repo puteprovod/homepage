@@ -107,6 +107,12 @@ input::-webkit-inner-spin-button {
                             </Link>
                         </li>
                         <li>
+                            <a id="shopMenu" :href="getSubDomain()" target="_blank"
+                               class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                                {{ localize('MenuShop') }}
+                            </a>
+                        </li>
+                        <li>
                             <Link @click="selectMenu" id="resizerMenu" :href="route('resizer.index')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
                                 {{ localize('MenuResizer') }}
@@ -178,8 +184,7 @@ export default {
         if (this.newLang === 'en-US' || this.newLang === 'ru-RU') {
             window.lang = this.newLang;
             localStorage.setItem('lang', this.newLang)
-        }
-        else {
+        } else {
             let lang = localStorage.getItem('lang')
             if (lang)
                 window.lang = lang;
@@ -220,6 +225,12 @@ export default {
             newMenuItem.classList.remove(...selectedNoMenuList);
             newMenuItem.classList.add(...selectedMenuList)
             this.menuSelector = event.target.id;
+        },
+        getSubDomain() {
+             let href = document.location.host;
+             href = 'https://subdomain.'+href;
+            console.log (href);
+            return href;
         }
     },
     components: {

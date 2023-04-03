@@ -44,23 +44,18 @@ class Account extends Model
 
     public static function getChartValues()
     {
-        $currencies = Currency::all();
-        $currencySums = new Collection();
-        foreach ($currencies as $currency) {
-            $currencySums->put($currency->title, Account::where('currency_id', $currency->id)->sum('cost'));
-        }
-        $currencySums = $currencySums->sortDesc();
-        $topSums = $currencySums->take(4);
-        $finalSum = $currencySums->sum();
-        $percentages = $topSums->values()->map(function ($item) use ($finalSum) {
-            return $item / $finalSum * 100;
+        $currencySums = Currency::all()->mapWithKeys(callback: function($item){
+            return  [$item['title'] => Account::where('currency_id', $item->id)->sum('cost')];
         });
-        $topSums->put('Other', $finalSum - $topSums->sum());
-        $percentages->push(100 - $percentages->sum());
+        $finalSum = $currencySums->sum();
+        $topSums = $currencySums->sortDesc()->take(4);
+        $percentages = $topSums->values()->map(callback: function ($item) use ($finalSum) {
+            return  $item / $finalSum * 100;
+        });
         return [
-            'labels' => $topSums->keys()->all(),
+            'labels' => $topSums->put('Other', $finalSum - $topSums->sum())->keys()->all(),
             'datasets' => $topSums->values()->all(),
-            'percentages' => $percentages->all(),
+            'percentages' => $percentages->push(100 - $percentages->sum())->all(),
         ];
     }
 
