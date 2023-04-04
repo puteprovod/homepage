@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources\Account;
 
+use App\Http\Resources\Currency\CurrencyResource;
+use App\Models\Account;
+use App\Models\Category;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,8 +28,8 @@ class AccountResource extends JsonResource
                 'title' => $this->title,
                 'value' => $this->value,
                 'cost' => $this->cost,
-                'category_title' => $this->category_title,
-                'currency_title' => $this->currency_title,
+                'category_title' => Category::find($this->category_id)->title,
+                'currency_title' => Currency::find($this->currency_id)->title,
                 'category_id' => $this->category_id,
                 'image' => $this->image,
                 'comment' => $this->comment,
@@ -50,8 +53,8 @@ class AccountResource extends JsonResource
                         'title' => mb_substr($title, 0, 17, 'UTF-8'),
                         'value' => $value,
                         'cost' => $cost,
-                        'category_title' => $this->category_title,
-                        'currency_title' => $this->currency_title,
+                        'category_title' => Category::find($this->category_id)->title,
+                        'currency_title' => Currency::find($this->currency_id)->title,
                         'category_id' => $this->category_id,
                         'image' => $this->image,
                         'comment' => '',

@@ -230,6 +230,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.accounts);
         this.newFinalCost();
         this.historyPageCount = this.historyDates.length;
         const datepickerEl = document.getElementById('el1');
