@@ -7,6 +7,6 @@ class AboutController extends Controller
 {
     public function index()
     {
-        return inertia('About'); //1
+        return inertia('About'); //2
     }
 }
