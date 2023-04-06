@@ -7,7 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
 
 
-    Route::post('/accounts', App\Http\Controllers\Account\HistorySaveController::class);
+    Route::patch('/accounts/{post}',UpdateOneController::class)->name('account.update')->middleware('admin');
+    Route::post('/accounts', App\Http\Controllers\Account\HistorySaveController::class)->middleware('admin');
     Route::post('/octopawn', App\Http\Controllers\Octopawn\AnalyzeController::class);
     Route::post('/resizer', App\Http\Controllers\Resizer\StorePyController::class);
     Route::get('/resizer', App\Http\Controllers\Resizer\ResultController::class);

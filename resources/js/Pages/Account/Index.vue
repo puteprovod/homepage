@@ -302,7 +302,7 @@ export default {
         updateAccount(id) {
             const editedValue = document.getElementById(`value[${id}]`).value;
             // this.$inertia.patch(`/accounts/${id}`, { id: id, value: editedValue });
-            axios.patch(`/accounts/${id}`, {id: id, value: editedValue})
+            axios.patch(`/api/accounts/${id}`, {id: id, value: editedValue})
                 .then(res => {
                     this.statusData = res.data.status;
                     this.newCost = res.data.newCost;

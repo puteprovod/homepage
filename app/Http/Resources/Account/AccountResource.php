@@ -37,7 +37,6 @@ class AccountResource extends JsonResource
         }
         else
         {
-
                 $currency = Currency::find($this->currency_id);
             ($currency->title=='BTC' || $currency->title=='ETH') ? $value = rand (0, 5)/10 : $value = rand (0, 10000);
             if ($this->category_id==24) $value=-$value;

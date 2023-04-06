@@ -25,7 +25,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::patch('/accounts/{post}',UpdateOneController::class)->name('account.update');
 
 
 Route::get('/dashboard', function () {
