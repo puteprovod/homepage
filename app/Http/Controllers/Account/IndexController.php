@@ -18,17 +18,6 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        Cache::tags('default')->flush();
-        Cache::tags('default')->rememberForever('key1',function (){
-            return 100;
-        });
-        Cache::tags('default')->increment('key1',10);
-        dump (Cache::tags('default')->get('key1'));
-        Cache::rememberForever('key1',function(){
-           return 100;
-        });
-        Cache::increment('key1');
-        dump(Cache::get('key1'));
         Account::calculateCosts();
         $accounts = DB::table('accounts')
             ->join('categories', 'accounts.category_id', '=', 'categories.id')
