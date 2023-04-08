@@ -39,6 +39,10 @@ services:
       - MAIL_ENCRYPTION=$MAIL_ENCRYPTION
       - MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS
       - MAIL_FROM_NAME=$MAIL_FROM_NAME
+      - CACHE_DRIVER=$CACHE_DRIVER
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PASSWORD=$REDIS_PASSWORD
+      - REDIS_PORT=$REDIS_PORT
     volumes:
       - ./:/var/www
       - /var/www/myblog:/var/work
@@ -73,6 +77,15 @@ services:
     depends_on:
       - db
     container_name: ${CONTAINER_PREFIX}_pma
+
+  caching:
+    image: redis:latest
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - 6379:6379
+    container_name: ${CONTAINER_PREFIX}_redis
 
   certbot:
     image: certbot/certbot

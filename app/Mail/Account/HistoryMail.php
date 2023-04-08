@@ -36,7 +36,7 @@ class HistoryMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'History Mail',
+            subject: 'Данные по счетам по состоянию на '.$this->savingDate,
         );
     }
 

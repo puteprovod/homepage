@@ -9,13 +9,26 @@ use App\Models\AccountHistory;
 use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
 
 class IndexController extends Controller
 {
     public function __invoke()
     {
+        Cache::tags('default')->flush();
+        Cache::tags('default')->rememberForever('key1',function (){
+            return 100;
+        });
+        Cache::tags('default')->increment('key1',10);
+        dump (Cache::tags('default')->get('key1'));
+        Cache::rememberForever('key1',function(){
+           return 100;
+        });
+        Cache::increment('key1');
+        dump(Cache::get('key1'));
         Account::calculateCosts();
         $accounts = DB::table('accounts')
             ->join('categories', 'accounts.category_id', '=', 'categories.id')
