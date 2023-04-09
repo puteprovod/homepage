@@ -48,7 +48,7 @@ class IndexController extends Controller
             $i = 0;
             foreach ($accounts as $account)
                 if ($i++ % 2 == 0)
-                    unset ($accounts[$i]);
+                    unset ($accounts[$i]); // 1
         }
 
         return inertia('Account/Index', compact('accounts', 'saveDate', 'history', 'historyDates', 'chartValues'));  // VIEW
