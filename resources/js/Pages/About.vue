@@ -6,7 +6,7 @@
         frontend: Vue.JS (Inertia) + TailwindCSS
         </div>
     <div class="mt-3">
-        backend: Laravel + PHP (& some Python) + MySQL
+        backend: Laravel + PHP (& some Python) + Redis + MySQL
     </div>
     <div class="mt-3">
         VPS set: Ubuntu + Nginx + SSL + Docker

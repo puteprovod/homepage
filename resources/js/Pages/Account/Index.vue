@@ -24,12 +24,12 @@
                                 class="text-sm hidden lg:table-cell font-medium font-bold text-gray-900 px-6 py-4 text-left">
                                 {{ localize('AccountType') }}
                             </th>
-                            <th scope="col" colspan="2"
-                                class="text-sm text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
-                                {{ localize('Balance') }}
+                            <th @click="this.showCost = !this.showCost" scope="col" colspan="2"
+                                class="sm:cursor-pointer md:cursor-auto text-sm text-center font-medium font-bold text-gray-900 px-6 py-4 text-left" :class="{'hidden': this.showCost, 'md:table-cell': this.showCost}">
+                                <div>{{ localize('Balance') }}</div>
                             </th>
-                            <th scope="col"
-                                class="text-sm hidden md:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
+                            <th @click="this.showCost = !this.showCost" scope="col"
+                                class="sm:cursor-pointer md:cursor-auto text-sm text-center font-medium font-bold text-gray-900 px-6 py-4 text-left" :class="{'hidden': !this.showCost, 'md:table-cell': !this.showCost}">
                                 {{ localize('CostRubles') }}
                             </th>
                             <th v-if="$page.props.auth.user" scope="col"
@@ -54,7 +54,7 @@
                             <td class="px-4 py-3 whitespace-nowrap hidden lg:table-cell text-sm font-medium text-gray-900">
                                 {{ localizeAccountCategory(account.category_title) }}
                             </td>
-                            <td class="text-sm text-gray-900 font-light whitespace-nowrap">
+                            <td class="text-sm text-gray-900 font-light whitespace-nowrap" :class="{'hidden': this.showCost, 'md:table-cell': this.showCost}">
                                 <div class="inline-block ml-2"><input @input="onKeyDown(account.id)"
                                                                       v-on:keyup.enter="onClick(account.id)"
                                                                       class="rounded-full h-8 w-24 lg:w-40 min-w-full text-sm border-gray-400 text-right"
@@ -69,10 +69,10 @@
                                                                                    style="width: 25px; height: 25px;"
                                                                                    alt="V"></div>
                             </td>
-                            <td :id="'index['+account.id+']'" class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap">
+                            <td :id="'index['+account.id+']'" class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap" :class="{'hidden': this.showCost, 'md:table-cell': this.showCost}">
                                 {{ account.currency_title }}
                             </td>
-                            <td class="text-sm hidden md:table-cell text-gray-900 font-light px-4 py-3 whitespace-nowrap">
+                            <td class="text-sm text-gray-900 font-light px-4 py-3 whitespace-nowrap" :class="{'hidden': !this.showCost, 'md:table-cell': !this.showCost}">
                                 <input ref="costOriginal" type="hidden" :id="'costOriginal['+account.id+']'"
                                        :value="account.cost"><span
                                 :id="'cost['+account.id+']'">{{ formatCost(account.cost) }}</span>
@@ -167,6 +167,7 @@ export default {
             historyPage: 0,
             historyPageCount: 0,
             finalCost: 0,
+            showCost: false,
             saveButtonStatus: true,
             finalCostOldCourses: false,
             finalCostTextArray: [],
