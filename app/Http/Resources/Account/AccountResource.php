@@ -28,8 +28,11 @@ class AccountResource extends JsonResource
                 'title' => $this->title,
                 'value' => $this->value,
                 'cost' => $this->cost,
-                'category_title' => Category::find($this->category_id)->title,
-                'currency_title' => Currency::find($this->currency_id)->title,
+//                'category_title' => Category::find($this->category_id)->title,
+                'category_title' => $this->category_title,
+//                'currency_title' => Currency::find($this->currency_id)->title,
+                'currency_title' => $this->currency_title,
+
                 'category_id' => $this->category_id,
                 'image' => $this->image,
                 'comment' => $this->comment,

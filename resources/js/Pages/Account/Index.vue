@@ -424,6 +424,8 @@ export default {
             axios.post('/api/accounts', {savingDate: savingDate}).then(res => {
                 this.historyCurrent = res.data.history;
                 this.history.unshift(res.data.history);
+                this.historyDates.unshift(savingDate);
+                this.historyPageCount = this.historyDates.length;
                 this.historyPage = 0;
                 this.drawHistory(this.history[0]);
             }).catch(error => console.log(error));

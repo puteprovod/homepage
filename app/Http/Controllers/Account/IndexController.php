@@ -6,13 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Account\AccountResource;
 use App\Models\Account;
 use App\Models\AccountHistory;
-use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
-use Inertia\Inertia;
 
 class IndexController extends Controller
 {
@@ -26,22 +22,20 @@ class IndexController extends Controller
             ->orderBy('categories.title')
             ->get();
         $accounts = AccountResource::collection($accounts)->resolve();
-        $saveDate = Carbon::now()->format('d.m.Y');
-
-        $historyDatesCollection = AccountHistory::all()
-            ->pluck('shot_date')->unique()->sortDesc()->values();
+        $saveDate = now()->format('d.m.Y');
+        $historyAll = AccountHistory::all();
+        $historyDatesCollection = $historyAll->pluck('shot_date')->unique()->sortDesc()->values();
 
         $history = $historyDates = [];
         if ($historyDatesCollection) {
-            $history = $historyDatesCollection->map(function ($item) {
-                return AccountHistory::all()->where('shot_date', $item);
+            $history = $historyDatesCollection->map(function ($item) use ($historyAll) {
+                return $historyAll->where('shot_date', $item);
             })->toArray();
             $historyDates = $historyDatesCollection->map(function ($item) {
                 return Carbon::parse($item)->format('d.m.Y');
             })->toArray();
         }
         $chartValues = Account::getChartValues();
-
         $role = Auth::user() ? Auth::user()['role'] : '';
         if ($role != 'admin') {
             $chartValues = $history = $historyDates = '';

@@ -4,7 +4,7 @@
     "WarningRandom" : "Внимание: значения полей генерируются случайно",
     "AccountType" : "Вид счета",
     "Balance" : "Баланс",
-    "CostRubles" : "Стоимость в рублях",
+    "CostRubles" : "Стоимость в ₽",
     "SelectDate" : "Выбрать дату",
     "SaveToHistory" : "Сохранить в историю",
     "OverallBalance" : "Баланс",

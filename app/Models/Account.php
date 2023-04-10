@@ -17,10 +17,11 @@ class Account extends Model
 
     public static function calculateCosts()
     {
-        $accounts = Account::all()->sortBy('id');
-        $usd = Currency::find(11)->exchange_rate;
+        $accounts = Account::all();
+        $currencies = Currency::all();
+        $usd = $currencies->firstWhere('id', 11)->exchange_rate;
         foreach ($accounts as $account) {
-            $currency = Currency::find($account->currency_id);
+            $currency = $currencies->firstWhere('id', $account->currency_id);
             if ($currency->source == 'cbr' or $currency->source == 'rub') {
                 $account->update(['cost' => ceil($account->value * $currency->exchange_rate)]);
             } else {
@@ -44,13 +45,14 @@ class Account extends Model
 
     public static function getChartValues()
     {
-        $currencySums = Currency::all()->mapWithKeys(callback: function($item){
-            return  [$item['title'] => Account::where('currency_id', $item->id)->sum('cost')];
+        $currencies = Account::select('currency_id')->distinct()->pluck('currency_id');
+        $currencySums = $currencies->mapWithKeys(callback: function ($item) {
+            return [Currency::find($item)->title => Account::where('currency_id', $item)->sum('cost')];
         });
         $finalSum = $currencySums->sum();
         $topSums = $currencySums->sortDesc()->take(4);
         $percentages = $topSums->values()->map(callback: function ($item) use ($finalSum) {
-            return  $item / $finalSum * 100;
+            return $item / $finalSum * 100;
         });
         return [
             'labels' => $topSums->put('Other', $finalSum - $topSums->sum())->keys()->all(),
