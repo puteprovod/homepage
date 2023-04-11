@@ -10,6 +10,6 @@ class IndexController extends Controller
     public function __invoke()
     {
         $currencies=Currency::All();
-        return view('admin.currency.index', compact('currencies'));
+        return view('admin.Currency.index', compact('currencies'));
     }
 }

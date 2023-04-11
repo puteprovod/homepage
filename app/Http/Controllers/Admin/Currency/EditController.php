@@ -10,7 +10,7 @@ class EditController extends Controller
     {
         $currencies = Currency::All();
         if ($currency->title!='RUB'){
-        return view('admin.currency.edit', compact('currency', 'currencies'));
+        return view('admin.Currency.edit', compact('currency', 'currencies'));
         }
         else
         {
