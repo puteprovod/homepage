@@ -36,7 +36,7 @@ Route::get('/game', 'App\Http\Controllers\Octopawn\TestController');
 
 
 require __DIR__.'/auth.php';
-Route::get('/', 'App\Http\Controllers\Currency\IndexController');
+Route::get('/', 'App\Http\Controllers\Summary\IndexController')->middleware('index');
 Route::get('/lang/{newLang}', 'App\Http\Controllers\Currency\IndexController');
 Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController')->name('logout');
 Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Post','prefix'=>'admin/post'],function () {
@@ -67,6 +67,7 @@ Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Acc
 //    Route::patch('/accounts', 'App\Http\Controllers\Account\UpdateController')->name('accounts.update');
 //});
 
+Route::get('/summary', 'App\Http\Controllers\Summary\IndexController')->name('summary.index')->middleware('admin');
 Route::get('/octopawn', 'App\Http\Controllers\Octopawn\IndexController')->name('octopawn.index');
 Route::post('/octopawn', 'App\Http\Controllers\Octopawn\IndexController');
 Route::get('/resizer', 'App\Http\Controllers\Resizer\IndexController')->name('resizer.index');

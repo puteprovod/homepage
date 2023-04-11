@@ -32,7 +32,7 @@
                                 class="sm:cursor-pointer md:cursor-auto text-sm text-center font-medium font-bold text-gray-900 px-6 py-4 text-left" :class="{'hidden': !this.showCost, 'md:table-cell': !this.showCost}">
                                 {{ localize('CostRubles') }}
                             </th>
-                            <th v-if="$page.props.auth.user" scope="col"
+                            <th v-if="$page.props.auth.user && $page.props.auth.user.role==='admin'" scope="col"
                                 class="text-sm hidden xl:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
                                 <a @click="changeHistoryPage(false)" href="#" id="leftLink"
                                    :class="{'hidden': this.historyPage===0}">&lt;</a> <span id="historyTh"></span> <a
@@ -77,7 +77,7 @@
                                        :value="account.cost"><span
                                 :id="'cost['+account.id+']'">{{ formatCost(account.cost) }}</span>
                             </td>
-                            <td v-if="$page.props.auth.user"
+                            <td v-if="$page.props.auth.user && $page.props.auth.user.role==='admin'"
                                 class="text-sm hidden xl:table-cell text-gray-900 font-light px-4 py-3 whitespace-nowrap">
                                 <p :id="'history['+account.id+']'" class="text-bold font-bold"></p>
                             </td>
@@ -235,7 +235,7 @@ export default {
         this.newFinalCost();
         this.historyPageCount = this.historyDates.length;
         const datepickerEl = document.getElementById('el1');
-        if (this.$page.props.auth.user) {
+        if (this.$page.props.auth.user && this.$page.props.auth.user.role==='admin') {
             Datepicker.locales.ru = {
                 days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
                 daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб"],

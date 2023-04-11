@@ -95,6 +95,12 @@ input::-webkit-inner-spin-button {
                 <div :class="isOpen ? 'block' : 'hidden'" class="w-full md:block md:w-auto" id="navbar-default">
                     <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                         <li>
+                            <Link v-if="$page.props.auth.user && $page.props.auth.user.role === 'admin'" @click="selectMenu" id="summaryMenu" :href="route('summary.index')"
+                                  class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                                {{ localize('Summary') }}
+                            </Link>
+                        </li>
+                        <li>
                             <Link @click="selectMenu" id="currenciesMenu" :href="route('currencies.index')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
                                 {{ localize('MenuCurrencies') }}
@@ -130,7 +136,7 @@ input::-webkit-inner-spin-button {
                                 {{ localize('MenuAbout') }}
                             </Link>
                         </li>
-                        <li v-if="$page.props.auth.user">
+                        <li v-if="$page.props.auth.user && $page.props.auth.user.role === 'admin'">
                             <a :href="route('admin.accounts.index')"
                                class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
                                 {{ localize('MenuAdmin') }}
@@ -191,6 +197,8 @@ export default {
         }
     },
     mounted() {
+        if (this.$page.props.auth.user && this.$page.props.auth.user.role === 'admin')
+            this.menuSelector = 'summaryMenu';
         let newMenuItem = document.getElementById(this.menuSelector);
         newMenuItem.classList.remove(...selectedNoMenuList);
         newMenuItem.classList.add(...selectedMenuList)
