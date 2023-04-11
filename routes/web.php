@@ -36,7 +36,7 @@ Route::get('/game', 'App\Http\Controllers\Octopawn\TestController');
 
 
 require __DIR__.'/auth.php';
-Route::get('/', 'App\Http\Controllers\Summary\IndexController')->middleware('index');
+Route::get('/', 'App\Http\Controllers\Summary\IndexController')->middleware('index'); //MAIN PAGE
 Route::get('/lang/{newLang}', 'App\Http\Controllers\Currency\IndexController');
 Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController')->name('logout');
 Route::group(['middleware'=>'admin','namespace'=>'App\Http\Controllers\Admin\Post','prefix'=>'admin/post'],function () {
