@@ -15,6 +15,7 @@ class CurrencyResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'long_title' => $this->long_title,
          //   'date' => $this->updated_at->diffForHumans(),

@@ -2,25 +2,31 @@
     <Head>
         <title>{{ localize('Summary') }}</title>
     </Head>
-    <div class="mt-5">
+    <div class="md:mt-5">
         <div>
             <div class="flex flex-wrap">
-                <div class="border-2 m-5 p-5 pl-20 pr-20 flex grow flex-col text-xl">
-                    <div class="mt-3 text-2xl font-semibold">Баланс:</div>
-                    <div class="mt-3 text-2xl text-green-800 font-bold">{{ getFinalCost }}</div>
-                    <div class="mt-5">изменился на:</div>
-                    <div class="mt-2" :class="[getSumDiff > 0 ? 'text-green-800' : 'text-red-800']">{{ getSumDiffText }}</div>
-                    <div class="mt-5">по старому курсу:</div>
-                    <div class="mt-2" :class="[getSumRealDiff > 0 ? 'text-green-800' : 'text-red-800']">{{ getSumRealDiffText }}</div>
+                <div class="border-2 m-5 p-5 pl-10 pr-20 flex grow flex-col text-xl">
+                    <div class="mt-3 pl-8 pr-2 text-2xl font-semibold">Баланс:</div>
+                    <div class="mt-3 pl-8 pr-2 text-2xl text-green-800 font-bold">{{ getFinalCost }}</div>
+                    <div class="mt-5 pl-8 pr-2">изменился на:</div>
+                    <div class="mt-2 pl-8 pr-2" :class="[getSumDiff > 0 ? 'text-green-800' : 'text-red-800']">{{ getSumDiffText }}</div>
+                    <div class="mt-5 pl-8 pr-2">по старому курсу:</div>
+                    <div class="mt-2 mb-3 pl-8 pr-2" :class="[getSumRealDiff > 0 ? 'text-green-800' : 'text-red-800']">{{ getSumRealDiffText }}</div>
                 </div>
                 <div class="border-2 m-5 p-5 pl-10 pr-10 flex grow flex-col text-xl">
                     <table class="w-full h-full">
                         <tr v-for="(currency,index) in currencies" :class="{ 'border-b' : (index!==currencies.length-1) }">
-                            <td class="pl-10 pr-5 px-4 py-4">
+                            <td class="pl-8 pr-5 px-4 py-4">
                                 {{ currency.title }}
                             </td>
-                            <td class="pr-10 px-4 py-4 font-semibold">
+                            <td class="pr-8 px-4 py-4 font-semibold">
                                 {{ currency.exchange_rate.toFixed(2) }}
+                                <span class="ml-2 text-green-500" v-if="isCurrencyGrowth(currency.title) === true">
+                                &#9650;
+                                </span>
+                                <span class="ml-2 text-red-500" v-else-if="isCurrencyGrowth(currency.title) === false">
+                                &#9660;
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -75,6 +81,34 @@ export default {
         localize(key) {
             return localizeFilter(key, window.lang || 'ru-RU')
         },
+        isCurrencyGrowth(title) {
+            let usd = this.currencies.find(e => (e.title === 'USD'));
+            let history = this.accountData.history[0];
+            let account = null;
+            for (const [key, value] of Object.entries(history)) {
+                if(this.accountData.accounts.find(e => (e.currency_title === title && e.id === value.account_id))) {
+                    if (value.value > 0) {
+                        account = value;
+                        break;
+                    }
+                }
+            }
+            let currency = this.currencies.find(e => (e.title === title));
+            if (account) {
+                account.value = 1;
+                if (currency.source==='cmc'){
+                    console.log(currency.source, currency.title, account.cost/account.value, currency.exchange_rate*usd.exchange_rate);
+                    return (account.cost/(account.value*usd.exchange_rate) < currency.exchange_rate)
+                }
+                else {
+                    console.log(currency.source, currency.title, account.cost/account.value, currency.exchange_rate);
+                    return (account.cost/account.value < currency.exchange_rate)
+                }
+            }
+            else {
+                return null;
+            }
+        },
         calculateFinalCost(){
             let costSum = 0;
             let els = this.accountData.accounts;
@@ -102,8 +136,6 @@ export default {
         drawHistory() {
             const arrayOfHistories = this.accountData.history[0];
             let oldCourseSum = 0;
-            console.log(arrayOfHistories);
-            console.log(this.accountData.accounts);
             for (const [, item] of Object.entries(arrayOfHistories)) {
                 if (item.value > 0) {
                     let found = this.accountData.accounts.find(e => e.id === item.account_id);
@@ -113,7 +145,6 @@ export default {
             const historySum = this.historySum(arrayOfHistories);
             this.finalCostTextArray[0] = this.calculateFinalCost() - historySum;
             this.finalCostTextArray[1] = oldCourseSum - historySum;
-            console.log(this.finalCostTextArray);
         }
     }
 }

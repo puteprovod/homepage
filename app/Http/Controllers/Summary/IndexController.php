@@ -14,6 +14,7 @@ class IndexController extends Controller
     {
         $result = Service::getActualCurrencyInfo();
         $currencies = Collect($result['currencies'])->whereBetween('priority',[5,999])->sortByDesc('priority')->values()->toArray();
+
         $accountService = new \App\Http\Services\Account\Service();
         $accountData = $accountService->getActualAccountsInfo();
         return inertia('Summary/Index',compact('currencies','accountData'));
