@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Account;
+use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
 
 class IndexController extends BaseController
