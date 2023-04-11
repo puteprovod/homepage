@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\StoreRequest;
 use App\Models\Account;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,6 +30,7 @@ class StoreController extends Controller
             $account = $exception->getMessage();
         }
 
+        Cache::tags('accounts')->flush();
        return redirect()->route('admin.accounts.index');
     }
 }

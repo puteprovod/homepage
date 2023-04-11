@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\UpdateRequest;
 use App\Models\Account;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateController extends Controller
@@ -20,7 +21,7 @@ class UpdateController extends Controller
         }
         $account->update($data);
         $account->fresh();
-
+        Cache::tags('accounts')->flush();
         return redirect()->route('admin.accounts.show', $account->id);
     }
 }

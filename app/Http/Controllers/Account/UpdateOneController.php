@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\UpdateIndexRequest;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class UpdateOneController extends Controller
+class UpdateOneController extends BaseController
 {
     public function __invoke(UpdateIndexRequest $request)
     {
@@ -41,9 +41,9 @@ class UpdateOneController extends Controller
 
         $response =[
             'status' => $status,
-            'newCost' =>  Account::calculateCost($data['id'])
+            'newCost' =>  $this->service->calculateCost($data['id'])
         ];
+        Cache::tags('accounts')->flush();
         return $response;
-
     }
 }
