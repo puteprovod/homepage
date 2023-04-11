@@ -95,7 +95,6 @@ export default {
             }
             let currency = this.currencies.find(e => (e.title === title));
             if (account) {
-                account.value = 1;
                 if (currency.source==='cmc'){
                     console.log(currency.source, currency.title, account.cost/account.value, currency.exchange_rate*usd.exchange_rate);
                     return (account.cost/(account.value*usd.exchange_rate) < currency.exchange_rate)
