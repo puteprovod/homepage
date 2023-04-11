@@ -14,9 +14,9 @@ class Service
 {
     public static function getActualCurrencyInfo(){
         return Cache::remember('refreshCrypto', now()->addMinutes(10), function () {
-            $errorMessage = $this->refreshCrytpoFromAPI();
+            $errorMessage = self::refreshCrytpoFromAPI();
             if (Cache::missing('refreshCurrencies')) {
-                $errorMessage .= $this->refreshCurrenciesFromAPI();
+                $errorMessage .= self::refreshCurrenciesFromAPI();
                 Cache::put('refreshCurrencies', true, now()->addMinutes(60));
             }
             $currencies = Currency::All()->sortByDesc('priority');
