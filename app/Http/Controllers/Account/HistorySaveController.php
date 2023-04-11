@@ -8,6 +8,7 @@ use App\Mail\Account\HistoryMail;
 use App\Models\Account;
 use App\Models\AccountHistory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class HistorySaveController extends BaseController
@@ -28,6 +29,7 @@ class HistorySaveController extends BaseController
         $sum = $accounts->sum('cost');
         $accounts = AccountResource::collection($accounts)->resolve();
         Mail::to('serg-419@yandex.ru')->send(new HistoryMail($accounts, $sum, $data['savingDate']));
+        Cache::tags('accounts')->flush();
         return (['history' => AccountHistory::where('shot_date', $savingDate)->get(), 'date' => $data['savingDate']]);
     }
 }

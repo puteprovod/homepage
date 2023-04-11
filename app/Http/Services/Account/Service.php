@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\DB;
 
 class Service
 {
-    public function getActualAccountsInfo() {
-        return Cache::tags('accounts')->remember('json',now()->addMinutes(1440), function () {
+    public function getActualAccountsInfo()
+    {
+        return Cache::tags('accounts')->remember('json', now()->addMinutes(1440), function () {
             $this->calculateCosts();
             $accounts = DB::table('accounts')
                 ->join('categories', 'accounts.category_id', '=', 'categories.id')
@@ -44,17 +45,18 @@ class Service
             ];
         });
     }
+
     public function calculateCosts(): void
     {
-        $accounts = Account::all();
-        $currencies = Currency::all();
-        $usd = $currencies->firstWhere('id', 11)->exchange_rate;
+        $accounts = Account::join('currencies', 'accounts.currency_id', '=', 'currencies.id')
+            ->select('accounts.*', 'currencies.exchange_rate as exchange_rate', 'currencies.source as source')
+            ->get();
+        $usd = Currency::where('title', 'USD')->first()->exchange_rate;
         foreach ($accounts as $account) {
-            $currency = $currencies->firstWhere('id', $account->currency_id);
-            if ($currency->source == 'cbr' or $currency->source == 'rub') {
-                $account->update(['cost' => ceil($account->value * $currency->exchange_rate)]);
+            if ($account->source == 'cbr' or $account->source == 'rub') {
+                $account->update(['cost' => ceil($account->value * $account->exchange_rate)]);
             } else {
-                $account->update(['cost' => ceil($account->value * $currency->exchange_rate * $usd)]);
+                $account->update(['cost' => ceil($account->value * $account->exchange_rate * $usd)]);
             }
         }
     }
@@ -74,15 +76,16 @@ class Service
 
     public function getChartValues(): array
     {
-        $currencies = Account::select('currency_id')->distinct()->pluck('currency_id');
-        $currencySums = $currencies->mapWithKeys(callback: function ($item) {
-            return [Currency::find($item)->title => Account::where('currency_id', $item)->sum('cost')];
-        });
+        $currencySums = Account::join('currencies', 'accounts.currency_id', '=', 'currencies.id')
+            ->select('currencies.title as currency_title')
+            ->groupBy('currency_id')
+            ->selectRaw('sum(cost) as sum, currencies.title as currency_title')
+            ->pluck('sum', 'currency_title');
         $finalSum = $currencySums->sum();
         $topSums = $currencySums->sortDesc()->take(4);
-        $percentages = $topSums->values()->map(callback: function ($item) use ($finalSum) {
+        $percentages = ($finalSum !== 0) ? $topSums->values()->map(callback: function ($item) use ($finalSum) {
             return $item / $finalSum * 100;
-        });
+        }) : [];
         return [
             'labels' => $topSums->put('Other', $finalSum - $topSums->sum())->keys()->all(),
             'datasets' => $topSums->values()->all(),
