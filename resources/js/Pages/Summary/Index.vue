@@ -32,8 +32,8 @@
                     </table>
                 </div>
             </div>
-            <div class="border-2 mx-5 md-5 sm:mt-2 md:mt-5 p-5 pl-10 pr-10">
-                <div class="w-auto h-96 mx-auto text-center">
+            <div class="border-2 mx-5 mb-5 sm:mt-2 md:mt-5 p-5 pl-10 pr-10">
+                <div class="w-auto w-80 h-96 mx-auto text-center">
                 <Pie class="text-center" :data="chartData" :options="chartOptions"/>
                     </div>
             </div>
