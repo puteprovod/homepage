@@ -32,8 +32,8 @@ return [
     ],
 
     'google' => [
-        'client_id' => env('407876271447-k9d3rvqtltccnupmm44vall85c4rpci2.apps.googleusercontent.com'),
-        'client_secret' => env('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'),
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => 'https://inshin.org/google_auth/callback',
     ],
 
