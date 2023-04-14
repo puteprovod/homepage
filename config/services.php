@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+        'client_id' => env('407876271447-k9d3rvqtltccnupmm44vall85c4rpci2.apps.googleusercontent.com'),
+        'client_secret' => env('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'),
+        'redirect' => 'https://inshin.org/google_auth/callback',
+    ],
+
 ];

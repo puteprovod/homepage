@@ -25,17 +25,20 @@ Route::get('/', function () {
     ]);
 });
 
+require __DIR__.'/auth.php';
 
+Route::get('google_auth/redirect', [App\Http\Controllers\Auth\LoginController::class, 'redirectGoogle' ])->name('authorize.google');
+Route::get('google_auth/callback', [App\Http\Controllers\Auth\LoginController::class, 'callbackGoogle' ]);
 
 Route::get('/dashboard', function () {
     return Inertia::render('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
 Route::get('/game', 'App\Http\Controllers\Octopawn\TestController');
 
 
-require __DIR__.'/auth.php';
+
+
 Route::get('/', 'App\Http\Controllers\Summary\IndexController')->middleware('index'); //MAIN PAGE
 Route::get('/lang/{newLang}', 'App\Http\Controllers\Currency\IndexController');
 Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController')->name('logout');
