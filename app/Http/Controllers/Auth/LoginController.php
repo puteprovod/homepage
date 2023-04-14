@@ -46,7 +46,7 @@ class LoginController extends Controller
         return Socialite::driver('google')->redirect();
     }
     public function callbackGoogle(){
-        $user =  Socialite::driver('google')->user();
+        $user =  Socialite::driver('google')->stateless()->user();
         $this->regOrLogin($user);
         return redirect('/currencies');
     }
