@@ -8,6 +8,7 @@ use App\Models\Account;
 use App\Models\AccountHistory;
 use App\Models\Currency;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -15,6 +16,10 @@ class Service
 {
     public function getActualAccountsInfo()
     {
+        $role = Auth::user() ? Auth::user()['role'] : '';
+        if ($role != 'admin') {
+        Cache::tags('accounts')->flush();
+        }
         return Cache::tags('accounts')->remember('json', now()->addMinutes(1440), function () {
             \App\Http\Services\Currency\Service::getActualCurrencyInfo();
             $this->calculateCosts();
