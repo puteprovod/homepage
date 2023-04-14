@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Resizer;
 
+use App\Http\Services\Python\PythonService;
 use App\Models\ResizedImage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -72,7 +73,7 @@ class Service
         $startTime = $this->getTime();
         $json=json_encode($pyRequest);
         file_put_contents("storage/".$folderPath.".json", $json);
-        exec("python3 ../kart3.py storage/".$folderPath.".json", $output);
+        PythonService::start()->execute('kart3.py',["storage/".$folderPath.".json"], $output);
 
         $resizedImages=ResizedImage::all()->where('token',$token);
         foreach ($resizedImages as $item) {
