@@ -13,7 +13,7 @@
                     <div class="mt-5 pl-8 pr-2">по старому курсу:</div>
                     <div class="mt-2 mb-3 pl-8 pr-2" :class="[getSumRealDiff > 0 ? 'text-green-800' : 'text-red-800']">{{ getSumRealDiffText }}</div>
                 </div>
-                <div class="border-2 m-5 p-5 pl-10 pr-10 flex grow flex-col text-xl">
+                <div class="border-2 mx-5 sm:mt-2 mb-5 md:mt-5 p-5 pl-10 pr-10 flex grow flex-col text-xl">
                     <table class="w-full h-full">
                         <tr v-for="(currency,index) in currencies" :class="{ 'border-b' : (index!==currencies.length-1) }">
                             <td class="pl-8 pr-5 px-4 py-4">
@@ -32,6 +32,11 @@
                     </table>
                 </div>
             </div>
+            <div class="border-2 mx-5 md-5 sm:mt-2 md:mt-5 p-5 pl-10 pr-10">
+                <div class="w-auto h-96 mx-auto text-center">
+                <Pie class="text-center" :data="chartData" :options="chartOptions"/>
+                    </div>
+            </div>
         </div>
     </div>
 </template>
@@ -40,6 +45,15 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import localizeFilter from "@/Filters/localize";
+import {
+    Chart as ChartJS,
+    Tooltip,
+    Legend,
+    ArcElement
+} from 'chart.js'
+import {Pie} from 'vue-chartjs'
+ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.defaults.font.size = 16;
 
 export default {
     name: "index",
@@ -68,11 +82,56 @@ export default {
     },
     data() {
         return {
-            finalCostTextArray: [0,0]
+            finalCostTextArray: [0,0],
+            chartData: {
+                labels: this.accountData.chartValues.labels,
+                datasets: [
+                    {
+                        data: this.accountData.chartValues.datasets,
+                        percentages: this.accountData.chartValues.percentages,
+                        backgroundColor: [
+                            "#147BA3",
+                            "#F04D6C",
+                            '#35BBF0',
+                            "#F0E51D",
+                            "#A39C1C"
+                        ]
+                    }]
+            },
+            chartOptions: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 12,
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.data[context.dataIndex];
+                                let formattedString = Intl.NumberFormat('ru-RU', {
+                                    style: 'currency',
+                                    currency: 'RUB',
+                                    currencyDisplay: 'symbol',
+                                    maximumFractionDigits: 0
+                                }).format(label);
+                                let percentString = context.dataset.percentages[context.dataIndex].toFixed(1) + '%';
+                                return ' ' + formattedString + ' = ' + percentString;
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     },
     components: {
-        Link, Head
+        Link, Head, Pie
     },
     mounted() {
         this.drawHistory();
@@ -85,7 +144,7 @@ export default {
             let usd = this.currencies.find(e => (e.title === 'USD'));
             let history = this.accountData.history[0];
             let account = null;
-            for (const [key, value] of Object.entries(history)) {
+            for (const [, value] of Object.entries(history)) {
                 if(this.accountData.accounts.find(e => (e.currency_title === title && e.id === value.account_id))) {
                     if (value.value > 0) {
                         account = value;
