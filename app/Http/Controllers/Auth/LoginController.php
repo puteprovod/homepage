@@ -54,7 +54,7 @@ class LoginController extends Controller
     public function regOrLogin($googleUser) {
         $user = User::where('email',$googleUser->email)->first();
         if (!$user){
-             User::create([
+        $user = User::create([
                  'name' => $googleUser->name,
                  'email' => $googleUser->email,
                  'password' => bcrypt(Str::random(20))
