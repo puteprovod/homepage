@@ -45,6 +45,8 @@ services:
       - REDIS_PORT=$REDIS_PORT
       - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      - GITLAB_CLIENT_ID=$GITLAB_CLIENT_ID
+      - GITLAB_CLIENT_SECRET=$GITLAB_CLIENT_SECRET
     volumes:
       - ./:/var/www
       - /var/www/myblog:/var/work

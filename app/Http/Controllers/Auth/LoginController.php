@@ -64,4 +64,12 @@ class LoginController extends Controller
         Auth::login($user);
         Cache::tags('accounts')->flush();
     }
+    public function redirectGitlab(){
+        return Socialite::driver('gitlab')->redirect();
+    }
+    public function callbackGitlab(){
+        $user = Socialite::driver('gitlab')->user();
+        $this->regOrLogin($user);
+        return redirect('/currencies');
+    }
 }

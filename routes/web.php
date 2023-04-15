@@ -29,6 +29,8 @@ require __DIR__.'/auth.php';
 
 Route::get('google_auth/redirect', [App\Http\Controllers\Auth\LoginController::class, 'redirectGoogle' ])->name('authorize.google');
 Route::get('google_auth/callback', [App\Http\Controllers\Auth\LoginController::class, 'callbackGoogle' ]);
+Route::get('gitlab_auth/redirect', [App\Http\Controllers\Auth\LoginController::class, 'redirectGitlab' ])->name('authorize.gitlab');
+Route::get('gitlab_auth/callback', [App\Http\Controllers\Auth\LoginController::class, 'callbackGitlab' ]);
 
 Route::get('/dashboard', function () {
     return Inertia::render('dashboard');

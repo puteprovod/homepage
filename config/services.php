@@ -37,4 +37,10 @@ return [
         'redirect' => 'https://inshin.org/google_auth/callback',
     ],
 
+    'gitlab' => [
+        'client_id' => env('GITLAB_CLIENT_ID'),
+        'client_secret' => env('GITLAB_CLIENT_SECRET'),
+        'redirect' => 'https://inshin.org/gitlab_auth/callback',
+    ],
+
 ];

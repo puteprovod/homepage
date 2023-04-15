@@ -64,6 +64,7 @@ const submit = () => {
                     Log in
                 </PrimaryButton>
                 <a :href="route('authorize.google')"><img class="ml-3 w-6 h-6" src="/img/googleicon.png" alt="Authorize by Google" title="Authorize by Google"></a>
+                <a :href="route('authorize.gitlab')"><img class="ml-3 w-6 h-6" src="/img/gitlabicon.png" alt="Authorize by Gitlab" title="Authorize by Gitlab"></a>
             </div>
         </form>
     </GuestLayout>
