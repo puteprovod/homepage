@@ -60,11 +60,12 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton class="ml-5" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+
+                <a :href="route('authorize.google')"><img class="ml-7 w-6 h-6" src="/img/googleicon.png" alt="Authorize by Google" title="Authorize by Google"></a>
+                <a :href="route('authorize.gitlab')"><img class="ml-3 w-6 h-6" src="/img/gitlabicon.png" alt="Authorize by Gitlab" title="Authorize by Gitlab"></a>
+                <PrimaryButton class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </PrimaryButton>
-                <a :href="route('authorize.google')"><img class="ml-3 w-6 h-6" src="/img/googleicon.png" alt="Authorize by Google" title="Authorize by Google"></a>
-                <a :href="route('authorize.gitlab')"><img class="ml-3 w-6 h-6" src="/img/gitlabicon.png" alt="Authorize by Gitlab" title="Authorize by Gitlab"></a>
             </div>
         </form>
     </GuestLayout>
