@@ -11,5 +11,13 @@ class TestController extends Controller
 {
     public function __invoke()
     {
+        $color = false;
+      dump ($color <=> !$color);
+        $color = true;
+        dump ($color <=> !$color);
+
+
+
+
     }
 }

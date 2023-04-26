@@ -94,18 +94,18 @@ class Game
         $variants = [];
         $figures = $field->figures;
         $fieldSize = $field->fieldSize;
+        $k = $color <=> !$color;
         foreach ($figures as $figure) {
             if ($figure->color == $color) {
                 $figureX = $figure->posX;
                 $figureY = $figure->posY;
                 $moves = $figure->getMovesArray();
                 foreach ($moves as $move) {
-                    $k = $color ? 1 : -1;
                     $newX = $figureX + $move[0] * $k;
                     $newY = $figureY + $move[1] * $k;
-                    if (!(($newY >= $fieldSize or $newY < 0) or ($newX >= $fieldSize or $newX < 0))) {
+                    if ($newY < $fieldSize and $newY >= 0 and $newX < $fieldSize and $newX >= 0) {
                         if ($move[2]) {
-                            if ($field->squares[$newX][$newY]->figure and ($field->squares[$newX][$newY]->figure->color != $color))
+                            if ($field->squares[$newX][$newY]->figure and $field->squares[$newX][$newY]->figure->color != $color)
                                 $variants[] = [$figureX, $figureY, $newX, $newY];
                         } else {
                             if (!$field->squares[$newX][$newY]->figure)

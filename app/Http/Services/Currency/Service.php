@@ -3,12 +3,13 @@
 namespace App\Http\Services\Currency;
 
 
-use App\Components\ImportCurrenciesClient;
+use App\Components\Currency\ImportCryptoCurrenciesClient;
+use App\Components\Currency\ImportCurrenciesFromCbrClient;
 use App\Http\Resources\Currency\CurrencyResource;
 use App\Models\Currency;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 
 class Service
 {
@@ -30,15 +31,13 @@ class Service
     public static function refreshCrytpoFromAPI(): string
     {
         $errorMessage = '';
-        $currencies = Currency::All()->where('source', 'cmc');
+        $import = new ImportCryptoCurrenciesClient();
+        $currencies = Currency::All()->where('source', $import->code);
         try {
             DB::beginTransaction();
-            // LOAD CURRENCIES PRICES
-            $response = Http::withHeaders([
-                'X-CMC_PRO_API_KEY' => '1fcb04fe-57d7-43f5-85d1-1ba81f8bf32e',
-                'Accept' => '*/*'
-            ])->acceptJson()->get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest');
-            $response = json_decode($response, 'true');
+            $import = new ImportCryptoCurrenciesClient();
+            $response = $import->get();
+            $response = json_decode($response->getBody(), 'true');
             $response = $response['data'];
             foreach ($response as $item) {
                 $price = $item['quote']['USD']['price'];
@@ -52,20 +51,21 @@ class Service
         } catch (\Exception $exception2) {
             DB::rollBack();
             $errorMessage = $errorMessage . "Ошибка обращения к серверу Coinmarketcap.";
+        } catch (GuzzleException $e) {
+            DB::rollBack();
+            $errorMessage = $errorMessage . "Ошибка обращения guzzle к серверу Coinmarketcap.";
         }
-
         return ($errorMessage);
     }
 
     public static function refreshCurrenciesFromAPI(): string
     {
         $errorMessage = '';
-        $currencies = Currency::All()->where('source', 'cbr');
+        $import = new ImportCurrenciesFromCbrClient();
+        $currencies = Currency::All()->where('source', $import->code);
         try {
             DB::beginTransaction();
-            $import = new ImportCurrenciesClient();
-            //$response = $import->client->request('GET', 'scripts/XML_daily.asp'); - ЦБ РФ
-            $response = $import->client->request('GET', 'daily.xml');
+            $response = $import->get();
             $xmlObject = simplexml_load_string($response->getBody());
             $json = json_encode($xmlObject);
             $phpArray = json_decode($json, true);
@@ -80,7 +80,10 @@ class Service
             DB::commit();
         } catch (\Exception $exception1) {
             DB::rollBack();
-            $errorMessage = 'Ошибка обращения к серверу ЦБ РФ. ';
+            $errorMessage = 'Ошибка обращения к серверу ЦБ РФ.';
+        } catch (GuzzleException $e) {
+            DB::rollBack();
+            $errorMessage = 'Ошибка обращения guzzle к серверу ЦБ РФ.';
         }
 
         return ($errorMessage);

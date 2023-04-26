@@ -12,7 +12,7 @@ class ResultController extends Controller
 {
     public function __invoke($token)
     {
-        $data=ResizedImage::all()->where('token',$token);
+        $data=ResizedImage::all()->where('token',$token)->values();
         $sizeSum = $data->sum('size')/1000;
         return inertia('Resizer/Result', compact ('data','token', 'sizeSum'));
     }

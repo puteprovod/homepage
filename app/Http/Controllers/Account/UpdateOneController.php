@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\UpdateIndexRequest;
+use App\Http\Services\Account\Service;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class UpdateOneController extends BaseController
+class UpdateOneController extends Controller
 {
-    public function __invoke(UpdateIndexRequest $request)
+    public function __invoke(UpdateIndexRequest $request, Service $service)
     {
         $data = $request->validated();
         if (Auth::guest()){
@@ -41,7 +43,7 @@ class UpdateOneController extends BaseController
 
         $response =[
             'status' => $status,
-            'newCost' =>  $this->service->calculateCost($data['id'])
+            'newCost' =>  $service->calculateCost($data['id'])
         ];
         Cache::tags('accounts')->flush();
         return $response;

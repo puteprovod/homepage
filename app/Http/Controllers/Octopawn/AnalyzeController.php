@@ -9,11 +9,10 @@ use Illuminate\Http\Request;
 
 class AnalyzeController extends Controller
 {
-    public function __invoke(AnalyzeRequest $request)
+    public function __invoke(AnalyzeRequest $request, Game $game)
     {
         $data = $request->validated();
-        $game = new Game($data['boardSituation']);
-        $isMaximizing = $data['color'] == 'white';
+        $isMaximizing = ($data['color'] == 'white');
         $startTime = $this->getTime();
         switch ($data['fieldSize']) {
             case 999:
@@ -33,7 +32,6 @@ class AnalyzeController extends Controller
         $endTime = $this->getTime();
         $timeTaken = round(($endTime - $startTime), 2);
         $resultArray[] = $timeTaken;
-
         $resultArray[] = ($timeTaken > 0) ? round($resultArray[2] / $timeTaken, 0) : '-';
 
         return response()->json($resultArray);

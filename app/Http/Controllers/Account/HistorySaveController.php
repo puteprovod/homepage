@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\HistorySaveRequest;
 use App\Http\Resources\Account\AccountResource;
 use App\Mail\Account\HistoryMail;
@@ -11,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
-class HistorySaveController extends BaseController
+class HistorySaveController extends Controller
 {
     public function __invoke(HistorySaveRequest $request)
     {

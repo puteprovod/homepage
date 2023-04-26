@@ -73,6 +73,8 @@ class Service
         $startTime = $this->getTime();
         $json=json_encode($pyRequest);
         file_put_contents("storage/".$folderPath.".json", $json);
+//        $export = new ResizerClient();
+//        $output = $export->client->request('GET', '/resize?filepath=storage/'.$folderPath.'.json');
         PythonService::start()->execute('kart3.py',["storage/".$folderPath.".json"], $output);
 
         $resizedImages=ResizedImage::all()->where('token',$token);

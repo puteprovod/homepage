@@ -15,6 +15,9 @@ input::-webkit-inner-spin-button {
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div v-if="errorMessage" class="text-red-800 text-center mt-3 mb-5">
+                    {{ errorMessage }}
+                </div>
                 <div class="overflow-hidden">
                     <table class="min-w-full">
                         <thead class="border-b">
@@ -36,6 +39,7 @@ input::-webkit-inner-spin-button {
                         </thead>
                         <tbody v-if="currencies">
                         <template v-for="currency in currencies">
+
                             <tr v-if="currency.title!=='RUB'"
                                 :class="currency.priority>=5 ? 'bg-blue-100 border-blue-200 border-b' : 'border-b'">
                                 <td class="text-sm text-gray-900 font-light px-4 py-3">
@@ -69,7 +73,7 @@ export default {
     name: "index",
     layout: MainLayout,
     props: [
-        'currencies',
+        'currencies', 'errorMessage'
     ],
     components: {
         Head, Link

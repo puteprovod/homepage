@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
-
-use App\Components\ImportCurrenciesClient;
+use App\Components\Currency\ImportCurrenciesFromCbrClient;
 use App\Models\Currency;
 use Illuminate\Console\Command;
 
@@ -15,8 +14,9 @@ class ImportCurrenciesXMLCBRCommand extends Command
 
     public function handle()
     {
-                $import = new ImportCurrenciesClient();
-        $response = $import->client->request('GET', 'scripts/XML_daily.asp');
+                $import = new ImportCurrenciesFromCbrClient();
+        //$response = $import->client->request('GET', 'scripts/XML_daily.asp'); - ЦБ РФ
+        $response = $import->get();
         $xmlObject = simplexml_load_string($response->getBody());
         $json = json_encode($xmlObject);
         $phpArray = json_decode($json, true);

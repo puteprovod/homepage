@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
+    // UNUSED CONTROLLER, RESIZING BY PHP METHODS
     private function getTime()
     {
         return array_sum(explode(" ",microtime()));

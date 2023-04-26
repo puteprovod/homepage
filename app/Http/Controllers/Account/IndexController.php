@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Account;
-use App\Models\Currency;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Account\Service;
 use Illuminate\Support\Facades\Auth;
 
-class IndexController extends BaseController
+class IndexController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Service $service)
     {
-        $accountCache = $this->service->getActualAccountsInfo();
+        $accountCache = $service->getActualAccountsInfo();
         $accounts = $accountCache['accounts'];
         $history = $accountCache['history'];
         $historyDates = $accountCache['historyDates'];
@@ -19,7 +20,7 @@ class IndexController extends BaseController
             $i = 0;
             foreach ($accounts as $account)
                 if ($i++ % 2 == 0)
-                    unset ($accounts[$i]); // 1
+                    unset ($accounts[$i]);
         }
         $saveDate = now()->format('d.m.Y');
         return inertia('Account/Index', compact('accounts', 'saveDate', 'history', 'historyDates', 'chartValues'));  // VIEW

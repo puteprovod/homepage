@@ -26,9 +26,9 @@ class Field
         for ($y = 0; $y < $this->fieldSize; $y++) {
             for ($x = 0; $x < $this->fieldSize; $x++) {
                 if ($figure = $this->squares[$x][$y]->figure) {
-                    $array[$y][] = $figure->name;
+                    $array[$y][$x] = $figure->name;
                 } else {
-                    $array[$y][] = '';
+                    $array[$y][$x] = '';
                 }
             }
         }

@@ -10,7 +10,6 @@ use App\Http\Controllers\TodoController;
 
 Route::patch('/accounts/{post}', UpdateOneController::class)->name('account.update')->middleware('admin');
 Route::post('/accounts', HistorySaveController::class)->middleware('admin');
-
 Route::post('/octopawn', App\Http\Controllers\Octopawn\AnalyzeController::class);
 
 Route::group(['prefix'=>'resizer','namespace'=>'App\Http\Controllers\Resizer'],function(){
