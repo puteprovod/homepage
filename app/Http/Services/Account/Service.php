@@ -21,7 +21,7 @@ class Service
         Cache::tags('accounts')->flush();
         }
         return Cache::tags('accounts')->remember('json', now()->addMinutes(1440), function () {
-            \App\Http\Services\Currency\Service::getActualCurrencyInfo();
+            app()->make(\App\Http\Services\Currency\Service::class);
             $this->calculateCosts();
             $accounts = DB::table('accounts')
                 ->join('categories', 'accounts.category_id', '=', 'categories.id')

@@ -19,8 +19,7 @@ class UpdateController extends Controller
                 Storage::disk('public')->delete($account->image);
             }
         }
-        $account->update($data);
-        $account->fresh();
+        $account = tap($account)->update($data);
         Cache::tags('accounts')->flush();
         return redirect()->route('admin.accounts.show', $account->id);
     }

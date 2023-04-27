@@ -13,12 +13,7 @@ class EditController extends Controller
         $accounts = Account::All();
         $categories=Category::All();
         $currencies=Currency::All()->sortByDesc('priority');
-        if ($account->title!='RUB'){
         return view('admin.account.edit', compact('account', 'accounts','categories','currencies'));
-        }
-        else
-        {
-            return redirect()->route('admin.accounts.index');
-        }
+
     }
 }

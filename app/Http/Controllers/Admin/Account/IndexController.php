@@ -9,7 +9,8 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $accounts=Account::All();
+        $accounts=Account::all();
+        //dd ($accounts);
         return view('admin.Account.index', compact('accounts'));
     }
 }

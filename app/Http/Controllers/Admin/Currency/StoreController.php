@@ -13,14 +13,12 @@ class StoreController extends Controller
     {
         try {
             Db::beginTransaction();
-
             $data = $request->validated();
-            $currency = Currency::create($data);
+            Currency::create($data);
             Db::commit();
         } catch (\Exception $exception) {
-
             DB::rollBack();
-            $currency = $exception->getMessage();
+            $error = $exception->getMessage();
         }
 
        return redirect()->route('admin.currencies.index');

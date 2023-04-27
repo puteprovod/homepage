@@ -3,89 +3,63 @@
 namespace App\Http\Services\Currency;
 
 
-use App\Components\Currency\ImportCryptoCurrenciesClient;
-use App\Components\Currency\ImportCurrenciesFromCbrClient;
+use App\Components\Currency\GettableAPI;
 use App\Http\Resources\Currency\CurrencyResource;
 use App\Models\Currency;
-use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Cache\Events\CacheEvent;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class Service
 {
-    public static function getActualCurrencyInfo(){
-        return Cache::remember('refreshCrypto', now()->addMinutes(10), function () {
-            $errorMessage = self::refreshCrytpoFromAPI();
-            if (Cache::missing('refreshCurrencies')) {
-                $errorMessage .= self::refreshCurrenciesFromAPI();
-                Cache::put('refreshCurrencies', true, now()->addMinutes(60));
-            }
-            $currencies = Currency::All()->sortByDesc('priority');
-            Cache::tags('accounts')->flush();
-            return [
-                'currencies' => CurrencyResource::collection($currencies)->resolve(),
-                'errorMessage' => $errorMessage
-            ];
-        });
+    public array $currencies;
+    public string $errorMessage;
+    public function __construct(GettableAPI ...$importAPIs)
+    {
+        $response = $this->getActualCurrencyInfo(...$importAPIs);
+        $this->currencies = $response['currencies'];
+        $this->errorMessage = $response['errorMessage'];
     }
-    public static function refreshCrytpoFromAPI(): string
+
+    private function getActualCurrencyInfo(GettableAPI ...$importAPIs): array
     {
         $errorMessage = '';
-        $import = new ImportCryptoCurrenciesClient();
-        $currencies = Currency::All()->where('source', $import->code);
+        $changedFlag = false;
+        foreach ($importAPIs as $importAPI) {
+            $hashName = 'importAPI_'.hash('md5',get_class($importAPI));
+            if (Cache::missing($hashName)) {
+                $errorMessage .= $this->getExchangeValuesFromAPI($importAPI);
+                Cache::put($hashName, true, now()->addMinutes($importAPI->getCacheTimeout()));
+                $changedFlag = true;
+            }
+        }
+        if ($changedFlag){
+            $currencies = Currency::All()->sortByDesc('priority');
+            Cache::tags('accounts')->flush();
+            Cache::put('currencyCache', [
+                'currencies' => CurrencyResource::collection($currencies)->resolve(),
+                'errorMessage' => $errorMessage
+            ]);
+        }
+        return Cache::get('currencyCache');
+    }
+
+    private function getExchangeValuesFromAPI(GettableAPI $import): string
+    {
+        $errorMessage = '';
+        $currencies = Currency::All()->where('source', $import->getCode());
         try {
             DB::beginTransaction();
-            $import = new ImportCryptoCurrenciesClient();
-            $response = $import->get();
-            $response = json_decode($response->getBody(), 'true');
-            $response = $response['data'];
-            foreach ($response as $item) {
-                $price = $item['quote']['USD']['price'];
-                $currency = $currencies->where('title', $item['symbol'])->first();
-                if ($currency) {
-                    // UPDATE EXCHANGE RATE FROM API
-                    $currency->update(['exchange_rate' => $price]);
-                }
+            $exchangeArray = $import->getExchanges();
+            foreach ($currencies as $currency) {
+                if (isset($exchangeArray[$currency->title]))
+                    $currency->update(['exchange_rate' => $exchangeArray[$currency->title]]);
             }
             DB::commit();
         } catch (\Exception $exception2) {
             DB::rollBack();
-            $errorMessage = $errorMessage . "Ошибка обращения к серверу Coinmarketcap.";
-        } catch (GuzzleException $e) {
-            DB::rollBack();
-            $errorMessage = $errorMessage . "Ошибка обращения guzzle к серверу Coinmarketcap.";
+            $errorMessage = $errorMessage . "Ошибка клиента API " . (new \ReflectionClass($import))->getShortName();
         }
-        return ($errorMessage);
-    }
-
-    public static function refreshCurrenciesFromAPI(): string
-    {
-        $errorMessage = '';
-        $import = new ImportCurrenciesFromCbrClient();
-        $currencies = Currency::All()->where('source', $import->code);
-        try {
-            DB::beginTransaction();
-            $response = $import->get();
-            $xmlObject = simplexml_load_string($response->getBody());
-            $json = json_encode($xmlObject);
-            $phpArray = json_decode($json, true);
-            $phpArray = $phpArray['Valute'];
-            foreach ($phpArray as $item) {
-                $currency = $currencies->where('title', $item['CharCode'])->first();
-                if ($currency) {
-                    // UPDATE EXCHANGE RATE FROM API
-                    $currency->update(['exchange_rate' => str_replace(",", ".", $item['Value']) / $item['Nominal']]);
-                }
-            }
-            DB::commit();
-        } catch (\Exception $exception1) {
-            DB::rollBack();
-            $errorMessage = 'Ошибка обращения к серверу ЦБ РФ.';
-        } catch (GuzzleException $e) {
-            DB::rollBack();
-            $errorMessage = 'Ошибка обращения guzzle к серверу ЦБ РФ.';
-        }
-
         return ($errorMessage);
     }
 }

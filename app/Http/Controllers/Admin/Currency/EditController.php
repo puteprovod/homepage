@@ -9,12 +9,6 @@ class EditController extends Controller
     public function __invoke(Currency $currency)
     {
         $currencies = Currency::All();
-        if ($currency->title!='RUB'){
         return view('admin.Currency.edit', compact('currency', 'currencies'));
-        }
-        else
-        {
-            return redirect()->route('admin.currencies.index');
-        }
     }
 }

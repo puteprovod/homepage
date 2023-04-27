@@ -7,11 +7,10 @@ use App\Http\Services\Currency\Service;
 
 class IndexController extends Controller
 {
-    public function __invoke(string $newLang = '')
+    public function __invoke(Service $service, string $newLang = '')
     {
-        $result = Service::getActualCurrencyInfo();
-        $currencies = $result['currencies'];
-        $errorMessage = $result['errorMessage'];
+        $currencies = $service->currencies;
+        $errorMessage = $service->errorMessage;
         return inertia('Currency/Index', compact('currencies', 'errorMessage', 'newLang'));
 
     }

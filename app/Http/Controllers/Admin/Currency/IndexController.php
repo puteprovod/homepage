@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $currencies=Currency::All();
+        $currencies=Currency::where('title','!=','RUB')->get();
         return view('admin.Currency.index', compact('currencies'));
     }
 }

@@ -12,7 +12,6 @@ class UpdateController extends Controller
         $data = $request->validated();
         $currency->update($data);
         $currency->fresh();
-        //return new PostResource($post);
-          return redirect()->route('admin.currencies.show', $currency->id);
+        return redirect()->route('admin.currencies.show', $currency->id);
     }
 }

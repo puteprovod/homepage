@@ -343,17 +343,20 @@ export default {
                 document.getElementById(`imag[${id}]`).src = "/img/error-image.png";
                 document.getElementById(`cost[${id}]`).textContent = this.statusData;
                 document.getElementById(`imag[${id}]`).title = this.statusData;
-
             }
             this.drawHistory(this.historyCurrent);
         },
         onKeyDown(id) {
-            document.getElementById(`imag[${id}]`).src = "/img/enter.png";
-            document.getElementById(`imag[${id}]`).style.visibility = 'visible';
+            if (this.$page.props.auth.user && this.$page.props.auth.user.role==='admin') {
+                document.getElementById(`imag[${id}]`).src = "/img/enter.png";
+                document.getElementById(`imag[${id}]`).style.visibility = 'visible';
+            }
         },
         onClick(id) {
-            this.updateAccount(id);
-            document.getElementById(`imag[${id}]`).style.visibility = 'visible';
+            if (this.$page.props.auth.user && this.$page.props.auth.user.role==='admin') {
+                this.updateAccount(id);
+                document.getElementById(`imag[${id}]`).style.visibility = 'visible';
+            }
         },
         getColorClass(acc_id) {
             switch (acc_id) {

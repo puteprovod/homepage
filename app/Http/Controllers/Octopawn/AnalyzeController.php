@@ -14,6 +14,7 @@ class AnalyzeController extends Controller
         $data = $request->validated();
         $isMaximizing = ($data['color'] == 'white');
         $startTime = $this->getTime();
+        $depth = 0;
         switch ($data['fieldSize']) {
             case 999:
                 $depth = ($data['difficulty']) ? 8 : 6;

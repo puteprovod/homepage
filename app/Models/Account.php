@@ -11,6 +11,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property int $id
+ * @property string $title
+ */
 class Account extends Model
 {
     protected $table = 'accounts';

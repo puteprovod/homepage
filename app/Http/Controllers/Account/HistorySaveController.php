@@ -31,6 +31,6 @@ class HistorySaveController extends Controller
         $accounts = AccountResource::collection($accounts)->resolve();
         Mail::to('serg-419@yandex.ru')->send(new HistoryMail($accounts, $sum, $data['savingDate']));
         Cache::tags('accounts')->flush();
-        return (['history' => AccountHistory::where('shot_date', $savingDate)->get(), 'date' => $data['savingDate']]);
+        return ['history' => AccountHistory::where('shot_date', $savingDate)->get(), 'date' => $data['savingDate']];
     }
 }

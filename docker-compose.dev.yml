@@ -5,71 +5,42 @@ services:
     image: nginx:latest
     volumes:
       - ./:/var/www
-      - /var/www/myblog:/var/work
-      - /var/storage/${CONTAINER_PREFIX}/:/var/www/storage/app/public/
       - ./_docker/nginx/conf.d:/etc/nginx/conf.d:ro
-      - /var/certbot/conf/:/etc/letsencrypt/:ro
+      - ./certbot/conf/:/etc/letsencrypt/:ro
     ports:
       - 80:80
       - 443:443
     restart: always
     depends_on:
       - app
-    container_name: ${CONTAINER_PREFIX}_nginx
+    container_name: project_nginx
 
   app:
-    image: $REGISTRY/dev/app:$CI_COMMIT_SHA
-    environment:
-      - APP_KEY=$APP_KEY
-      - APP_NAME=$APP_NAME
-      - APP_ENV=$APP_ENV
-      - APP_URL=$APP_URL
-      - DB_CONNECTION=$DB_CONNECTION
-      - DB_HOST=$DB_HOST
-      - DB_PORT=$DB_PORT
-      - DB_DATABASE=$DB_DATABASE
-      - DB_USERNAME=$DB_USERNAME
-      - DB_PASSWORD=$DB_PASSWORD
-      - APP_DEBUG=$APP_DEBUG
-      - MAIL_MAILER=$MAIL_MAILER
-      - MAIL_HOST=$MAIL_HOST
-      - MAIL_PORT=$MAIL_PORT
-      - MAIL_USERNAME=$MAIL_USERNAME
-      - MAIL_PASSWORD=$MAIL_PASSWORD
-      - MAIL_ENCRYPTION=$MAIL_ENCRYPTION
-      - MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS
-      - MAIL_FROM_NAME=$MAIL_FROM_NAME
-      - CACHE_DRIVER=$CACHE_DRIVER
-      - REDIS_HOST=$REDIS_HOST
-      - REDIS_PASSWORD=$REDIS_PASSWORD
-      - REDIS_PORT=$REDIS_PORT
-      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
-      - GITLAB_CLIENT_ID=$GITLAB_CLIENT_ID
-      - GITLAB_CLIENT_SECRET=$GITLAB_CLIENT_SECRET
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
     volumes:
       - ./:/var/www
-      - /var/www/myblog:/var/work
-      - /var/storage/${CONTAINER_PREFIX}/:/var/www/storage/app/public/
-    container_name: ${CONTAINER_PREFIX}_app
+    container_name: project_app
     depends_on:
-        - db
+      - db
 
   db:
     image: mysql:8.0
     restart: always
     volumes:
-      - /var/lib/mysql/:/var/lib/mysql/
+      - ./tmp/db/:/var/lib/mysql/
     environment:
-        MYSQL_DATABASE: $DB_DATABASE
-        MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: myblog
+      MYSQL_ROOT_PASSWORD:
     ports:
-      - 3306:3306
+      - 8101:3306
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-    container_name: ${CONTAINER_PREFIX}_db
+    container_name: project_db
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    container_name: project_pma
     links:
       - db
     environment:
@@ -80,35 +51,13 @@ services:
       - 8080:80
     depends_on:
       - db
-    container_name: ${CONTAINER_PREFIX}_pma
-
-  caching:
-    image: redis:latest
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
-    volumes:
-      - ./data/redis:/data
-    ports:
-      - 6379:6379
-    container_name: ${CONTAINER_PREFIX}_redis
 
   certbot:
     image: certbot/certbot
     volumes:
       - ./:/var/www
-      - /var/www/myblog:/var/work
-      - /var/certbot/conf/:/etc/letsencrypt/
+      - ./certbot/conf/:/etc/letsencrypt/
     depends_on:
       - nginx
     container_name: certbot
-    command: certonly --webroot --webroot-path=/var/work/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d subdomain.inshin.org
-
-  certbot2:
-    image: certbot/certbot
-    volumes:
-      - ./:/var/www
-      - /var/www/myblog:/var/work
-      - /var/certbot/conf/:/etc/letsencrypt/
-    depends_on:
-      - nginx
-    container_name: certbot2
     command: certonly --webroot --webroot-path=/var/www/public --email serg-419@yandex.ru --agree-tos --no-eff-email -d inshin.org
