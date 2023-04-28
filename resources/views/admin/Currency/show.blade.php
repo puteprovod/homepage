@@ -12,7 +12,7 @@
                         <div class="pt-3"><b>id:</b> {{ $currency->id }}</div>
                         <div class="pt-3"><b>Код:</b> {{ $currency->title }}</div>
                         <div class="pt-3"><b>Наименование:</b> {{ $currency->long_title }}</div>
-                        <div class="pt-3"><b>Тип:</b> {{ ($currency->source == 'cbr') ? 'Фиатная валюта' : 'Криптовалюта' }}</div>
+                        <div class="pt-3"><b>Тип:</b> {{ ($currency->source == 'сmc') ? 'Криптовалюта' : 'Фиатная валюта' }}</div>
                         <div class="pt-3"><b>Приоритет:</b> {{ $currency->priority }}</div>
                     </div>
                     <div class="pt-3">

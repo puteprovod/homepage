@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Components\Currency\ImportCbrCurrenciesClient;
 use App\Components\Currency\ImportCryptoCurrenciesClient;
+use App\Components\Currency\ImportEurCurrencyClient;
+use App\Components\Currency\ImportUsdCurrencyClient;
 use App\Http\Services\Currency\Service;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -22,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
             return new Service(...
                 [
                     new ImportCryptoCurrenciesClient(),
-                    new ImportCbrCurrenciesClient()
+                    new ImportCbrCurrenciesClient(),
+                    new ImportUsdCurrencyClient(),
+                    new ImportEurCurrencyClient()
                 ]
             );
         });

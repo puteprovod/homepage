@@ -6,7 +6,6 @@ namespace App\Http\Services\Currency;
 use App\Components\Currency\GettableAPI;
 use App\Http\Resources\Currency\CurrencyResource;
 use App\Models\Currency;
-use Illuminate\Cache\Events\CacheEvent;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 

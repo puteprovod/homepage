@@ -46,6 +46,8 @@
                                 <select class="form-control" aria-label="Source" id="source" name="source">
                                     <option value="cbr"{{ ($currency->source=='cbr') ? ' selected' : '' }}>{{ 'Фиатная валюта' }}</option>
                                     <option value="cmc"{{ ($currency->source=='cmc') ? ' selected' : '' }}>{{ 'Криптовалюта' }}</option>
+                                    <option value="cmc"{{ ($currency->source=='usd') ? ' selected' : '' }}>{{ 'Доллар' }}</option>
+                                    <option value="cmc"{{ ($currency->source=='eur') ? ' selected' : '' }}>{{ 'Евро' }}</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Сохранить</button>

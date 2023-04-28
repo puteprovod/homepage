@@ -12,7 +12,7 @@
                         <h1 class="m-0">Добавление валюты</h1>
                     </div>
                     <div class="pt-3">
-                        <form action="{{ route ('admin.currencies.store'); }}" method="post">
+                        <form action="{{ route ('admin.currencies.store') }}" method="post">
                             @csrf
                             <div class="mb-3">
                                 <label for="title" class="form-label">Код валюты</label>
@@ -45,6 +45,8 @@
                                 <select class="form-control" aria-label="Source" id="source" name="source">
                                     <option value="cbr"{{ (old('source')=='cbr') ? ' selected' : '' }}>{{ 'Фиатная валюта' }}</option>
                                     <option value="cmc"{{ (old('source')=='cmc') ? ' selected' : '' }}>{{ 'Криптовалюта' }}</option>
+                                    <option value="cmc"{{ (old('source')=='usd') ? ' selected' : '' }}>{{ 'Доллар' }}</option>
+                                    <option value="cmc"{{ (old('source')=='eur') ? ' selected' : '' }}>{{ 'Евро' }}</option>
                                 </select>
                                 @error('source')
                                 <p class="text-danger">{{ $message }}</p>
