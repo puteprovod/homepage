@@ -257,6 +257,7 @@ export default {
                         this.drawInfoBlock(res.data);
                         const figure = (res.data[1][1] + 1) * 10 + res.data[1][0] + 1;
                         const targetSquare = (res.data[1][3] + 1) * 10 + res.data[1][2] + 1;
+                        console.log(res.data);
                         this.moveAIFigure(figure, targetSquare);
                     })
                     .catch(error => document.getElementById('serverResponse').innerHTML = error);
