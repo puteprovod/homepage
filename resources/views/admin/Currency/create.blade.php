@@ -45,8 +45,8 @@
                                 <select class="form-control" aria-label="Source" id="source" name="source">
                                     <option value="cbr"{{ (old('source')=='cbr') ? ' selected' : '' }}>{{ 'Фиатная валюта' }}</option>
                                     <option value="cmc"{{ (old('source')=='cmc') ? ' selected' : '' }}>{{ 'Криптовалюта' }}</option>
-                                    <option value="cmc"{{ (old('source')=='usd') ? ' selected' : '' }}>{{ 'Доллар' }}</option>
-                                    <option value="cmc"{{ (old('source')=='eur') ? ' selected' : '' }}>{{ 'Евро' }}</option>
+                                    <option value="usd"{{ (old('source')=='usd') ? ' selected' : '' }}>{{ 'Доллар' }}</option>
+                                    <option value="eur"{{ (old('source')=='eur') ? ' selected' : '' }}>{{ 'Евро' }}</option>
                                 </select>
                                 @error('source')
                                 <p class="text-danger">{{ $message }}</p>

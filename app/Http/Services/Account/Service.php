@@ -59,10 +59,10 @@ class Service
             ->get();
         $usd = Currency::where('title', 'USD')->first()->exchange_rate;
         foreach ($accounts as $account) {
-            if ($account->source == 'cbr' or $account->source == 'rub') {
-                $account->update(['cost' => ceil($account->value * $account->exchange_rate)]);
+            if ($account->source == 'cmc') {
+                $account->update(['cost' => ceil($account->value * $account->exchange_rate*$usd)]);
             } else {
-                $account->update(['cost' => ceil($account->value * $account->exchange_rate * $usd)]);
+                $account->update(['cost' => ceil($account->value * $account->exchange_rate)]);
             }
         }
     }
@@ -71,11 +71,11 @@ class Service
     {
         $account = Account::find($id);
         $currency = Currency::find($account->currency_id);
-        if ($currency->source == 'cbr' or $currency->source == 'rub') {
-            return ceil($account->value * $currency->exchange_rate);
-        } else {
+        if ($currency->source == 'cmc') {
             $usd = Currency::find(11)->exchange_rate;
-            return ceil($account->value * $currency->exchange_rate * $usd);
+            return ceil($account->value * $currency->exchange_rate*$usd);
+        } else {
+            return ceil($account->value * $currency->exchange_rate);
         }
 
     }
