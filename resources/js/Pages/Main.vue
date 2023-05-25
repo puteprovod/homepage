@@ -68,10 +68,10 @@
                     </div>
                     <div class="text-center p-6 text-gray-600 inline-block w-full">
                         <div class="w-1/2 pr-3 inline-block">
-                            <img src="/img/skaenergy.jpg" class="border-2 shadow-lg rounded-lg rounded-lg" alt="">
+                            <a href="https://skaenergy.ru/" target="_blank"><img src="/img/skaenergy.jpg" class="border-2 cursor-pointer shadow-lg rounded-lg rounded-lg" alt=""></a>
                         </div>
                         <div class="w-1/2 pl-3 inline-block">
-                            <img src="/img/ska-khabarovsk.jpg" class="border-2 shadow-lg rounded-lg rounded-lg" alt="">
+                            <a href="https://skaenergy.ru/" target="_blank"><img src="/img/ska-khabarovsk.jpg" class="border-2 cursor-pointer shadow-lg rounded-lg rounded-lg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -80,11 +80,11 @@
                         Пример исполнения онлайн-магазина
                     </div>
                     <div class="text-center p-6 text-gray-600 inline-block w-full">
-                        <div class="w-1/2 pr-3 inline-block">
-                            <img src="/img/karte.jpg" class="border-2 shadow-lg rounded-lg rounded-lg" alt="">
+                        <div class="w-1/2 pr-3 inline-block align-top">
+                            <a href="https://subdomain.inshin.org/" target="_blank"><img src="/img/karte.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
                         </div>
-                        <div class="w-1/2 pl-3 inline-block">
-                            <img src="/img/karte2.jpg" class="border-2 shadow-lg rounded-lg rounded-lg" alt="">
+                        <div class="w-1/2 pl-3 inline-block align-top">
+                            <a href="https://subdomain.inshin.org/" target="_blank"><img src="/img/karte2.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
                         </div>
                     </div>
                 </div>
