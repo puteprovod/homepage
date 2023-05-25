@@ -3,7 +3,7 @@
 namespace App\Http\Services\Currency;
 
 
-use App\Components\Currency\GettableAPI;
+use App\Clients\Currency\GettableAPI;
 use App\Http\Resources\Currency\CurrencyResource;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Cache;

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Components\Currency;
+namespace App\Clients\Currency;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Psr\Http\Message\ResponseInterface;
 
-class ImportEurCurrencyClient extends ImportCurrenciesFromAPIClient
+class ImportUsdCurrencyClient extends ImportCurrenciesFromAPIClient
 {
-    protected string $code = 'eur';
+    protected string $code = 'usd';
     public function getRaw(): ResponseInterface
     {
         return $this->client->get('');
@@ -17,6 +17,6 @@ class ImportEurCurrencyClient extends ImportCurrenciesFromAPIClient
     public function getExchanges(): array
     {
         $response = $this->client->get('')->getBody();
-        return ['EUR' => $response];
+        return ['USD' => $response];
     }
 }

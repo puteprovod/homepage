@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Components\Currency;
+namespace App\Clients\Currency;
 
 interface GettableAPI
 {

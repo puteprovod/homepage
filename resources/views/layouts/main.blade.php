@@ -13,7 +13,7 @@
     <!-- Scripts -->
 {{-- @vite(['resources/js/app.js'])--}}
 
-    <title>Document</title>
+    <title>Inshin.org</title>
 </head>
 <body>
 <div class="container">

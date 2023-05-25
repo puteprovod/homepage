@@ -9,7 +9,7 @@ input::-webkit-inner-spin-button {
 }
 </style>
 <template>
-    <header class="top-0 z-40 flex-none w-full mx-auto bg-white border-b border-gray-300">
+    <header class="top-0 z-40 flex-none w-full mx-auto bg-white border-b shadow border-gray-300">
 
         <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
             <div class="flex flex-wrap items-center justify-between mx-auto">
@@ -94,16 +94,16 @@ input::-webkit-inner-spin-button {
                 </div>
                 <div :class="isOpen ? 'block' : 'hidden'" class="w-full md:block md:w-auto" id="navbar-default">
                     <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-                        <li>
-                            <Link v-if="$page.props.auth.user && $page.props.auth.user.role === 'admin'" @click="selectMenu" id="summaryMenu" :href="route('summary.index')"
+                        <li v-if="!$page.props.auth.user">
+                            <Link @click="selectMenu" id="mainMenu" :href="route('main.index')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
-                                {{ localize('Summary') }}
+                                {{ localize('Main') }}
                             </Link>
                         </li>
-                        <li>
-                            <Link @click="selectMenu" id="currenciesMenu" :href="route('currencies.index')"
+                        <li v-if="$page.props.auth.user && $page.props.auth.user.role === 'admin'">
+                            <Link @click="selectMenu" id="summaryMenu" :href="route('summary.index')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
-                                {{ localize('MenuCurrencies') }}
+                                {{ localize('Summary') }}
                             </Link>
                         </li>
                         <li>
@@ -124,10 +124,16 @@ input::-webkit-inner-spin-button {
                                 {{ localize('MenuResizer') }}
                             </Link>
                         </li>
-                        <li>
+                        <li v-if="$page.props.auth.user">
                             <Link @click="selectMenu" id="accountsMenu" :href="route('accounts.index')"
                                   class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
                                 {{ localize('MenuAccounts') }}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link @click="selectMenu" id="currenciesMenu" :href="route('currencies.index')"
+                                  class="block py-2 font-semibold pr-4 pl-3 rounded md:p-0 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                                {{ localize('MenuCurrencies') }}
                             </Link>
                         </li>
                         <li>
@@ -183,7 +189,7 @@ export default {
         return {
             isOpen: null,
             isLangOpen: null,
-            menuSelector: 'currenciesMenu',
+            menuSelector: 'mainMenu',
         }
     },
     beforeCreate() {

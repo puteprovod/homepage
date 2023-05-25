@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Components\Currency\ImportCbrCurrenciesClient;
-use App\Components\Currency\ImportCryptoCurrenciesClient;
-use App\Components\Currency\ImportEurCurrencyClient;
-use App\Components\Currency\ImportUsdCurrencyClient;
+use App\Clients\Currency\ImportCbrCurrenciesClient;
+use App\Clients\Currency\ImportCryptoCurrenciesClient;
+use App\Clients\Currency\ImportEurCurrencyClient;
+use App\Clients\Currency\ImportUsdCurrencyClient;
 use App\Http\Services\Currency\Service;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;

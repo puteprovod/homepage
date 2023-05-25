@@ -13,6 +13,9 @@ Route::controller(App\Http\Controllers\Auth\LoginController::class)->group(funct
 
 Route::get('/', 'App\Http\Controllers\Summary\IndexController')
     ->name('summary.index')->middleware('index'); //MAIN PAGE
+
+Route::get('/main', 'App\Http\Controllers\MainController')
+    ->name('main.index'); //MAIN PAGE FOR GUESTS
 Route::get('/lang/{newLang}', 'App\Http\Controllers\Currency\IndexController');
 Route::get('/octopawn', 'App\Http\Controllers\Octopawn\IndexController')
     ->name('octopawn.index');

@@ -19,7 +19,7 @@ class IndexPageMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::guest()){
-            return redirect('/currencies');
+            return redirect('/main');
         }
         if (Auth::user()['role']!='admin') {
             return redirect('/currencies');

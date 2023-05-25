@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Components\Resizer;
+namespace App\Clients\Resizer;
 
 use GuzzleHttp\Client;
 

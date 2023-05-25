@@ -23,7 +23,10 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import localizeFilter from "@/Filters/localize";
-
+const a = [0, 1, 2];
+a[100] = 100;
+console.log(a.length);
+console.log(a);
 export default {
     name: "index",
     layout: MainLayout,

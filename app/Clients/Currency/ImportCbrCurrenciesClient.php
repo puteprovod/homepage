@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Components\Currency;
+namespace App\Clients\Currency;
 
-use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
 use Psr\Http\Message\ResponseInterface;
 
 class ImportCbrCurrenciesClient extends ImportCurrenciesFromAPIClient
