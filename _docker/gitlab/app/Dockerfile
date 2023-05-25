@@ -38,9 +38,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 # alias
 RUN echo "alias a='artisan'" >> /root/.bashrc
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs
-
 RUN composer install \
       --no-interaction \
       --no-plugins \
