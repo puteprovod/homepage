@@ -3,7 +3,7 @@
         <title>{{ localize('About') }}</title>
     </Head>
 
-    <div class="px-0 p-10 md:px-14 mt-10 pb-20 max-w-screen-lg border bg-white shadow-lg rounded-xl">
+    <div class="p-10 md:px-14 mt-6 md:mt-10 pb-20 max-w-screen-lg border bg-white shadow-lg md:rounded-xl">
     <div>
         frontend: Vue.JS (Inertia) + TailwindCSS
         </div>

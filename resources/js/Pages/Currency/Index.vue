@@ -13,7 +13,7 @@ input::-webkit-inner-spin-button {
         <title>{{ localize('Currencies') }}</title>
     </Head>
 
-    <div class="px-0 p-10 md:px-14 mt-10 max-w-screen-lg border bg-white shadow-lg rounded-xl">
+    <div class="px-0 p-10 pt-6 md:pt-10 md:px-14 mt-6 md:mt-10 max-w-screen-lg border bg-white shadow-lg md:rounded-xl">
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">

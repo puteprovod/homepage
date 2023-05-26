@@ -1,7 +1,9 @@
 /node_modules
+/bootstrap/ssr
 /public/hot
 /public/storage
 /public/storage/ResizedImages
+/public/build
 /storage/*.key
 /storage/app/public
 /storage/app/logs
@@ -18,4 +20,4 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-/public/build
+/bootstrap/ssr/assets/_plugin-vue_export-helper.43be4956.mjs

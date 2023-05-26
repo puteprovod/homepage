@@ -68,10 +68,10 @@
                     </div>
                     <div class="text-center p-6 text-gray-600 inline-block w-full">
                         <div class="w-1/2 pr-3 inline-block">
-                            <a href="https://skaenergy.ru/" target="_blank"><img src="/img/skaenergy.jpg" class="border-2 cursor-pointer shadow-lg rounded-lg rounded-lg" alt=""></a>
+                            <a href="https://skaenergy.ru/" target="_blank"><img src="/img/portfolio/skaenergy.jpg" class="border-2 cursor-pointer shadow-lg rounded-lg rounded-lg" alt=""></a>
                         </div>
                         <div class="w-1/2 pl-3 inline-block">
-                            <a href="https://skaenergy.ru/" target="_blank"><img src="/img/ska-khabarovsk.jpg" class="border-2 cursor-pointer shadow-lg rounded-lg rounded-lg" alt=""></a>
+                            <a href="https://skaenergy.ru/" target="_blank"><img src="/img/portfolio/ska-khabarovsk.jpg" class="border-2 cursor-pointer shadow-lg rounded-lg rounded-lg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -81,10 +81,36 @@
                     </div>
                     <div class="text-center p-6 text-gray-600 inline-block w-full">
                         <div class="w-1/2 pr-3 inline-block align-top">
-                            <a href="https://subdomain.inshin.org/" target="_blank"><img src="/img/karte.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
+                            <a href="https://subdomain.inshin.org/" target="_blank"><img src="/img/portfolio/karte.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
                         </div>
                         <div class="w-1/2 pl-3 inline-block align-top">
-                            <a href="https://subdomain.inshin.org/" target="_blank"><img src="/img/karte2.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
+                            <a href="https://subdomain.inshin.org/" target="_blank"><img src="/img/portfolio/karte2.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border shadow-lg bg-white md:rounded-lg h-25">
+                    <div class="border-b font-red text-center text-sm font-semibold text-gray-600 p-4">
+                        Сервис изменения размера изображений Resizer
+                    </div>
+                    <div class="text-center p-6 text-gray-600 inline-block w-full">
+                        <div class="w-1/2 pr-3 inline-block align-top">
+                            <a href="/resizer" target="_blank"><img src="/img/portfolio/resizer1.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
+                        </div>
+                        <div class="w-1/2 pl-3 inline-block align-top">
+                            <a href="/resizer" target="_blank"><img src="/img/portfolio/resizer2.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border shadow-lg bg-white md:rounded-lg h-25">
+                    <div class="border-b font-red text-center text-sm font-semibold text-gray-600 p-4">
+                        Игра Octopawn
+                    </div>
+                    <div class="text-center p-6 text-gray-600 inline-block w-full">
+                        <div class="w-1/2 pr-3 inline-block align-top">
+                            <a href="/resizer" target="_blank"><img src="/img/portfolio/octopawn1.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
+                        </div>
+                        <div class="w-1/2 pl-3 inline-block align-top">
+                            <a href="/resizer" target="_blank"><img src="/img/portfolio/octopawn2.jpg" class="border-2 shadow-lg cursor-pointer rounded-lg rounded-lg" alt=""></a>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
         <title>{{ localize('Game') }} - Octopawn</title>
     </Head>
 
-    <div class="px-0 p-6 md:px-6 mt-10 max-w-screen-lg border bg-white shadow-lg rounded-xl">
+    <div class="px-0 p-6 md:px-6 mt-6 md:mt-10 max-w-screen-lg border bg-white shadow-lg md:rounded-xl">
     <div>
         <div class="mt-5 ml-4 text-center text-lg font-bold">Оctopawn</div>
         <div class="text-center text-xs mt-5 ml-4 whitespace-normal mb-3 font-semibold">

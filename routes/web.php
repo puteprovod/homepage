@@ -16,7 +16,7 @@ Route::get('/', 'App\Http\Controllers\Summary\IndexController')
 
 Route::get('/main', 'App\Http\Controllers\MainController')
     ->name('main.index'); //MAIN PAGE FOR GUESTS
-Route::get('/lang/{newLang}', 'App\Http\Controllers\Currency\IndexController');
+Route::get('/lang/{newLang}', 'App\Http\Controllers\MainController');
 Route::get('/octopawn', 'App\Http\Controllers\Octopawn\IndexController')
     ->name('octopawn.index');
 Route::post('/octopawn', 'App\Http\Controllers\Octopawn\IndexController');

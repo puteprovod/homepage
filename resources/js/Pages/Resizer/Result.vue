@@ -2,7 +2,8 @@
     <Head>
         <title>{{ localize('ResizeResultTitle') }}</title>
     </Head>
-    <div class="text-center font-bold mt-8">
+    <div class="px-0 p-14 pt-10 md:pt-14 md:px-14 mt-6 md:mt-10 mb-10 max-w-screen-lg border bg-white shadow-lg md:rounded-xl">
+    <div class="text-center font-bold">
         {{ localize('ResizeResultTitle') }}
     </div>
     <div class="flex flex-col">
@@ -18,7 +19,7 @@
                             <th scope="col" class="text-sm font-medium font-bold text-gray-900 px-6 py-4 text-center">
                                 {{ localize('Image') }}
                             </th>
-                            <th scope="col" class="text-sm font-medium font-bold text-gray-900 px-6 py-4 text-left">
+                            <th scope="col" class="text-sm hidden md:table-cell font-medium font-bold text-gray-900 px-6 py-4 text-left">
                                 {{ localize('FileName') }}
                             </th>
                             <th scope="col"
@@ -30,7 +31,7 @@
                                 {{ localize('FileSize') }}
                             </th>
                             <th scope="col"
-                                class="text-sm hidden md:table-cell text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
+                                class="text-sm text-center font-medium font-bold text-gray-900 px-6 py-4 text-left">
                                 {{ localize('Download') }}
                             </th>
                         </tr>
@@ -79,6 +80,7 @@
                     </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
