@@ -2,9 +2,11 @@
     <Head >
         <title>{{ localize('Game') }} - Octopawn</title>
     </Head>
-    <div class="md:ml-4">
-        <div class="mt-5 text-center text-lg font-bold">Оctopawn</div>
-        <div class="text-center text-xs mt-5 ml-2 whitespace-normal mb-3 font-semibold">
+
+    <div class="px-0 p-6 md:px-6 mt-10 max-w-screen-lg border bg-white shadow-lg rounded-xl">
+    <div>
+        <div class="mt-5 ml-4 text-center text-lg font-bold">Оctopawn</div>
+        <div class="text-center text-xs mt-5 ml-4 whitespace-normal mb-3 font-semibold">
             <button @click="changeSize(3)"
                     :class="{'bg-blue-200' : this.fieldSize === 3 }"
                     class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
@@ -26,7 +28,7 @@
                     type="submit">fantasy
             </button>
         </div>
-        <div class="text-center text-xs mt-2 ml-2 whitespace-normal mb-5 font-semibold">
+        <div class="text-center text-xs mt-2 ml-4 whitespace-normal mb-4 font-semibold">
             <button @click="changeDifficulty(0)"
                     :class="{'bg-blue-200' : this.difficulty === 0 }"
                     class="mx-auto block p-1 mr-3 w-44 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
@@ -39,7 +41,7 @@
             </button>
         </div>
     </div>
-    <div class="mt-2">
+    <div class="p-5 mt-2">
         <div class="w-full hidden md:block ai-move">
             <div class="w-4 h-5 inline-block">
             </div>
@@ -87,8 +89,9 @@
                     type="submit">{{ localize('NewGame') }}
             </button>
         </div>
-        <div class="text-center text-xs mt-5 text-gray-400 whitespace-normal ml-2 w-96" id="serverResponse">
+        <div class="text-center text-xs mt-5 text-gray-400 whitespace-normal w-96" id="serverResponse">
         </div>
+    </div>
     </div>
 </template>
 

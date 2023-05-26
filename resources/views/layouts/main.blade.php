@@ -19,7 +19,6 @@
 <div class="container">
    <div class="row">
        <ul class="nav nav-pills">
-
            @guest()
                <li class="nav-item">
                    <a class="nav-link" href="{{ route('login') }}">Логин</a>

@@ -2,7 +2,9 @@
     <Head>
         <title>Resizer</title>
     </Head>
-    <div class="text-center font-bold mt-8">
+
+    <div class="px-0 p-14 md:px-14 mt-10 max-w-screen-lg border bg-white shadow-lg rounded-xl">
+    <div class="text-center font-bold">
         {{ localize('QuickImageResizing') }} (resizer)
     </div>
     <div ref="errorBox" class="hidden mt-4 text-center">
@@ -16,7 +18,7 @@
             {{ localize('ProcessingImages') }}
         </div>
     </div>
-    <div class="h-48 mt-3" ref="inputFormBox">
+    <div class="mt-3" ref="inputFormBox">
         <div class="inline-block p-4">
             <div ref="dropzone"
                  class="border-dashed bg-blue-100 cursor-pointer border-2 rounded-xl border-gray-400 p-10 w-80 align-middle text-center">
@@ -80,6 +82,7 @@
             </form>
 
         </div>
+    </div>
     </div>
 </template>
 

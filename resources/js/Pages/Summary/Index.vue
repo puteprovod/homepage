@@ -5,7 +5,7 @@
     <div class="md:mt-5">
         <div>
             <div class="flex flex-wrap">
-                <div class="border-2 m-5 p-5 pl-10 pr-20 flex grow flex-col text-xl">
+                <div class="border m-5 p-5 bg-white rounded-xl shadow-lg pl-10 pr-20 flex grow flex-col text-xl">
                     <div class="mt-3 pl-8 pr-2 text-2xl font-semibold">Баланс:</div>
                     <div class="mt-3 pl-8 pr-2 text-2xl text-green-800 font-bold">{{ getFinalCost }}</div>
                     <div class="mt-5 pl-8 pr-2">изменился на:</div>
@@ -13,7 +13,7 @@
                     <div class="mt-5 pl-8 pr-2">по старому курсу:</div>
                     <div class="mt-2 mb-3 pl-8 pr-2" :class="[getSumRealDiff > 0 ? 'text-green-800' : 'text-red-800']">{{ getSumRealDiffText }}</div>
                 </div>
-                <div class="border-2 mx-5 sm:mt-2 mb-5 md:mt-5 p-5 pl-10 pr-10 flex grow flex-col text-xl">
+                <div class="border rounded-xl bg-white shadow-lg mx-5 sm:mt-2 mb-5 md:mt-5 p-5 pl-10 pr-10 flex grow flex-col text-xl">
                     <table class="w-full h-full">
                         <tr v-for="(currency,index) in currencies" :class="{ 'border-b' : (index!==currencies.length-1) }">
                             <td class="pl-8 pr-5 px-4 py-4">
@@ -32,7 +32,7 @@
                     </table>
                 </div>
             </div>
-            <div class="border-2 mx-5 mb-5 sm:mt-2 md:mt-5 p-5 pl-10 pr-10">
+            <div class="border rounded-xl shadow-lg bg-white mx-5 mb-5 sm:mt-2 md:mt-5 p-5 pl-10 pr-10">
                 <div class="w-48 mx-auto text-center">
                 <Pie class="text-center" :data="chartData" :options="chartOptions"/>
                     </div>

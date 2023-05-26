@@ -15,12 +15,16 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
                 'enter-image': "url('/img/enter.svg')",
                 'move-variant': "url('/img/selected.png')",
                 'move-ai': "url('/img/selectedai.png')",
+            },
+            colors: {
+                'bg-gray': '#f5f5f5'
+              //  'bg-gray': '#ffffff'
             }
         },
     },

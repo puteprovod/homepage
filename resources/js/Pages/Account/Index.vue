@@ -3,6 +3,8 @@
         <title>{{ localize('Accounts') }}</title>
     </Head>
     <input type="hidden" data-id-page="accounts">
+
+    <div class="px-0 p-5 md:px-10 mt-5 mb-10 max-w-screen-2xl border bg-white shadow-lg rounded-xl">
     <div v-if="!$page.props.auth.user" class="mt-4 text-center">
         <p class="bg-yellow-100 border-yellow-200 text-sm">{{ localize('WarningRandom') }}</p>
     </div>
@@ -10,7 +12,7 @@
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                    <table class="min-w-full mb-10">
+                    <table class="min-w-full">
                         <thead class="border-b">
                         <tr>
                             <th scope="col"
@@ -123,6 +125,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">

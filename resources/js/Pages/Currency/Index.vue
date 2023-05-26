@@ -12,10 +12,15 @@ input::-webkit-inner-spin-button {
     <Head>
         <title>{{ localize('Currencies') }}</title>
     </Head>
+
+    <div class="px-0 p-10 md:px-14 mt-10 max-w-screen-lg border bg-white shadow-lg rounded-xl">
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                <div v-if="errorMessage" class="text-red-800 text-center mt-3 mb-5">
+                <div class="text-center font-semibold mb-5">
+                    Монитор курсов валют
+                </div>
+                <div v-if="errorMessage" class="text-red-800 text-center mb-5">
                     {{ errorMessage }}
                 </div>
                 <div class="overflow-hidden">
@@ -61,6 +66,7 @@ input::-webkit-inner-spin-button {
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
