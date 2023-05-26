@@ -39,7 +39,7 @@
         <div class="inline-block p-6 align-top">
             <form @submit.prevent="store">
                 <div class="mb-5">
-                    <div class="inline-block text-sm w-44">
+                    <div class="inline-block text-sm tracking-tighter w-40">
                         {{ localize('TargetWidth') }} (px):
                     </div>
                     <div class="inline-block">
@@ -53,7 +53,7 @@
                     <div v-if="viewErrors.targetWidth" class="text-red-700">{{ localize('FieldNotFilled') }} </div>
                 </div>
                 <div class="mb-5">
-                    <div class="inline-block text-sm w-44">
+                    <div class="inline-block text-sm tracking-tight w-40">
                         {{ localize('TargetHeight') }} (px):
                     </div>
                     <div class="inline-block">

@@ -9,34 +9,34 @@
         <div class="text-center text-xs mt-5 ml-4 whitespace-normal mb-3 font-semibold">
             <button @click="changeSize(3)"
                     :class="{'bg-blue-200' : this.fieldSize === 3 }"
-                    class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                    class="mx-auto block p-1 mr-3 w-14 md:w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">3x3
             </button>
             <button @click="changeSize(4)"
                     :class="{'bg-blue-200' : this.fieldSize === 4 }"
-                    class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                    class="mx-auto block p-1 mr-3 w-14 md:w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">4x4
             </button>
             <button @click="changeSize(5)"
                     :class="{'bg-blue-200' : this.fieldSize === 5 }"
-                    class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                    class="mx-auto block p-1 mr-3 w-14 md:w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">5x5
             </button>
             <button @click="changeSize(999)"
                     :class="{'bg-blue-200' : this.fieldSize === 999 }"
-                    class="mx-auto block p-1 mr-3 w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                    class="mx-auto block p-1 mr-3 w-16 md:w-20 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">fantasy
             </button>
         </div>
         <div class="text-center text-xs mt-2 ml-4 whitespace-normal mb-4 font-semibold">
             <button @click="changeDifficulty(0)"
                     :class="{'bg-blue-200' : this.difficulty === 0 }"
-                    class="mx-auto block p-1 mr-3 w-44 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                    class="mx-auto block p-1 mr-3 w-32 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">{{ localize('AIEasy') }}
             </button>
             <button @click="changeDifficulty(1)"
                     :class="{'bg-blue-200' : this.difficulty === 1 }"
-                    class="mx-auto block p-1 mr-3 w-44 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
+                    class="mx-auto block p-1 mr-3 w-32 bg-white hover:bg-blue-300 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">{{ localize('AIHard') }}
             </button>
         </div>
@@ -45,21 +45,21 @@
         <div class="w-full hidden md:block ai-move">
             <div class="w-4 h-5 inline-block">
             </div>
-            <div class="w-96 h-5 inline-block">
+            <div class="w-72 md:w-96 h-5 inline-block">
                 <div v-for="index in squareSize"
                      :class="'w-1/' + squareSize + ' h-full text-center inline-block'">{{ letterNum(index) }}
                 </div>
             </div>
         </div>
         <div class="w-full">
-            <div class="hidden w-4 md:inline-block h-96">
+            <div class="hidden w-4 md:inline-block h-72 md:h-96">
                 <table class="h-full w-full">
                     <tr v-for="index in squareSize">
                         <td>{{ squareSize - index + 1 }}</td>
                     </tr>
                 </table>
             </div>
-            <div class="w-96 h-96 inline-block">
+            <div class="w-72 h-72 md:w-96 md:h-96 inline-block">
                 <input type="hidden" class="bg-stone-500 w-1/3"><input type="hidden"
                                                                        class="bg-stone-200 w-1/4 w-1/6"><input
                 type="hidden" class="bg-stone-200 w-1/5">
@@ -77,19 +77,19 @@
                 </table>
             </div>
         </div>
-        <div class="text-center text-lg text-green-800 font-bold w-96 mt-5 ml-2 hidden" id="playerWinsBlock">
+        <div class="text-center text-lg text-green-800 font-bold w-72 md:w-96 mt-5 ml-2 hidden" id="playerWinsBlock">
             {{ localize('YouWon') }} ({{ localize('score') }} 1-0)
         </div>
-        <div class="text-center text-lg text-red-800 font-bold w-96 mt-5 ml-2 hidden" id="aiWinsBlock">
+        <div class="text-center text-lg text-red-800 font-bold w-72 md:w-96 mt-5 ml-2 hidden" id="aiWinsBlock">
             {{ localize('AIWins') }} ({{ localize('score') }} 1-0)
         </div>
-        <div class="text-center text-lg text-red-800 font-bold w-96 mt-5 ml-2 hidden" id="newGameButton">
+        <div class="text-center text-lg text-red-800 font-bold w-72 md:w-96 mt-5 ml-2 hidden" id="newGameButton">
             <button @click="newGame"
                     class="mx-auto block p-1 mr-3 w-40 md:ml-3 bg-white hover:bg-blue-300 focus:ring-4 text-base rounded-lg focus:ring-blue-300 border border-blue-800 text-center text-blue-800 inline-block"
                     type="submit">{{ localize('NewGame') }}
             </button>
         </div>
-        <div class="text-center text-xs mt-5 text-gray-400 whitespace-normal w-96" id="serverResponse">
+        <div class="text-center text-xs mt-5 text-gray-400 whitespace-normal w-72 md:w-96" id="serverResponse">
         </div>
     </div>
     </div>
