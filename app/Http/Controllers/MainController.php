@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function __invoke()
+    public function __invoke(string $newLang = '')
     {
-        return inertia('Main'); //2
+        return inertia('Main', compact('newLang')); //2
     }
 }

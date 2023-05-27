@@ -12,11 +12,14 @@
     "MenuResizer" : "Resizer",
     "MenuCurrencies" : "Currencies",
     "MenuAccounts" : "Accounts",
-    "MenuShop" : "E-Shop",
+    "MenuShop" : "E-Shop sample",
     "MenuAbout" : "About",
     "MenuAdmin" : "Admin",
     "MenuLogout" : "Logout",
     "MenuLogin" : "Login",
+    "MenuProjects" : "My Projects",
+    "MenuSkaKhabarovsk" : "SKA-Khabarovsk fansite",
+    "MenuSkaenergy" : "SKA-Khabarovsk guestbook",
     "Currencies" : "Exchange Rates",
     "CurrencyName" : "Currency name",
     "CurrencyIndex" : "Index",
@@ -64,5 +67,18 @@
     "SiteWasMade" : "The site was created with the great support of Lera.",
     "WhoAmI" : "I wouldn't be who I am without you :)",
     "Summary": "Summary",
-    "Main": "About Me"
+    "Main": "About Me",
+    "MainNameString": "My name is Sergey.",
+    "MainAboutString": "I'm a web developer. I can create modern and secure web applications of any complexity. I have over 8 years experience in website development and support",
+    "MainProfileString": "My main profile is <b>backend development using the Laravel PHP framework</b>, but I can also provide a modern and functional frontend using Vue.js and Tailwind CSS.",
+    "MainMainStack": "Main stack",
+    "MainAdditionalStack": "Additional stack",
+    "MainContactMe": "Contact me",
+    "MainLinks": "Links",
+    "MainSkaKhabarovsk": "SKA-Khabarovsk fansite",
+    "MainShop": "E-shop sample implementation",
+    "MainResizer": "Image resizing service",
+    "MainGame": "Octopawn game"
+
+
 }
